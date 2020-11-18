@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 @RestController
 public class BookController {
     @CrossOrigin
@@ -16,6 +18,11 @@ public class BookController {
         Book[] books = {new Book("MaddAddam"),
                 new Book("The year of the flood"),
                 new Book("Oryx and Crake")};
+        try {
+            sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return Arrays.asList(books);
     }
 }
