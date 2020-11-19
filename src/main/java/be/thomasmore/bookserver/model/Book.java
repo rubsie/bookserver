@@ -9,6 +9,7 @@ public class Book {
     @Id
     int id;
     String title;
+    String author; //this is not normalized but I don't care for this example
 
     public Book() {
     }
@@ -27,6 +28,14 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
 

@@ -27,7 +27,7 @@ public class BookController {
         logger.info("##### findAll");
         Iterable<Book> books = bookRepository.findAll();
         try {
-            sleep(5000);
+            sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
