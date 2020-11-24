@@ -24,17 +24,19 @@ public class BookController {
     @GetMapping("/books")
     public Iterable<Book> findAll() {
         logger.info("##### findAll");
-        Iterable<Book> books = bookRepository.findAll();
-        try {
-            sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return books;
+        return bookRepository.findAll();
     }
+
     @CrossOrigin
     @PostMapping("/books")
     public Book create(@RequestBody Book book) {
+        logger.info("##### create");
+        return bookRepository.save(book);
+    }
+
+    @CrossOrigin
+    @PutMapping("/books")
+    public Book edit(@RequestBody Book book) {
         logger.info("##### create");
         return bookRepository.save(book);
     }
