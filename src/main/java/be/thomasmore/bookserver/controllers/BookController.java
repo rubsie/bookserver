@@ -40,4 +40,11 @@ public class BookController {
         logger.info("##### create");
         return bookRepository.save(book);
     }
+
+    @CrossOrigin
+    @DeleteMapping("/books/{id}")
+    public void delete(@PathVariable int id) {
+        logger.info("##### delete");
+        bookRepository.deleteById(id);
+    }
 }
