@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static java.lang.Thread.sleep;
 
@@ -35,10 +36,15 @@ public class BookController {
     }
 
     @CrossOrigin
-    @PutMapping("/books")
-    public Book edit(@RequestBody Book book) {
-        logger.info("##### create");
-        return bookRepository.save(book);
+    @PutMapping("/books/{id}")
+    public Book edit(@PathVariable int id, @RequestBody Book book) {
+        logger.info("##### edit");
+        if (book.getId()!=id) return null;
+        Optional<Book> bookFromDb = bookRepository.findById(id);
+        if (bookFromDb.isPresent()) {
+            return bookRepository.save(book);
+        }
+        return null;
     }
 
     @CrossOrigin
