@@ -20,12 +20,17 @@ public class BookController {
     Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @CrossOrigin
-    @ApiOperation(value = "find all the books that are stored in the database")
+    @ApiOperation(value = "find all the books that are stored in the database - " +
+            "or if Request Parameter titleKeyWord is given all books where the title contains this titleKeyWord (ignore-case)")
     @GetMapping("/books")
-    public Iterable<Book> findAll() {
-        logger.info("##### findAll");
-        return bookRepository.findAll();
+    public Iterable<Book> findAll(@RequestParam(required = false) String titleKeyWord) {
+        logger.info("##### findAll - titleKeyWord=" + titleKeyWord);
+        if (titleKeyWord == null)
+            return bookRepository.findAll();
+        else
+            return bookRepository.findByTitleContainingIgnoreCase(titleKeyWord);
     }
+
 
     @CrossOrigin
     @PostMapping("/books")
