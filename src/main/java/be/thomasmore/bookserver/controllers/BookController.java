@@ -25,6 +25,12 @@ public class BookController {
     @GetMapping("/books")
     public Iterable<Book> findAll(@RequestParam(required = false) String titleKeyWord) {
         logger.info("##### findAll - titleKeyWord=" + titleKeyWord);
+        logger.trace("TRACE message");
+        logger.debug("DEBUG message");
+        logger.info("INFO message");
+        logger.warn("WARNING message");
+        logger.error("ERROR message");
+
         if (titleKeyWord == null)
             return bookRepository.findAll();
         else
