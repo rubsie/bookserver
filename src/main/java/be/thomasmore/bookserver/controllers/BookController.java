@@ -49,10 +49,11 @@ public class BookController {
         logger.info("##### edit");
         if (book.getId() != id) return null;
         Optional<Book> bookFromDb = bookRepository.findById(id);
-        if (bookFromDb.isPresent()) {
-            return bookRepository.save(book);
-        }
-        return null;
+        if (bookFromDb.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    String.format("Book with id %d not found.", id));
+
+        return bookRepository.save(book);
     }
 
     @CrossOrigin
