@@ -60,6 +60,11 @@ public class BookController {
     @DeleteMapping("/books/{id}")
     public void delete(@PathVariable int id) {
         logger.info("##### delete");
+        Optional<Book> bookFromDb = bookRepository.findById(id);
+        if (bookFromDb.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    String.format("Book with id %d not found.", id));
+
         bookRepository.deleteById(id);
     }
 }
