@@ -1,6 +1,8 @@
 package be.thomasmore.bookserver.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -14,6 +16,10 @@ public class Book {
     String title;
     @NotBlank(message="Book Author should not be blank") @NotNull
     String author; //this is not normalized but I don't care for this example
+
+    @Min(value=0, message="price should not be smaller than 0")
+    @Max(value=200, message="price should not be greater than 200")
+    Integer priceInEur;
 
     public Book() {
     }
@@ -40,6 +46,13 @@ public class Book {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+    public Integer getPriceInEur() {
+        return priceInEur;
+    }
+
+    public void setPriceInEur(Integer priceInEur) {
+        this.priceInEur = priceInEur;
     }
 }
 
