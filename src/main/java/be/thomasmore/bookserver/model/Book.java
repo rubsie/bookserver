@@ -1,6 +1,7 @@
 package be.thomasmore.bookserver.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -9,8 +10,9 @@ public class Book {
     @SequenceGenerator(name = "book_generator", sequenceName = "book_seq", allocationSize = 1)
     @Id
     int id;
-    @NotNull
+    @NotBlank(message="Book Title should not be blank") @NotNull
     String title;
+    @NotBlank(message="Book Author should not be blank") @NotNull
     String author; //this is not normalized but I don't care for this example
 
     public Book() {
