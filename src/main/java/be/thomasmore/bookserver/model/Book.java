@@ -1,11 +1,16 @@
 package be.thomasmore.bookserver.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+@NoArgsConstructor
+@Data
 @Entity
 public class Book {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_generator")
@@ -20,39 +25,5 @@ public class Book {
     @Min(value=0, message="price should not be smaller than 0")
     @Max(value=200, message="price should not be greater than 200")
     Integer priceInEur;
-
-    public Book() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-    public Integer getPriceInEur() {
-        return priceInEur;
-    }
-
-    public void setPriceInEur(Integer priceInEur) {
-        this.priceInEur = priceInEur;
-    }
 }
 
