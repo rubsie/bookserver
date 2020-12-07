@@ -3,6 +3,7 @@ package be.thomasmore.bookserver.controllers;
 import be.thomasmore.bookserver.model.Book;
 import be.thomasmore.bookserver.repositories.BookRepository;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +15,17 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
+@Slf4j
 public class BookController {
     @Autowired
     private BookRepository bookRepository;
-
-    Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @CrossOrigin
     @ApiOperation(value = "find all the books that are stored in the database - " +
             "or if Request Parameter titleKeyWord is given all books where the title contains this titleKeyWord (ignore-case)")
     @GetMapping("/books")
     public Iterable<Book> findAll(@RequestParam(required = false) String titleKeyWord) {
-        logger.info("##### findAll - titleKeyWord=" + titleKeyWord);
+        log.info("##### findAll - titleKeyWord=" + titleKeyWord);
 
         if (titleKeyWord == null)
             return bookRepository.findAll();
@@ -37,7 +37,7 @@ public class BookController {
     @CrossOrigin
     @PostMapping("/books")
     public Book create(@Valid @RequestBody Book book) {
-        logger.info("##### create");
+        log.info("##### create");
         if (bookRepository.findByTitle(book.getTitle()).isPresent())
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     String.format("Book with title %s already exists.", book.getTitle()));
@@ -47,7 +47,7 @@ public class BookController {
     @CrossOrigin
     @PutMapping("/books/{id}")
     public Book edit(@PathVariable int id, @RequestBody Book book) {
-        logger.info("##### edit");
+        log.info("##### edit");
         if (book.getId() != id) return null;
         Optional<Book> bookFromDb = bookRepository.findById(id);
         if (bookFromDb.isEmpty())
@@ -60,7 +60,7 @@ public class BookController {
     @CrossOrigin
     @DeleteMapping("/books/{id}")
     public void delete(@PathVariable int id) {
-        logger.info("##### delete");
+        log.info("##### delete");
         Optional<Book> bookFromDb = bookRepository.findById(id);
         if (bookFromDb.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
