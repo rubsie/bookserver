@@ -1,5 +1,6 @@
 package be.thomasmore.bookserver.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +17,9 @@ import java.util.Collections;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+    @Value("${URL_CLIENT}")
+    private String urlClient;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors();
@@ -30,7 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 @Bean
 CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+    configuration.setAllowedOrigins(Collections.singletonList(urlClient));
     configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "PUT", "POST", "DELETE"));
 
     // setAllowedHeaders is important! Without it, OPTIONS preflight request

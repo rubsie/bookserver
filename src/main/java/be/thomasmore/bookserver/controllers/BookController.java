@@ -4,8 +4,6 @@ import be.thomasmore.bookserver.model.Book;
 import be.thomasmore.bookserver.repositories.BookRepository;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +18,6 @@ public class BookController {
     @Autowired
     private BookRepository bookRepository;
 
-    @CrossOrigin
     @ApiOperation(value = "find all the books that are stored in the database - " +
             "or if Request Parameter titleKeyWord is given all books where the title contains this titleKeyWord (ignore-case)")
     @GetMapping("/books")
@@ -34,7 +31,6 @@ public class BookController {
     }
 
 
-    @CrossOrigin
     @PostMapping("/books")
     public Book create(@Valid @RequestBody Book book) {
         log.info("##### create");
@@ -44,7 +40,6 @@ public class BookController {
         return bookRepository.save(book);
     }
 
-    @CrossOrigin
     @PutMapping("/books/{id}")
     public Book edit(@PathVariable int id, @RequestBody Book book) {
         log.info("##### edit");
@@ -57,7 +52,6 @@ public class BookController {
         return bookRepository.save(book);
     }
 
-    @CrossOrigin
     @DeleteMapping("/books/{id}")
     public void delete(@PathVariable int id) {
         log.info("##### delete");

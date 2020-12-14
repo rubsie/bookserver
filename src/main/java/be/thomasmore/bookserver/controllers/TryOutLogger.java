@@ -1,20 +1,16 @@
 package be.thomasmore.bookserver.controllers;
 
 
-import be.thomasmore.bookserver.model.Book;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TryOutLogger {
     Logger logger = LoggerFactory.getLogger(TryOutLogger.class);
 
-    @CrossOrigin
     @ApiOperation(value = "try out log levels. See application.properties. " +
             "Attention this is not a good request handler concerning REST interface conventions")
     @GetMapping("/logging")
