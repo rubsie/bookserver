@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -24,6 +25,8 @@ import java.util.Collections;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
+    @Autowired
+    private CsrfTokenRepository csrfTokenRepository;
 
     @Value("${URL_CLIENT}")
     private String urlClient;
@@ -32,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors();
         //http.csrf().disable(); DOE DIT ZEKER NIET!!!!
-        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+        http.csrf().csrfTokenRepository(csrfTokenRepository);
         http.authorizeRequests().anyRequest().authenticated();
         http.httpBasic();
         //http.formLogin();
@@ -53,6 +56,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    @Bean
+    CsrfTokenRepository csrfTokenRepository() {
+        return new CrossDomainCsrfTokenRepository();
+    }
 
 
     @Bean
@@ -63,7 +70,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         // setAllowedHeaders is important! Without it, OPTIONS preflight request
         // will fail with 403 Invalid CORS request
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "content-type", "x-xsrf-token", "X-Requested-With"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "content-type", "x-xsrf-token", "X-Requested-With", CrossDomainCsrfTokenRepository.XSRF_HEADER_NAME));
+
+        //the custom header XSRF_HEADER_NAME contains the csrf-token because a client on a different domain can not read the csrf-cookie
+        //this header is set in CrossDomainCsrfTokenRepository
+        configuration.setExposedHeaders(Collections.singletonList(CrossDomainCsrfTokenRepository.XSRF_HEADER_NAME));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
