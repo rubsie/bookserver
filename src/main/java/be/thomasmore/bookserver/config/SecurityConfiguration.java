@@ -30,7 +30,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors();
         //http.csrf().disable(); DOE DIT ZEKER NIET!!!!
         http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         http.authorizeRequests().anyRequest().authenticated();
@@ -55,21 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Collections.singletonList(urlClient));
-        configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "PUT", "POST", "DELETE"));
 
-        // setAllowedHeaders is important! Without it, OPTIONS preflight request
-        // will fail with 403 Invalid CORS request
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "content-type", "x-xsrf-token", "X-Requested-With"));
-        configuration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
 }
 
 
