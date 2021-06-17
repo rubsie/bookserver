@@ -26,9 +26,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
-    @Value("${URL_CLIENT}")
-    private String urlClient;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //http.csrf().disable(); DOE DIT ZEKER NIET!!!!
