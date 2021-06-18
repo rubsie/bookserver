@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,9 +31,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //http.csrf().disable(); DOE DIT ZEKER NIET!!!!
         http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-        http.authorizeRequests().antMatchers("/").permitAll();
-        http.authorizeRequests().antMatchers("/static/**").permitAll();
-        http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests().antMatchers("/api/logging/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/**").authenticated();
+        http.authorizeRequests().anyRequest().permitAll();
         http.httpBasic();
         //http.formLogin();
         http.csrf().ignoringAntMatchers("/h2-console/**");
@@ -54,7 +56,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
 
 }

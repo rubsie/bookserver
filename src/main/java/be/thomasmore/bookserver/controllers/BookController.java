@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/api/books")
 @Slf4j
 public class BookController {
     @Autowired
@@ -20,7 +21,7 @@ public class BookController {
 
     @ApiOperation(value = "find all the books that are stored in the database - " +
             "or if Request Parameter titleKeyWord is given all books where the title contains this titleKeyWord (ignore-case)")
-    @GetMapping("/books")
+    @GetMapping("")
     public Iterable<Book> findAll(@RequestParam(required = false) String titleKeyWord) {
         log.info("##### findAll - titleKeyWord=" + titleKeyWord);
 
@@ -31,7 +32,7 @@ public class BookController {
     }
 
 
-    @PostMapping("/books")
+    @PostMapping("")
     public Book create(@Valid @RequestBody Book book) {
         log.info("##### create");
         if (bookRepository.findByTitle(book.getTitle()).isPresent())
@@ -40,7 +41,7 @@ public class BookController {
         return bookRepository.save(book);
     }
 
-    @PutMapping("/books/{id}")
+    @PutMapping("{id}")
     public Book edit(@PathVariable int id, @RequestBody Book book) {
         log.info("##### edit");
         if (book.getId() != id) return null;
@@ -52,7 +53,7 @@ public class BookController {
         return bookRepository.save(book);
     }
 
-    @DeleteMapping("/books/{id}")
+    @DeleteMapping("{id}")
     public void delete(@PathVariable int id) {
         log.info("##### delete");
         Optional<Book> bookFromDb = bookRepository.findById(id);

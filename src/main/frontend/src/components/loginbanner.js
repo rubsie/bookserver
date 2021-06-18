@@ -1,11 +1,11 @@
 /** * @return {null} */
 export function LoginBanner(props) {
-    const {username, logout} = props;
-    if (!username) return null;
+    const {username, login, logout} = props;
 
     return <div className="loginName">
-        logged in as {username}
-        <button onClick={() => logout()}>logout</button>
+        {username && <span>logged in as {username}</span>}
+        {username && <button onClick={() => logout()}>logout</button>}
+        {!username && <button onClick={() => login()}>login</button>}
 
     </div>;
 }

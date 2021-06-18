@@ -43,7 +43,7 @@ function App() {
             body: JSON.stringify(book)
         };
         try {
-            const response = await fetchWithCsrf(`/books`, fetchOptions);
+            const response = await fetchWithCsrf(`/api/books`, fetchOptions);
             const body = await response.json();
             if (response.ok) {
                 console.log(`   async createBook: received response ${JSON.stringify(body)}`);
@@ -79,7 +79,7 @@ function App() {
             body: JSON.stringify(book)
         };
         try {
-            const response = await fetchWithCsrf(`/books/${book.id}`, fetchOptions);
+            const response = await fetchWithCsrf(`/api/books/${book.id}`, fetchOptions);
             const body = await response.json();
             if (response.ok) {
                 console.log(`   async editBook: received response ${JSON.stringify(body)}`);
@@ -109,7 +109,7 @@ function App() {
             },
         };
         try {
-            const response = await fetchWithCsrf(`/books/${book.id}`, fetchOptions);
+            const response = await fetchWithCsrf(`/api/books/${book.id}`, fetchOptions);
             if (response.ok) {
                 console.log(`   async deleteBook: received response `);
                 setBooks(books.filter((b) => b.id !== book.id));
@@ -139,7 +139,7 @@ function App() {
                     'X-Requested-With': 'XMLHttpRequest'
                 },
             };
-            const response = await fetch(`/books`, fetchOptions);
+            const response = await fetch(`/api/books`, fetchOptions);
             const body = await response.json();
             console.log(`   async getBooks: received response ${JSON.stringify(body)}`);
             setBooks(body);
@@ -164,7 +164,7 @@ function App() {
                     authorization: "Basic " + window.btoa(`${username}:${password}`)
                 },
             };
-            const response = await fetch(`/authenticate`, fetchOptions);
+            const response = await fetch(`/api/authenticate`, fetchOptions);
             const body = await response.json();
             console.log(`   async authenticate: received response ${JSON.stringify(body)}`);
             setUsername(body.username);
@@ -189,7 +189,7 @@ function App() {
                     'X-Requested-With': 'XMLHttpRequest',
                 },
             };
-            const response = await fetch(`/authenticate`, fetchOptions);
+            const response = await fetch(`/api/authenticate`, fetchOptions);
             const body = await response.json();
             console.log(`   async refreshAuthentication: received response ${JSON.stringify(body)}`);
             setUsername(body.username);
@@ -239,13 +239,13 @@ function App() {
     return (
         <div className="App">
             {username && <>
-                {isLoading ? <p className="isLoading">LOADING DATA!!!</p> : false}
+            {isLoading ? <p className="isLoading">LOADING DATA!!!</p> : false}
                 <LoginBanner username={username} logout={logout}/>
-                <div className="booksList">{books.map((b) =>
-                    <Book key={b.title} book={b}
-                          setSelectedBook={setSelectedBook}
-                          deleteBook={deleteBook}/>)}</div>
-                <button onClick={getBooks}>refresh</button>
+            <div className="booksList">{books.map((b) =>
+                <Book key={b.title} book={b}
+                      setSelectedBook={setSelectedBook}
+                      deleteBook={deleteBook}/>)}</div>
+            <button onClick={getBooks}>refresh</button>
                 <CreateForm selectedBook={selectedBook} createBook={createBook}/>
                 <EditForm selectedBook={selectedBook} setSelectedBook={setSelectedBook} editBook={editBook}/>
             </>}
