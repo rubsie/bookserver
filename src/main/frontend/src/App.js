@@ -170,6 +170,7 @@ function App() {
             console.log(`   async authenticate: received response ${JSON.stringify(body)}`);
             setUsername(body.username);
             setMessage();
+            setShowLoginBox(false);
             console.log("   async authenticate: done");
         } catch (e) {
             console.log(`   async authenticate: ERROR ${JSON.stringify(e)}`);
@@ -238,6 +239,7 @@ function App() {
             <LoginBanner username={username} logout={logout} login={() => setShowLoginBox(true)}/>
             <div className="booksList">{books.map((b) =>
                 <Book key={b.title} book={b}
+                      isLoggedIn={username}
                       setSelectedBook={setSelectedBook}
                       deleteBook={deleteBook}/>)}</div>
             <button onClick={getBooks}>refresh</button>

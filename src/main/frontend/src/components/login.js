@@ -7,7 +7,6 @@ export function Login(props) {
     const [loginPassword, setLoginPassword] = useState();
 
     if (!show) return null;
-    if (username) return null;
 
     return <>
         <div className="overlay"/>
