@@ -16,13 +16,14 @@ public class TryOutLogger {
     @ApiOperation(value = "try out log levels. See application.properties. " +
             "Attention this is not a good request handler concerning REST interface conventions")
     @GetMapping("")
-    public void logging() {
+    public String logging() {
         logger.info("##### try out logging");
         logger.trace("TRACE message");
         logger.debug("DEBUG message");
         logger.info("INFO message");
         logger.warn("WARNING message");
         logger.error("ERROR message");
+        return "check the server logging!";
     }
 
 }
