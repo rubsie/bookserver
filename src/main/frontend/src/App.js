@@ -226,13 +226,8 @@ function App() {
     }
 
     useEffect(() => {
-        console.log(`useEffect: username ${username}`);
-        if (username)
-            getBooks();
-    }, [username]);
-
-    useEffect(() => {
         console.log("useEffect: start");
+        getBooks();
         if (document.cookie)
             refreshAuthentication();
     }, []);
