@@ -25,6 +25,7 @@ function App() {
     const [selectedBook, setSelectedBook] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState();
+    const [showLoginBox, setShowLoginBox] = useState(false);
 
 
     console.log("render App()");
@@ -238,18 +239,19 @@ function App() {
 
     return (
         <div className="App">
-            {username && <>
             {isLoading ? <p className="isLoading">LOADING DATA!!!</p> : false}
-                <LoginBanner username={username} logout={logout}/>
+            <LoginBanner username={username} logout={logout} login={() => setShowLoginBox(true)}/>
             <div className="booksList">{books.map((b) =>
                 <Book key={b.title} book={b}
                       setSelectedBook={setSelectedBook}
                       deleteBook={deleteBook}/>)}</div>
             <button onClick={getBooks}>refresh</button>
+            {username && <>
                 <CreateForm selectedBook={selectedBook} createBook={createBook}/>
                 <EditForm selectedBook={selectedBook} setSelectedBook={setSelectedBook} editBook={editBook}/>
             </>}
-            <Login username={username} authenticate={authenticate}/>
+            <Login show={showLoginBox} username={username} authenticate={authenticate}
+                   close={() => setShowLoginBox(false)}/>
             {message ? <p className="message" onClick={() => setMessage()}>{message}</p> : false}
         </div>
     );

@@ -2,10 +2,11 @@ import {useState} from "react";
 
 /** @return {null} */
 export function Login(props) {
-    const {username, authenticate} = props;
+    const {show, username, authenticate, close} = props;
     const [loginUsername, setLoginUsername] = useState();
     const [loginPassword, setLoginPassword] = useState();
 
+    if (!show) return null;
     if (username) return null;
 
     return <>
@@ -22,6 +23,7 @@ export function Login(props) {
                     <input type="password" required onChange={(e) => setLoginPassword(e.target.value)}/>
                 </div>
                 <div className="formbuttonrow">
+                    <button onClick={() => close()}>cancel</button>
                     <button onClick={() => authenticate(loginUsername, loginPassword)}>login</button>
                 </div>
 

@@ -4,6 +4,7 @@ export function LoginBanner(props) {
 
     return <div className="loginName">
         {username && <span>logged in as {username}</span>}
+        {!username && <span>not logged in.</span>}
         {username && <button onClick={() => logout()}>logout</button>}
         {!username && <button onClick={() => login()}>login</button>}
 
