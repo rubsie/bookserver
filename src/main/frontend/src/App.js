@@ -2,9 +2,9 @@ import './App.css';
 import {useEffect, useState} from "react";
 import {CreateForm} from "./components/createform";
 import {EditForm} from "./components/editform";
-import {Book} from "./components/book";
 import {LoginBanner} from "./components/loginbanner";
 import {Login} from "./components/login";
+import {BookList} from "./components/booklist";
 
 async function fetchWithCsrf(url, fetchOptions) {
     const cookie = document.cookie.match(new RegExp('XSRF-TOKEN=([^;]+)'));
@@ -237,19 +237,18 @@ function App() {
         <div className="App">
             {isLoading ? <p className="isLoading">LOADING DATA!!!</p> : false}
             <LoginBanner username={username} logout={logout} login={() => setShowLoginBox(true)}/>
-            <div className="booksList">{books.map((b) =>
-                <Book key={b.title} book={b}
+            <BookList books={books}
                       isLoggedIn={username}
                       setSelectedBook={setSelectedBook}
-                      deleteBook={deleteBook}/>)}</div>
-            <button onClick={getBooks}>refresh</button>
+                      deleteBook={deleteBook}
+                      getBooks={getBooks}/>
             {username && <>
                 <CreateForm selectedBook={selectedBook} createBook={createBook}/>
                 <EditForm selectedBook={selectedBook} setSelectedBook={setSelectedBook} editBook={editBook}/>
             </>}
             <Login show={showLoginBox} username={username} authenticate={authenticate}
                    close={() => setShowLoginBox(false)}/>
-            {message ? <p className="message" onClick={() => setMessage()}>{message}</p> : false}
+            {message && <p className="message" onClick={() => setMessage()}>{message}</p>}
         </div>
     );
 }
