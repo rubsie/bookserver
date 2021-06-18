@@ -1,10 +1,12 @@
 import {useState} from "react";
 
 export function CreateForm(props) {
-    const {createBook} = props;
+    const {createBook, isLoggedIn} = props;
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
     const [priceInEur, setPriceInEur] = useState("");
+
+    if (!isLoggedIn) return null;
 
     return <div className="modalbox">
         <form onSubmit={(e) => {

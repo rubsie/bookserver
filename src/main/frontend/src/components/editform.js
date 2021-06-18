@@ -1,7 +1,8 @@
 /** @return {null} */
 export function EditForm(props) {
-    const {selectedBook, setSelectedBook, editBook} = props;
+    const {selectedBook, setSelectedBook, editBook, isLoggedIn} = props;
 
+    if (!isLoggedIn) return null;
     if (!selectedBook) return null;
 
     return <>

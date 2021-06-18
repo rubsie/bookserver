@@ -242,10 +242,9 @@ function App() {
                       setSelectedBook={setSelectedBook}
                       deleteBook={deleteBook}
                       getBooks={getBooks}/>
-            {username && <>
-                <CreateForm selectedBook={selectedBook} createBook={createBook}/>
-                <EditForm selectedBook={selectedBook} setSelectedBook={setSelectedBook} editBook={editBook}/>
-            </>}
+            <CreateForm createBook={createBook} isLoggedIn={username}/>
+            <EditForm selectedBook={selectedBook} setSelectedBook={setSelectedBook} editBook={editBook}
+                      isLoggedIn={username}/>
             <Login show={showLoginBox} username={username} authenticate={authenticate}
                    close={() => setShowLoginBox(false)}/>
             {message && <p className="message" onClick={() => setMessage()}>{message}</p>}
