@@ -9,19 +9,7 @@ import {BookList} from "./components/booklist";
 import {Message} from "./components/message";
 import {MessageProvider, useMessageContext} from "./contexts/messagecontext";
 import {AuthenticationProvider, useAuthenticationContext} from "./contexts/authenticationcontext";
-
-async function fetchWithCsrf(url, fetchOptions) {
-    const cookie = document.cookie.match(new RegExp('XSRF-TOKEN=([^;]+)'));
-    const csrfToken = cookie && cookie[1];
-    console.log(`fetchWithCredentials token=${csrfToken}`);
-    const headers = csrfToken ? {...fetchOptions.headers, 'X-XSRF-TOKEN': csrfToken} : fetchOptions.headers;
-    const optionsWithCredentials = {
-        ...fetchOptions,
-        'credentials': 'include',
-        headers
-    };
-    return await fetch(url, optionsWithCredentials);
-}
+import {fetchWithCsrf} from "./utilities/fetch";
 
 function ProvidedApp() {
     const [books, setBooks] = useState([]);
@@ -34,12 +22,11 @@ function ProvidedApp() {
         showLoginBox,
         setShowLoginBox,
         authenticate,
-        refreshAuthentication
+        refreshAuthentication,
+        logout
     } = useAuthenticationContext();
 
-
     console.log("render App()");
-
 
     async function createBook(book) {
         console.log(`async createBook ${JSON.stringify(book)}`);
@@ -163,29 +150,6 @@ function ProvidedApp() {
     }
 
 
-    async function logout() {
-        console.log(`   async logout`);
-        setIsLoading(true);
-        try {
-            const fetchOptions = {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json;charset=utf-8'},
-            };
-            const response = await fetchWithCsrf(`/logout`, fetchOptions);
-            if (response.ok) {
-                setUsername(undefined);
-                setMessage();
-            } else {
-                const body = await response.json();
-                console.log(`   async logout: ERROR: ${response.status} - ${body.error} - ${body.message} `);
-                //TODO if logout fails???
-            }
-        } catch (e) {
-            console.log(`   async logout: ERROR ${e}`);
-            //TODO if logout fails???
-        }
-        setIsLoading(false);
-    }
 
     useEffect(() => {
         console.log("useEffect: start");

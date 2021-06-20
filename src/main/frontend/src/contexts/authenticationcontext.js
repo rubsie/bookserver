@@ -1,5 +1,6 @@
 import React, {createContext, useContext, useMemo, useState, useCallback} from 'react';
 import {useMessageContext} from "./messagecontext";
+import {fetchWithCsrf} from "../utilities/fetch";
 
 const AuthenticationContext = createContext();
 
@@ -59,9 +60,33 @@ export function AuthenticationProvider(props) {
         setIsLoading(false);
     }, [setIsLoading, setUsername, setMessage]);
 
+    const logout = useCallback(async () => {
+        console.log(`   async logout`);
+        setIsLoading(true);
+        try {
+            const fetchOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json;charset=utf-8'},
+            };
+            const response = await fetchWithCsrf(`/logout`, fetchOptions);
+            if (response.ok) {
+                setUsername(undefined);
+                setMessage();
+            } else {
+                const body = await response.json();
+                console.log(`   async logout: ERROR: ${response.status} - ${body.error} - ${body.message} `);
+                //TODO if logout fails???
+            }
+        } catch (e) {
+            console.log(`   async logout: ERROR ${e}`);
+            //TODO if logout fails???
+        }
+        setIsLoading(false);
+    }, [setIsLoading, setUsername, setMessage]);
+
     const api = useMemo(() => ({
-            username, setUsername, showLoginBox, setShowLoginBox, authenticate, refreshAuthentication
-        }), [username, setUsername, showLoginBox, setShowLoginBox, authenticate, refreshAuthentication]
+            username, setUsername, showLoginBox, setShowLoginBox, authenticate, refreshAuthentication, logout
+        }), [username, setUsername, showLoginBox, setShowLoginBox, authenticate, refreshAuthentication, logout]
     );
 
     return (
