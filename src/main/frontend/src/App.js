@@ -150,7 +150,6 @@ function ProvidedApp() {
     }
 
 
-
     useEffect(() => {
         console.log("useEffect: start");
         getBooks();
@@ -168,7 +167,7 @@ function ProvidedApp() {
                       deleteBook={deleteBook}
                       getBooks={getBooks}
                       setShowCreateForm={setShowCreateForm}/>
-            <CreateForm createBook={createBook} isLoggedIn={username} show={showCreateForm}
+            <CreateForm createBook={createBook} show={showCreateForm}
                         close={() => setShowCreateForm(false)}/>
             <EditForm selectedBook={selectedBook} setSelectedBook={setSelectedBook} editBook={editBook}
                       isLoggedIn={username}/>

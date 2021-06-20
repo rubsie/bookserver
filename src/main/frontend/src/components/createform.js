@@ -3,12 +3,15 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import {Message} from "../components/message";
+import {useAuthenticationContext} from "../contexts/authenticationcontext";
 
 export function CreateForm(props) {
-    const {show, close, createBook, isLoggedIn, message, setMessage} = props;
+    const {show, close, createBook} = props;
+
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
     const [priceInEur, setPriceInEur] = useState("");
+    const {isLoggedIn} = useAuthenticationContext();
 
     if (!isLoggedIn || !show) return null;
 
@@ -17,11 +20,12 @@ export function CreateForm(props) {
         createBook({title, author, priceInEur});
         e.preventDefault();
     }
+
     return <Modal show={true} onHide={close}>
         <Modal.Header closeButton>
             <Modal.Title>New book</Modal.Title>
         </Modal.Header>
-        <Message />
+        <Message/>
         <Form onSubmit={(e) => handleSubmit(e)}>
             <Modal.Body>
                 <Form.Group controlId="title">
