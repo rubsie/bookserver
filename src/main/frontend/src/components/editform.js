@@ -5,7 +5,7 @@ import {Message} from "./message";
 
 /** @return {null} */
 export function EditForm(props) {
-    const {selectedBook, setSelectedBook, editBook, isLoggedIn, isLoading, message, setMessage} = props;
+    const {selectedBook, setSelectedBook, editBook, isLoggedIn, message, setMessage} = props;
     if (!isLoggedIn || !selectedBook) return null;
 
     function close() {
@@ -23,7 +23,7 @@ export function EditForm(props) {
         <Modal.Header closeButton>
             <Modal.Title>Edit the book</Modal.Title>
         </Modal.Header>
-        <Message isLoading={isLoading} />
+        <Message  />
         <Form onSubmit={(e) => handleSubmit(e)}>
             <Modal.Body>
                 <Form.Group controlId="title">

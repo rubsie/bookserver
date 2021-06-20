@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import {Message} from "../components/message";
 
 export function CreateForm(props) {
-    const {show, close, createBook, isLoggedIn, isLoading, message, setMessage} = props;
+    const {show, close, createBook, isLoggedIn, message, setMessage} = props;
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
     const [priceInEur, setPriceInEur] = useState("");
@@ -21,7 +21,7 @@ export function CreateForm(props) {
         <Modal.Header closeButton>
             <Modal.Title>New book</Modal.Title>
         </Modal.Header>
-        <Message isLoading={isLoading} />
+        <Message />
         <Form onSubmit={(e) => handleSubmit(e)}>
             <Modal.Body>
                 <Form.Group controlId="title">
