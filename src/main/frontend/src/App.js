@@ -169,8 +169,7 @@ function ProvidedApp() {
                       setShowCreateForm={setShowCreateForm}/>
             <CreateForm createBook={createBook} show={showCreateForm}
                         close={() => setShowCreateForm(false)}/>
-            <EditForm selectedBook={selectedBook} setSelectedBook={setSelectedBook} editBook={editBook}
-                      isLoggedIn={username}/>
+            <EditForm selectedBook={selectedBook} setSelectedBook={setSelectedBook} editBook={editBook}/>
             <LoginForm authenticate={authenticate}/>
         </div>
     );

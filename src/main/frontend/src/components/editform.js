@@ -2,10 +2,13 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import {Message} from "./message";
+import {useAuthenticationContext} from "../contexts/authenticationcontext";
 
 /** @return {null} */
 export function EditForm(props) {
-    const {selectedBook, setSelectedBook, editBook, isLoggedIn, message, setMessage} = props;
+    const {selectedBook, setSelectedBook, editBook} = props;
+    const {isLoggedIn} = useAuthenticationContext();
+
     if (!isLoggedIn || !selectedBook) return null;
 
     function close() {

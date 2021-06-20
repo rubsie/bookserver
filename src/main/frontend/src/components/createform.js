@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import {Message} from "../components/message";
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 
+/** @return {null} */
 export function CreateForm(props) {
     const {show, close, createBook} = props;
 
