@@ -41,7 +41,7 @@ export function EditForm(props) {
                     <Form.Control value={selectedBook.priceInEur} type="number" min="0" max="2000"
                                   onChange={(e) => setSelectedBook({
                                       ...selectedBook,
-                                      apriceInEur: parseInt(e.target.value) || null
+                                      priceInEur: parseInt(e.target.value) || null
                                   })}/>
                 </Form.Group>
             </Modal.Body>
