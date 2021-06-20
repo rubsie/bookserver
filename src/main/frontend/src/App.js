@@ -251,7 +251,6 @@ function App() {
                       isLoggedIn={username}/>
             <LoginForm show={showLoginBox} username={username} authenticate={authenticate}
                        close={() => setShowLoginBox(false)}/>
-            {message && <p className="message" onClick={() => setMessage()}>{message}</p>}
         </div>
     );
 }
