@@ -1,9 +1,8 @@
-import React, {createContext, useContext, useMemo, useState, useCallback} from 'react';
+import React, {createContext, useCallback, useContext, useEffect, useMemo, useState} from 'react';
 import {useMessageContext} from "./messagecontext";
 import {fetchWithCsrf} from "../utilities/fetch";
 
 const AuthenticationContext = createContext();
-
 
 export function AuthenticationProvider(props) {
     const [username, setUsername] = useState();
@@ -87,6 +86,12 @@ export function AuthenticationProvider(props) {
     const isLoggedIn = useMemo(() => !!username, [username]);
 
     const login = useCallback(() => setShowLoginBox(true), [setShowLoginBox]);
+
+    useEffect(() => {
+        console.log("useEffect authenticationContext");
+        if (document.cookie)
+            refreshAuthentication();
+    }, []);
 
     const api = useMemo(() => ({
             username,

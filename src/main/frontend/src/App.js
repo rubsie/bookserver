@@ -16,7 +16,6 @@ function ProvidedApp() {
     const [selectedBook, setSelectedBook] = useState();
     const [showCreateForm, setShowCreateForm] = useState(false);
     const {setMessage, setIsLoading} = useMessageContext();
-    const {authenticate, refreshAuthentication} = useAuthenticationContext();
 
     console.log("render App()");
 
@@ -145,8 +144,6 @@ function ProvidedApp() {
     useEffect(() => {
         console.log("useEffect: start");
         getBooks();
-        if (document.cookie)
-            refreshAuthentication();
     }, []);
 
     return (
@@ -161,7 +158,7 @@ function ProvidedApp() {
             <CreateForm createBook={createBook} show={showCreateForm}
                         close={() => setShowCreateForm(false)}/>
             <EditForm selectedBook={selectedBook} setSelectedBook={setSelectedBook} editBook={editBook}/>
-            <LoginForm authenticate={authenticate}/>
+            <LoginForm/>
         </div>
     );
 }

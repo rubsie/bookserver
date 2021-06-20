@@ -6,10 +6,9 @@ import {useAuthenticationContext} from "../contexts/authenticationcontext";
 
 /** @return {null} */
 export function LoginForm(props) {
-    const {authenticate} = props;
     const [loginUsername, setLoginUsername] = useState();
     const [loginPassword, setLoginPassword] = useState();
-    const {username, setUsername, showLoginBox, setShowLoginBox} = useAuthenticationContext();
+    const {showLoginBox, setShowLoginBox, authenticate} = useAuthenticationContext();
     const close = () => setShowLoginBox(false);
 
     if (!showLoginBox) return null;
