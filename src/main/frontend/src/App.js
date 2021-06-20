@@ -6,9 +6,7 @@ import {EditForm} from "./components/editform";
 import {LoginBanner} from "./components/loginbanner";
 import {LoginForm} from "./components/loginform";
 import {BookList} from "./components/booklist";
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Alert from 'react-bootstrap/Alert';
+import {Message} from "./components/message";
 
 async function fetchWithCsrf(url, fetchOptions) {
     const cookie = document.cookie.match(new RegExp('XSRF-TOKEN=([^;]+)'));
@@ -30,6 +28,7 @@ function App() {
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState();
     const [showLoginBox, setShowLoginBox] = useState(false);
+    const [showCreateForm, setShowCreateForm] = useState(false);
 
 
     console.log("render App()");
@@ -240,14 +239,18 @@ function App() {
     return (
         <div className="App">
             <LoginBanner username={username} logout={logout} login={() => setShowLoginBox(true)}/>
-            <Alert variant="primary">{isLoading ? "Loading Data!" : (message || "-")}</Alert>
+            <Message isLoading={isLoading} message={message} setMessage={setMessage}/>
             <BookList books={books}
                       isLoggedIn={username}
                       setSelectedBook={setSelectedBook}
                       deleteBook={deleteBook}
-                      getBooks={getBooks}/>
-            <CreateForm createBook={createBook} isLoggedIn={username}/>
+                      getBooks={getBooks}
+                      setShowCreateForm={setShowCreateForm}/>
+            <CreateForm createBook={createBook} isLoggedIn={username} show={showCreateForm}
+                        isLoading={isLoading} message={message} setMessage={setMessage}
+                        close={() => setShowCreateForm(false)}                        />
             <EditForm selectedBook={selectedBook} setSelectedBook={setSelectedBook} editBook={editBook}
+                      isLoading={isLoading} message={message} setMessage={setMessage}
                       isLoggedIn={username}/>
             <LoginForm show={showLoginBox} username={username} authenticate={authenticate}
                        close={() => setShowLoginBox(false)}/>

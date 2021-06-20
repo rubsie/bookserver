@@ -1,12 +1,12 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import {Message} from "./message";
 
 /** @return {null} */
 export function EditForm(props) {
-    const {selectedBook, setSelectedBook, editBook, isLoggedIn} = props;
-    const showEditForm = isLoggedIn && selectedBook;
-    if (!showEditForm) return null;
+    const {selectedBook, setSelectedBook, editBook, isLoggedIn, isLoading, message, setMessage} = props;
+    if (!isLoggedIn || !selectedBook) return null;
 
     function close() {
         setSelectedBook()
@@ -23,6 +23,7 @@ export function EditForm(props) {
         <Modal.Header closeButton>
             <Modal.Title>Edit the book</Modal.Title>
         </Modal.Header>
+        <Message isLoading={isLoading} message={message} setMessage={setMessage}/>
         <Form onSubmit={(e) => handleSubmit(e)}>
             <Modal.Body>
                 <Form.Group controlId="title">

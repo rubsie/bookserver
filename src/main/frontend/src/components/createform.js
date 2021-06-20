@@ -2,40 +2,49 @@ import {useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import {Message} from "../components/message";
 
 export function CreateForm(props) {
-    const {createBook, isLoggedIn} = props;
+    const {show, close, createBook, isLoggedIn, isLoading, message, setMessage} = props;
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
     const [priceInEur, setPriceInEur] = useState("");
 
-    if (!isLoggedIn) return null;
+    if (!isLoggedIn || !show) return null;
 
-    return <div className="modalbox">
-        <form onSubmit={(e) => {
-            console.log("SUBMIT");
-            createBook({title, author, priceInEur});
-            e.preventDefault();
-        }}>
-            <div>new book</div>
-            <div className="formrow">
-                <label>title: </label>
-                <input value={title} required
-                       onChange={(e) => setTitle(e.target.value)}/>
-            </div>
-            <div className="formrow">
-                <label>author: </label>
-                <input value={author} required pattern="[a-zA-Z ]*" type="text"
-                       onChange={(e) => setAuthor(e.target.value)}/>
-            </div>
-            <div className="formrow">
-                <label>price (€): </label>
-                <input value={priceInEur} type="number" min="0" max="2000"
-                       onChange={(e) => setPriceInEur(parseInt(e.target.value) || null)}/>
-            </div>
-            <div className="formbuttonrow">
-                <Button type="submit">create</Button>
-            </div>
-        </form>
-    </div>;
+    function handleSubmit(e) {
+        console.log("SUBMIT");
+        createBook({title, author, priceInEur});
+        e.preventDefault();
+    }
+    return <Modal show={true} onHide={close}>
+        <Modal.Header closeButton>
+            <Modal.Title>New book</Modal.Title>
+        </Modal.Header>
+        <Message isLoading={isLoading} message={message} setMessage={setMessage}/>
+        <Form onSubmit={(e) => handleSubmit(e)}>
+            <Modal.Body>
+                <Form.Group controlId="title">
+                    <Form.Label>title: </Form.Label>
+                    <Form.Control required value={title}
+                                  onChange={(e) => setTitle(e.target.value)}/>
+                </Form.Group>
+                <Form.Group controlId="author">
+                    <Form.Label>author: </Form.Label>
+                    <Form.Control required value={author}
+                                  onChange={(e) => setAuthor(e.target.value)}/>
+                </Form.Group>
+                <Form.Group controlId="price">
+                    <Form.Label>price (€): </Form.Label>
+                    <Form.Control value={priceInEur} type="number" min="0" max="2000"
+                                  onChange={(e) => setPriceInEur(parseInt(e.target.value) || null)}/>
+                </Form.Group>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" type="button" onClick={close}>cancel</Button>
+                <Button variant="primary" type="submit">create</Button>
+            </Modal.Footer>
+        </Form>
+    </Modal>;
+
 }
