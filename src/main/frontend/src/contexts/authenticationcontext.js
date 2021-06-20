@@ -84,9 +84,20 @@ export function AuthenticationProvider(props) {
         setIsLoading(false);
     }, [setIsLoading, setUsername, setMessage]);
 
+    const isLoggedIn = useCallback(() => !!username, [username]);
+    const login = useCallback(() => setShowLoginBox(true), [setShowLoginBox]);
+
     const api = useMemo(() => ({
-            username, setUsername, showLoginBox, setShowLoginBox, authenticate, refreshAuthentication, logout
-        }), [username, setUsername, showLoginBox, setShowLoginBox, authenticate, refreshAuthentication, logout]
+            username,
+            setUsername,
+            showLoginBox,
+            setShowLoginBox,
+            authenticate,
+            refreshAuthentication,
+            login,
+            logout,
+            isLoggedIn
+        }), [username, setUsername, showLoginBox, setShowLoginBox, authenticate, refreshAuthentication, login, logout, isLoggedIn]
     );
 
     return (

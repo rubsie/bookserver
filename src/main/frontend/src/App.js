@@ -160,7 +160,7 @@ function ProvidedApp() {
 
     return (
         <div className="App">
-            <LoginBanner username={username} logout={logout} login={() => setShowLoginBox(true)}/>
+            <LoginBanner/>
             <Message/>
             <BookList books={books}
                       isLoggedIn={username}
