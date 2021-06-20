@@ -1,7 +1,8 @@
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import Button from 'react-bootstrap/Button';
 
-/** * @return {null} */
+/** Button is only visible if user is logged in  */
+/** @return {null} */
 export function ButtonIfLoggedIn(props) {
     const {onClick, children} = props;
     const {isLoggedIn} = useAuthenticationContext();
