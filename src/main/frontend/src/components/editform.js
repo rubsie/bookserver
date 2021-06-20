@@ -23,7 +23,7 @@ export function EditForm(props) {
         <Modal.Header closeButton>
             <Modal.Title>Edit the book</Modal.Title>
         </Modal.Header>
-        <Message isLoading={isLoading} message={message} setMessage={setMessage}/>
+        <Message isLoading={isLoading} />
         <Form onSubmit={(e) => handleSubmit(e)}>
             <Modal.Body>
                 <Form.Group controlId="title">

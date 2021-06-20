@@ -21,7 +21,7 @@ export function CreateForm(props) {
         <Modal.Header closeButton>
             <Modal.Title>New book</Modal.Title>
         </Modal.Header>
-        <Message isLoading={isLoading} message={message} setMessage={setMessage}/>
+        <Message isLoading={isLoading} />
         <Form onSubmit={(e) => handleSubmit(e)}>
             <Modal.Body>
                 <Form.Group controlId="title">
