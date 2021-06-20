@@ -1,6 +1,5 @@
 .App {
     text-align: center;
-    margin: 20px
 }
 
 .App-logo {
@@ -46,7 +45,7 @@
     flex-direction: column;
 }
 
-.modal {
+.modallook {
     position: absolute;
     top: 40px;
     bottom: 20px;
@@ -75,16 +74,9 @@
     padding: 0 5px;
 }
 
-.formrow input {
-    flex: 5;
-}
 
 .formbuttonrow {
     margin: 8px;
-}
-
-.formbuttonrow button {
-    margin: 0 3px;
 }
 
 .booksList {
@@ -108,13 +100,6 @@
     flex: 2
 }
 
-button {
-    background-color: #f1f1f1;
-    margin: 3px;
-    border: none;
-    box-shadow: lightgrey 1px 1px;
-
-}
 
 .message, .isLoading, .loginName {
     position: fixed;

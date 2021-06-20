@@ -1,3 +1,5 @@
+import Button from 'react-bootstrap/Button';
+
 /** @return {null} */
 export function EditForm(props) {
     const {selectedBook, setSelectedBook, editBook, isLoggedIn} = props;
@@ -7,7 +9,7 @@ export function EditForm(props) {
 
     return <>
         <div className="overlay" onClick={() => setSelectedBook()}/>
-        <div className="modalbox modal">
+        <div className="modalbox modallook">
             <form onSubmit={(e) => {
                 console.log("SUBMIT");
                 editBook(selectedBook);
@@ -34,8 +36,8 @@ export function EditForm(props) {
                            })}/>
                 </div>
                 <div className="formbuttonrow">
-                    <button type="button" onClick={() => setSelectedBook()}>cancel</button>
-                    <button>save</button>
+                    <Button type="button" onClick={() => setSelectedBook()}>cancel</Button>
+                    <Button>save</Button>
                 </div>
             </form>
         </div>

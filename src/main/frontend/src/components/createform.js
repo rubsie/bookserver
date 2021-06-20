@@ -1,4 +1,5 @@
 import {useState} from "react";
+import Button from 'react-bootstrap/Button';
 
 export function CreateForm(props) {
     const {createBook, isLoggedIn} = props;
@@ -31,7 +32,7 @@ export function CreateForm(props) {
                        onChange={(e) => setPriceInEur(parseInt(e.target.value) || null)}/>
             </div>
             <div className="formbuttonrow">
-                <button>create</button>
+                <Button>create</Button>
             </div>
         </form>
     </div>;

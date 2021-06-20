@@ -1,10 +1,13 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import {useEffect, useState} from "react";
 import {CreateForm} from "./components/createform";
 import {EditForm} from "./components/editform";
 import {LoginBanner} from "./components/loginbanner";
-import {Login} from "./components/login";
+import {LoginForm} from "./components/loginform";
 import {BookList} from "./components/booklist";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 async function fetchWithCsrf(url, fetchOptions) {
     const cookie = document.cookie.match(new RegExp('XSRF-TOKEN=([^;]+)'));
@@ -235,8 +238,8 @@ function App() {
 
     return (
         <div className="App">
-            {isLoading ? <p className="isLoading">LOADING DATA!!!</p> : false}
             <LoginBanner username={username} logout={logout} login={() => setShowLoginBox(true)}/>
+            {isLoading ? <p className="isLoading">LOADING DATA!!!</p> : false}
             <BookList books={books}
                       isLoggedIn={username}
                       setSelectedBook={setSelectedBook}
@@ -245,8 +248,8 @@ function App() {
             <CreateForm createBook={createBook} isLoggedIn={username}/>
             <EditForm selectedBook={selectedBook} setSelectedBook={setSelectedBook} editBook={editBook}
                       isLoggedIn={username}/>
-            <Login show={showLoginBox} username={username} authenticate={authenticate}
-                   close={() => setShowLoginBox(false)}/>
+            <LoginForm show={showLoginBox} username={username} authenticate={authenticate}
+                       close={() => setShowLoginBox(false)}/>
             {message && <p className="message" onClick={() => setMessage()}>{message}</p>}
         </div>
     );
