@@ -8,6 +8,7 @@ import {LoginForm} from "./components/loginform";
 import {BookList} from "./components/booklist";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Alert from 'react-bootstrap/Alert';
 
 async function fetchWithCsrf(url, fetchOptions) {
     const cookie = document.cookie.match(new RegExp('XSRF-TOKEN=([^;]+)'));
@@ -239,7 +240,7 @@ function App() {
     return (
         <div className="App">
             <LoginBanner username={username} logout={logout} login={() => setShowLoginBox(true)}/>
-            {isLoading ? <p className="isLoading">LOADING DATA!!!</p> : false}
+            <Alert variant="primary">{isLoading ? "Loading Data!" : (message || "-")}</Alert>
             <BookList books={books}
                       isLoggedIn={username}
                       setSelectedBook={setSelectedBook}
