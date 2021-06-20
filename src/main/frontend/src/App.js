@@ -16,15 +16,7 @@ function ProvidedApp() {
     const [selectedBook, setSelectedBook] = useState();
     const [showCreateForm, setShowCreateForm] = useState(false);
     const {setMessage, setIsLoading} = useMessageContext();
-    const {
-        username,
-        setUsername,
-        showLoginBox,
-        setShowLoginBox,
-        authenticate,
-        refreshAuthentication,
-        logout
-    } = useAuthenticationContext();
+    const {authenticate, refreshAuthentication} = useAuthenticationContext();
 
     console.log("render App()");
 
@@ -162,7 +154,6 @@ function ProvidedApp() {
             <LoginBanner/>
             <Message/>
             <BookList books={books}
-                      isLoggedIn={username}
                       setSelectedBook={setSelectedBook}
                       deleteBook={deleteBook}
                       getBooks={getBooks}
