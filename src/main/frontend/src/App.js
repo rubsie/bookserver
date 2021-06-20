@@ -28,7 +28,14 @@ function ProvidedApp() {
     const [selectedBook, setSelectedBook] = useState();
     const [showCreateForm, setShowCreateForm] = useState(false);
     const {setMessage, setIsLoading} = useMessageContext();
-    const {username, setUsername, showLoginBox, setShowLoginBox, authenticate} = useAuthenticationContext();
+    const {
+        username,
+        setUsername,
+        showLoginBox,
+        setShowLoginBox,
+        authenticate,
+        refreshAuthentication
+    } = useAuthenticationContext();
 
 
     console.log("render App()");
@@ -155,29 +162,6 @@ function ProvidedApp() {
         setIsLoading(false);
     }
 
-
-    async function refreshAuthentication() {
-        console.log(`   async refreshAuthentication: start`);
-        setIsLoading(true);
-        try {
-            const fetchOptions = {
-                method: 'GET',
-                'credentials': 'include',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8',
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-            };
-            const response = await fetch(`/api/authenticate`, fetchOptions);
-            const body = await response.json();
-            console.log(`   async refreshAuthentication: received response ${JSON.stringify(body)}`);
-            setUsername(body.username);
-            console.log("   async refreshAuthentication: done");
-        } catch (e) {
-            console.log(`   async refreshAuthentication: ERROR ${e}`);
-        }
-        setIsLoading(false);
-    }
 
     async function logout() {
         console.log(`   async logout`);

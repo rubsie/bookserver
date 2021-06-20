@@ -36,9 +36,32 @@ export function AuthenticationProvider(props) {
         setIsLoading(false);
     }, [setIsLoading, setUsername, setMessage, setShowLoginBox]);
 
+    const refreshAuthentication = useCallback(async () => {
+        console.log(`   async refreshAuthentication: start`);
+        setIsLoading(true);
+        try {
+            const fetchOptions = {
+                method: 'GET',
+                'credentials': 'include',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            };
+            const response = await fetch(`/api/authenticate`, fetchOptions);
+            const body = await response.json();
+            console.log(`   async refreshAuthentication: received response ${JSON.stringify(body)}`);
+            setUsername(body.username);
+            console.log("   async refreshAuthentication: done");
+        } catch (e) {
+            console.log(`   async refreshAuthentication: ERROR ${e}`);
+        }
+        setIsLoading(false);
+    }, [setIsLoading, setUsername, setMessage]);
+
     const api = useMemo(() => ({
-            username, setUsername, showLoginBox, setShowLoginBox, authenticate,
-        }), [username, setUsername, showLoginBox, setShowLoginBox, authenticate]
+            username, setUsername, showLoginBox, setShowLoginBox, authenticate, refreshAuthentication
+        }), [username, setUsername, showLoginBox, setShowLoginBox, authenticate, refreshAuthentication]
     );
 
     return (
