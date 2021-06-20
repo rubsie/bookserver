@@ -8,6 +8,7 @@ import {LoginForm} from "./components/loginform";
 import {BookList} from "./components/booklist";
 import {Message} from "./components/message";
 import {MessageProvider, useMessageContext} from "./contexts/messagecontext";
+import {AuthenticationProvider, useAuthenticationContext} from "./contexts/authenticationcontext";
 
 async function fetchWithCsrf(url, fetchOptions) {
     const cookie = document.cookie.match(new RegExp('XSRF-TOKEN=([^;]+)'));
@@ -23,12 +24,11 @@ async function fetchWithCsrf(url, fetchOptions) {
 }
 
 function ProvidedApp() {
-    const [username, setUsername] = useState();
     const [books, setBooks] = useState([]);
     const [selectedBook, setSelectedBook] = useState();
-    const [showLoginBox, setShowLoginBox] = useState(false);
     const [showCreateForm, setShowCreateForm] = useState(false);
-    const {message, setMessage, isLoading, setIsLoading} = useMessageContext();
+    const {setMessage, setIsLoading} = useMessageContext();
+    const {username, setUsername, showLoginBox, setShowLoginBox} = useAuthenticationContext();
 
 
     console.log("render App()");
@@ -239,7 +239,7 @@ function ProvidedApp() {
     return (
         <div className="App">
             <LoginBanner username={username} logout={logout} login={() => setShowLoginBox(true)}/>
-            <Message />
+            <Message/>
             <BookList books={books}
                       isLoggedIn={username}
                       setSelectedBook={setSelectedBook}
@@ -250,14 +250,17 @@ function ProvidedApp() {
                         close={() => setShowCreateForm(false)}/>
             <EditForm selectedBook={selectedBook} setSelectedBook={setSelectedBook} editBook={editBook}
                       isLoggedIn={username}/>
-            <LoginForm show={showLoginBox} username={username} authenticate={authenticate}
-                       close={() => setShowLoginBox(false)}/>
+            <LoginForm authenticate={authenticate}/>
         </div>
     );
 }
 
 function App() {
-    return <MessageProvider><ProvidedApp/></MessageProvider>;
+    return <MessageProvider>
+        <AuthenticationProvider>
+            <ProvidedApp/>
+        </AuthenticationProvider>
+    </MessageProvider>;
 }
 
 export default App;

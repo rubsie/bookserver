@@ -2,15 +2,18 @@ import {useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import {useAuthenticationContext} from "../contexts/authenticationcontext";
 
 /** @return {null} */
 export function LoginForm(props) {
-    const {show, username, authenticate, close} = props;
+    const {authenticate} = props;
     const [loginUsername, setLoginUsername] = useState();
     const [loginPassword, setLoginPassword] = useState();
+    const {username, setUsername, showLoginBox, setShowLoginBox} = useAuthenticationContext();
+    const close = () => setShowLoginBox(false);
 
-
-    return <Modal show={show} onHide={close}>
+    if (!showLoginBox) return null;
+    return <Modal show={true} onHide={close}>
         <Modal.Header closeButton>
             <Modal.Title>Log in</Modal.Title>
         </Modal.Header>
@@ -29,8 +32,8 @@ export function LoginForm(props) {
             </Form>
         </Modal.Body>
         <Modal.Footer>
-                <Button variant="secondary" onClick={() => close()}>cancel</Button>
-                <Button variant="primary" onClick={() => authenticate(loginUsername, loginPassword)}>login</Button>
+            <Button variant="secondary" onClick={close}>cancel</Button>
+            <Button variant="primary" onClick={() => authenticate(loginUsername, loginPassword)}>login</Button>
         </Modal.Footer>
     </Modal>;
 
