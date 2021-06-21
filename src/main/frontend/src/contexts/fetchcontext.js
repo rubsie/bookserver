@@ -60,27 +60,8 @@ export function FetchProvider(props) {
     }, [setIsLoading, setMessage]);
 
     const fetchGET = useCallback(async (url) => {
-            let responseBody = null;
-            console.log(`get ${url}: start`);
-            setIsLoading(true);
-            try {
-                const fetchOptions = {
-                    method: 'GET',
-                    'credentials': 'include',
-                    headers: DEFAULT_HEADERS,
-                };
-                const response = await fetch(url, fetchOptions);
-                responseBody = await response.json();
-                console.log(`get ${url}: received response ${JSON.stringify(responseBody)}`);
-            } catch (e) {
-                console.error(`ERROR get ${url}: ${e}`);
-                setMessage("Connection error");
-            }
-            setIsLoading(false);
-            console.log(`get ${url}: done`);
-            return responseBody;
-        }, [setIsLoading, setMessage]
-    );
+        return await fetchCommon("GET", url, undefined, false);
+    }, [fetchCommon]);
 
     const fetchPUT = useCallback(async (url, bodyObject) => {
         return await fetchCommon("PUT", url, bodyObject, true);
