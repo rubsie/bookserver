@@ -10,3 +10,4 @@ export async function fetchWithCsrf(url, fetchOptions) {
     };
     return await fetch(url, optionsWithCredentials);
 }
+
