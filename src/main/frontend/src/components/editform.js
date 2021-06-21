@@ -1,3 +1,4 @@
+import React, {useEffect, useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -7,23 +8,30 @@ import {useBooksContext} from "../contexts/bookscontext";
 
 /** @return {null} */
 export function EditForm(props) {
-    const {selectedBook, setSelectedBook} = props;
+    const {showEditFormForBook, setShowEditFormForBook} = props;
+    const [bookCopyForEdit, setBookCopyForEdit] = useState();
     const {isLoggedIn} = useAuthenticationContext();
     const {editBook} = useBooksContext();
 
-    if (!isLoggedIn || !selectedBook) return null;
+    const close = () => setShowEditFormForBook();
 
-    function close() {
-        setSelectedBook()
-    }
-
+    //use submit event so that client-side-validations are processed
     function handleSubmit(e) {
         console.log("SUBMIT");
-        editBook(selectedBook);
-        setSelectedBook();
+        console.log({bookCopyForEdit});
+        editBook(bookCopyForEdit);
+        close();
         e.preventDefault();
     }
 
+    //if showEditFormForBook changes we copy it into the state bookCopyForEdit
+    useEffect(() => {
+        console.log(`useEffect EditForm`);
+        console.log({showEditFormForBook});
+        setBookCopyForEdit(showEditFormForBook ? {...showEditFormForBook} : undefined);
+    }, [showEditFormForBook, setBookCopyForEdit]);
+
+    if (!isLoggedIn || !bookCopyForEdit) return null;
     return <Modal show={true} onHide={close}>
         <Modal.Header closeButton>
             <Modal.Title>Edit the book</Modal.Title>
@@ -33,25 +41,25 @@ export function EditForm(props) {
             <Modal.Body>
                 <Form.Group controlId="title">
                     <Form.Label>title: </Form.Label>
-                    <Form.Control required value={selectedBook.title}
-                                  onChange={(e) => setSelectedBook({...selectedBook, title: e.target.value})}/>
+                    <Form.Control required value={bookCopyForEdit.title}
+                                  onChange={(e) => setBookCopyForEdit({...bookCopyForEdit, title: e.target.value})}/>
                 </Form.Group>
                 <Form.Group controlId="author">
                     <Form.Label>author: </Form.Label>
-                    <Form.Control required value={selectedBook.author}
-                                  onChange={(e) => setSelectedBook({...selectedBook, author: e.target.value})}/>
+                    <Form.Control required value={bookCopyForEdit.author}
+                                  onChange={(e) => setBookCopyForEdit({...bookCopyForEdit, author: e.target.value})}/>
                 </Form.Group>
                 <Form.Group controlId="price">
                     <Form.Label>price (€): </Form.Label>
-                    <Form.Control value={selectedBook.priceInEur} type="number" min="0" max="2000"
-                                  onChange={(e) => setSelectedBook({
-                                      ...selectedBook,
+                    <Form.Control value={bookCopyForEdit.priceInEur} type="number" min="0" max="2000"
+                                  onChange={(e) => setBookCopyForEdit({
+                                      ...bookCopyForEdit,
                                       priceInEur: parseInt(e.target.value) || null
                                   })}/>
                 </Form.Group>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" type="button" onClick={() => setSelectedBook()}>cancel</Button>
+                <Button variant="secondary" type="button" onClick={close}>cancel</Button>
                 <Button variant="primary" type="submit">save</Button>
             </Modal.Footer>
         </Form>

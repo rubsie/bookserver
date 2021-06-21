@@ -7,12 +7,12 @@ import {ButtonIfLoggedIn} from "./buttonifloggedin";
 import {useBooksContext} from "../contexts/bookscontext";
 
 export function BookList(props) {
-    const {setSelectedBook, setShowCreateForm} = props;
+    const {setShowEditFormForBook, setShowCreateForm} = props;
     const {books, getBooks} = useBooksContext();
 
     return <>
         <Container className="m-5">{books.map((b) =>
-            <Book key={b.title} book={b} setSelectedBook={setSelectedBook}/>)}
+            <Book key={b.title} book={b} setShowEditFormForBook={setShowEditFormForBook}/>)}
         </Container>
         <ButtonGroup>
             <Button variant="light" onClick={getBooks}><MdRefresh/></Button>

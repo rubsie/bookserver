@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import {useState} from "react";
+import React, {useState} from "react";
 import {CreateForm} from "./components/createform";
 import {EditForm} from "./components/editform";
 import {Booksnavbar} from "./components/booksnavbar";
@@ -12,7 +12,7 @@ import {AuthenticationProvider} from "./contexts/authenticationcontext";
 import {BooksProvider} from "./contexts/bookscontext";
 
 function ProvidedApp() {
-    const [selectedBook, setSelectedBook] = useState();
+    const [showEditFormForBook, setShowEditFormForBook] = useState();
     const [showCreateForm, setShowCreateForm] = useState(false);
 
     console.log("render App()");
@@ -21,11 +21,11 @@ function ProvidedApp() {
         <div className="App">
             <Booksnavbar/>
             <Message/>
-            <BookList setSelectedBook={setSelectedBook}
+            <BookList setShowEditFormForBook={setShowEditFormForBook}
                       setShowCreateForm={setShowCreateForm}/>
             <CreateForm show={showCreateForm}
                         close={() => setShowCreateForm(false)}/>
-            <EditForm selectedBook={selectedBook} setSelectedBook={setSelectedBook}/>
+            <EditForm showEditFormForBook={showEditFormForBook} setShowEditFormForBook={setShowEditFormForBook}/>
             <LoginForm/>
         </div>
     );

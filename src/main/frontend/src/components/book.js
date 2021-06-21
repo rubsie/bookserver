@@ -6,14 +6,14 @@ import {useBooksContext} from "../contexts/bookscontext";
 
 
 export function Book(props) {
-    const {book, setSelectedBook} = props;
+    const {book, setShowEditFormForBook} = props;
     const {deleteBook} = useBooksContext();
 
     return <Row>
         <Col sm="4">{book.title}</Col>
         <Col sm="4">{book.author}</Col>
         <Col sm="2">{book.priceInEur}{book.priceInEur && " €"}</Col>
-        <Col sm="1"><ButtonIfLoggedIn onClick={() => setSelectedBook(book)}><MdEdit/></ButtonIfLoggedIn> </Col>
+        <Col sm="1"><ButtonIfLoggedIn onClick={() => setShowEditFormForBook(book)}><MdEdit/></ButtonIfLoggedIn> </Col>
         <Col sm="1"><ButtonIfLoggedIn onClick={() => deleteBook(book)}><MdDelete/></ButtonIfLoggedIn> </Col>
     </Row>
 }

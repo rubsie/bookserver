@@ -58,7 +58,7 @@ export function BooksProvider(props) {
                 setMessage(body.message);
             }
         } catch (e) {
-            console.log(`   async deleteBook: ERROR ${e}`);
+            console.log(`   async editBook: ERROR ${e}`);
             setMessage("Connection error");
         }
         setIsLoading(false);
