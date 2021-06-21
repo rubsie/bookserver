@@ -14,8 +14,11 @@ const DEFAULT_HEADERS = {
 export function FetchProvider(props) {
     const {setMessage, setIsLoading} = useMessageContext();
 
+    //addCsrf header is only necessary for POST/PUT/DELETE, not for GET
+    //we get the csrf-token from the cookie and add it in the X-XSRF-TOKEN header
     const getHeaders = useCallback((addCsrf) => {
         if (!addCsrf) return DEFAULT_HEADERS;
+
         const cookie = document.cookie.match(new RegExp('XSRF-TOKEN=([^;]+)'));
         const csrfToken = cookie && cookie[1];
         console.log(`fetchWithCredentials token=${csrfToken}`);
@@ -23,15 +26,15 @@ export function FetchProvider(props) {
         return {...DEFAULT_HEADERS, 'X-XSRF-TOKEN': csrfToken};
     }, []);
 
-    const fetchCommon = useCallback(async (method, url, bodyObject) => {
-        let result = false;
+    const fetchCommon = useCallback(async (method, url, bodyObject, addCsrf) => {
+        let result = undefined;
         console.log(`${method} ${url}: start`);
         setIsLoading(true);
         try {
             const fetchOptions = {
                 method: method,
                 'credentials': 'include',
-                headers: getHeaders(true),
+                headers: getHeaders(addCsrf),
                 body: JSON.stringify(bodyObject)
             };
             const response = await fetch(url, fetchOptions);
@@ -78,16 +81,17 @@ export function FetchProvider(props) {
             return responseBody;
         }, [setIsLoading, setMessage]
     );
+
     const fetchPUT = useCallback(async (url, bodyObject) => {
-        return await fetchCommon("PUT", url, bodyObject);
+        return await fetchCommon("PUT", url, bodyObject, true);
     }, [fetchCommon]);
 
     const fetchPOST = useCallback(async (url, bodyObject) => {
-        return await fetchCommon("POST", url, bodyObject);
+        return await fetchCommon("POST", url, bodyObject, true);
     }, [fetchCommon]);
 
     const fetchDELETE = useCallback(async (url) => {
-        return await fetchCommon("DELETE", url);
+        return await fetchCommon("DELETE", url, undefined, true);
     }, [fetchCommon]);
 
     const api = useMemo(() => ({fetchGET, fetchPUT, fetchPOST, fetchDELETE}),
