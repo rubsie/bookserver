@@ -9,61 +9,61 @@ import {useBooksContext} from "../contexts/bookscontext";
 /** @return {null} */
 export function EditForm(props) {
     const {showEditFormForBook, setShowEditFormForBook} = props;
-    const [bookCopyForEdit, setBookCopyForEdit] = useState();
+    const [title, setTitle] = useState("");
+    const [author, setAuthor] = useState("");
+    const [priceInEur, setPriceInEur] = useState("");
     const {isLoggedIn} = useAuthenticationContext();
     const {editBook} = useBooksContext();
-    const firstInputRefElement = useRef(null);
     const close = () => setShowEditFormForBook();
+    const firstInputRefElement = useRef(null);
 
     //use submit event so that client-side-validations are processed
     function handleSubmit(e) {
         console.log("SUBMIT");
-        console.log({bookCopyForEdit});
-        editBook(bookCopyForEdit);
+        editBook({id: showEditFormForBook.id, title, author, priceInEur});
         close();
         e.preventDefault();
     }
 
-    useEffect(() => {
-        //put focus on first input element when the form becomes visible
-        if (bookCopyForEdit && firstInputRefElement.current) {
-            firstInputRefElement.current.focus();
-        }
-    }, [bookCopyForEdit]);
-
-    //if showEditFormForBook changes we copy it into the state bookCopyForEdit
+    //if showEditFormForBook changes we copy it into the states we use to manage the input fields
     useEffect(() => {
         console.log(`useEffect EditForm`);
         console.log({showEditFormForBook});
-        setBookCopyForEdit(showEditFormForBook ? {...showEditFormForBook} : undefined);
-    }, [showEditFormForBook, setBookCopyForEdit]);
+        if (showEditFormForBook) {
+            setTitle(showEditFormForBook.title);
+            setAuthor(showEditFormForBook.author);
+            setPriceInEur(showEditFormForBook.priceInEur);
+        }
+        //put focus on first input element when the form becomes visible
+        if (showEditFormForBook && firstInputRefElement.current) {
+            firstInputRefElement.current.focus();
+        }
+    }, [showEditFormForBook]);
 
-    if (!isLoggedIn || !bookCopyForEdit) return null;
+
+    if (!isLoggedIn || !showEditFormForBook) return null;
     return <Modal show={true} onHide={close}>
         <Modal.Header closeButton>
             <Modal.Title>Edit the book</Modal.Title>
         </Modal.Header>
         <Message/>
-        <Form onSubmit={(e) => handleSubmit(e)}>
+        <Form onSubmit={e => handleSubmit(e)}>
             <Modal.Body>
                 <Form.Group controlId="title">
                     <Form.Label>title: </Form.Label>
-                    <Form.Control required value={bookCopyForEdit.title}
+                    <Form.Control required value={title}
                                   ref={firstInputRefElement}
-                                  onChange={(e) => setBookCopyForEdit({...bookCopyForEdit, title: e.target.value})}/>
+                                  onChange={e => setTitle(e.target.value)}/>
                 </Form.Group>
                 <Form.Group controlId="author">
                     <Form.Label>author: </Form.Label>
-                    <Form.Control required value={bookCopyForEdit.author}
-                                  onChange={(e) => setBookCopyForEdit({...bookCopyForEdit, author: e.target.value})}/>
+                    <Form.Control required value={author}
+                                  onChange={e => setAuthor(e.target.value)}/>
                 </Form.Group>
                 <Form.Group controlId="price">
                     <Form.Label>price (€): </Form.Label>
-                    <Form.Control value={bookCopyForEdit.priceInEur} type="number" min="0" max="2000"
-                                  onChange={(e) => setBookCopyForEdit({
-                                      ...bookCopyForEdit,
-                                      priceInEur: parseInt(e.target.value) || null
-                                  })}/>
+                    <Form.Control value={priceInEur} type="number" min="0" max="2000"
+                                  onChange={e => setPriceInEur(parseInt(e.target.value) || null)}/>
                 </Form.Group>
             </Modal.Body>
             <Modal.Footer>

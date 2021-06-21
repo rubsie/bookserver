@@ -24,9 +24,8 @@ function ProvidedApp() {
             <Message/>
             <BookList setShowEditFormForBook={setShowEditFormForBook}
                       setShowCreateForm={setShowCreateForm}/>
-            <CreateForm show={showCreateForm}
-                        close={() => setShowCreateForm(false)}/>
             <EditForm showEditFormForBook={showEditFormForBook} setShowEditFormForBook={setShowEditFormForBook}/>
+            <CreateForm show={showCreateForm} close={() => setShowCreateForm(false)}/>
             <LoginForm/>
         </div>
     );

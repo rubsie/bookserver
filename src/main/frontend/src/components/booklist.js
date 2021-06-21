@@ -12,12 +12,12 @@ export function BookList(props) {
     const {books, getBooks} = useBooksContext();
 
     return <>
-        <Container className="m-5">{books.map((b) =>
-            <Book key={b.title} book={b} setShowEditFormForBook={setShowEditFormForBook}/>)}
-        </Container>
         <ButtonGroup>
             <Button variant="light" onClick={getBooks}><MdRefresh/></Button>
             <ButtonIfLoggedIn onClick={() => setShowCreateForm(true)}><MdAdd/></ButtonIfLoggedIn>
         </ButtonGroup>
+        <Container className="m-5">{books.map((b) =>
+            <Book key={b.title} book={b} setShowEditFormForBook={setShowEditFormForBook}/>)}
+        </Container>
     </>
 }

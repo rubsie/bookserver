@@ -16,21 +16,23 @@ export function CreateForm(props) {
     const {createBook} = useBooksContext();
     const firstInputRefElement = useRef(null);
 
+    function handleSubmit(e) {
+        console.log("SUBMIT");
+        createBook({title, author, priceInEur});
+        close();
+        e.preventDefault();
+    }
+
     useEffect(() => {
+        setTitle("");
+        setAuthor("");
+        setPriceInEur("");
         //put focus on first input element when the form becomes visible
         if (show && firstInputRefElement.current) {
             firstInputRefElement.current.focus();
         }
     }, [show]);
 
-    function handleSubmit(e) {
-        console.log("SUBMIT");
-        createBook({title, author, priceInEur});
-        setTitle("");
-        setAuthor("");
-        setPriceInEur("");
-        e.preventDefault();
-    }
 
     if (!isLoggedIn || !show) return null;
     return <Modal show={true} onHide={close}>
