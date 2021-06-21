@@ -57,7 +57,7 @@ export function AuthenticationProvider(props) {
             console.log(`   async refreshAuthentication: ERROR ${e}`);
         }
         setIsLoading(false);
-    }, [setIsLoading, setUsername, setMessage]);
+    }, [setIsLoading, setUsername]);
 
     const logout = useCallback(async () => {
         console.log(`   async logout`);
@@ -91,7 +91,7 @@ export function AuthenticationProvider(props) {
         console.log("useEffect authenticationContext");
         if (document.cookie)
             refreshAuthentication();
-    }, []);
+    }, [refreshAuthentication]);
 
     const api = useMemo(() => ({
             username,

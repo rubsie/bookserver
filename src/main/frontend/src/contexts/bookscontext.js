@@ -133,7 +133,7 @@ export function BooksProvider(props) {
     useEffect(() => {
         console.log("useEffect BooksContext");
         getBooks();
-    }, []);
+    }, [getBooks]);
 
 
     const api = useMemo(() => ({books, setBooks, getBooks, editBook, createBook, deleteBook}),
