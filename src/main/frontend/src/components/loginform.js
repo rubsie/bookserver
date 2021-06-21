@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
+import {Message} from "./message";
 
 /** @return {null} */
 export function LoginForm() {
@@ -24,8 +25,9 @@ export function LoginForm() {
         <Modal.Header closeButton>
             <Modal.Title>Log in</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-            <Form onSubmit={(e) => e.preventDefault()}>
+        <Form onSubmit={(e) => e.preventDefault()}>
+            <Modal.Body>
+                <Message/>
                 <Form.Group controlId="username">
                     <Form.Label>username: </Form.Label>
                     <Form.Control required placeholder="Enter username" autocomplete="username"
@@ -38,12 +40,12 @@ export function LoginForm() {
                     <Form.Control type="password" required placeholder="Password" autocomplete="current-password"
                                   onChange={(e) => setLoginPassword(e.target.value)}/>
                 </Form.Group>
-            </Form>
-        </Modal.Body>
-        <Modal.Footer>
-            <Button variant="secondary" onClick={close}>cancel</Button>
-            <Button variant="primary" onClick={() => authenticate(loginUsername, loginPassword)}>login</Button>
-        </Modal.Footer>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={close}>cancel</Button>
+                <Button variant="primary" onClick={() => authenticate(loginUsername, loginPassword)}>login</Button>
+            </Modal.Footer>
+        </Form>
     </Modal>;
 
 }

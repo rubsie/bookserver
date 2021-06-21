@@ -16,17 +16,19 @@ export function FetchProvider(props) {
 
     //addCsrf header is only necessary for POST/PUT/DELETE, not for GET
     //we get the csrf-token from the cookie and add it in the X-XSRF-TOKEN header
-    const getHeaders = useCallback((addCsrf) => {
-        if (!addCsrf) return DEFAULT_HEADERS;
+    const getHeaders = useCallback((addCsrf, addExtraHeaders) => {
+        const headersWithExtra = {...DEFAULT_HEADERS, ...addExtraHeaders};
+        if (!addCsrf) return headersWithExtra;
 
         const cookie = document.cookie.match(new RegExp('XSRF-TOKEN=([^;]+)'));
         const csrfToken = cookie && cookie[1];
         console.log(`fetchWithCredentials token=${csrfToken}`);
-        if (!csrfToken) return DEFAULT_HEADERS;
-        return {...DEFAULT_HEADERS, 'X-XSRF-TOKEN': csrfToken};
+        if (!csrfToken) return headersWithExtra;
+
+        return {...headersWithExtra, 'X-XSRF-TOKEN': csrfToken};
     }, []);
 
-    const fetchCommon = useCallback(async (method, url, bodyObject, addCsrf) => {
+    const fetchCommon = useCallback(async (method, url, bodyObject, addCsrf, addExtraHeaders) => {
         let result = undefined;
         console.log(`${method} ${url}: start`);
         setIsLoading(true);
@@ -34,11 +36,12 @@ export function FetchProvider(props) {
             const fetchOptions = {
                 method: method,
                 'credentials': 'include',
-                headers: getHeaders(addCsrf),
+                headers: getHeaders(addCsrf, addExtraHeaders),
                 body: JSON.stringify(bodyObject)
             };
             const response = await fetch(url, fetchOptions);
-            const responseBody = await response.json();
+            console.log({response});
+            const responseBody = (response.status!==204) ? await response.json(): {};
             if (response.ok) {
                 console.log(`${method} ${url}: received response ${JSON.stringify(responseBody)}`);
                 result = responseBody;
@@ -63,6 +66,10 @@ export function FetchProvider(props) {
         return await fetchCommon("GET", url, undefined, false);
     }, [fetchCommon]);
 
+    const fetchGETWithExtraHeaders = useCallback(async (url, addExtraHeaders) => {
+        return await fetchCommon("GET", url, undefined, false, addExtraHeaders);
+    }, [fetchCommon]);
+
     const fetchPUT = useCallback(async (url, bodyObject) => {
         return await fetchCommon("PUT", url, bodyObject, true);
     }, [fetchCommon]);
@@ -75,8 +82,8 @@ export function FetchProvider(props) {
         return await fetchCommon("DELETE", url, undefined, true);
     }, [fetchCommon]);
 
-    const api = useMemo(() => ({fetchGET, fetchPUT, fetchPOST, fetchDELETE}),
-        [fetchGET, fetchPUT, fetchPOST, fetchDELETE]);
+    const api = useMemo(() => ({fetchGET, fetchGETWithExtraHeaders, fetchPUT, fetchPOST, fetchDELETE}),
+        [fetchGET, fetchGETWithExtraHeaders, fetchPUT, fetchPOST, fetchDELETE]);
 
     return (
         <FetchContext.Provider value={api}>

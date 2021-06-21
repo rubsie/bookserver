@@ -1,6 +1,6 @@
 import React, {createContext, useCallback, useContext, useEffect, useMemo, useState} from 'react';
 import {useMessageContext} from "./messagecontext";
-import {fetchWithCsrf} from "../utilities/fetch";
+import {useFetchContext} from "./fetchcontext";
 
 const AuthenticationContext = createContext();
 
@@ -8,85 +8,46 @@ export function AuthenticationProvider(props) {
     const [username, setUsername] = useState();
     const [showLoginBox, setShowLoginBox] = useState(false);
     const {setMessage, setIsLoading} = useMessageContext();
+    const {fetchGET, fetchGETWithExtraHeaders, fetchPOST} = useFetchContext();
 
     const authenticate = useCallback(async (username, password) => {
-        console.log(`   async authenticate: start ${username}`);
-        setIsLoading(true);
-        try {
-            const fetchOptions = {
-                method: 'GET',
-                'credentials': 'include',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8',
-                    'X-Requested-With': 'XMLHttpRequest',
-                    authorization: "Basic " + window.btoa(`${username}:${password}`)
-                },
-            };
-            const response = await fetch(`/api/authenticate`, fetchOptions);
-            const body = await response.json();
-            console.log(`   async authenticate: received response ${JSON.stringify(body)}`);
-            setUsername(body.username);
+        const extraHeaders = {authorization: "Basic " + window.btoa(`${username}:${password}`)};
+        const response = await fetchGETWithExtraHeaders(`/api/authenticate`, extraHeaders);
+        if (response) {
+            setUsername(response.username);
             setMessage();
             setShowLoginBox(false);
-            console.log("   async authenticate: done");
-        } catch (e) {
-            console.log(`   async authenticate: ERROR ${JSON.stringify(e)}`);
-            setMessage("Login error");
+        } else {
+            setMessage("username/password not correct");
         }
-        setIsLoading(false);
-    }, [setIsLoading, setUsername, setMessage, setShowLoginBox]);
+    }, [setUsername, setMessage, setShowLoginBox]);
 
     const refreshAuthentication = useCallback(async () => {
-        console.log(`   async refreshAuthentication: start`);
-        setIsLoading(true);
-        try {
-            const fetchOptions = {
-                method: 'GET',
-                'credentials': 'include',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8',
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-            };
-            const response = await fetch(`/api/authenticate`, fetchOptions);
-            const body = await response.json();
-            console.log(`   async refreshAuthentication: received response ${JSON.stringify(body)}`);
-            setUsername(body.username);
-            console.log("   async refreshAuthentication: done");
-        } catch (e) {
-            console.log(`   async refreshAuthentication: ERROR ${e}`);
+        const response = await fetchGET(`/api/authenticate`);
+        if (response) {
+            setUsername(response.username);
         }
-        setIsLoading(false);
+        setMessage();
     }, [setIsLoading, setUsername]);
 
     const logout = useCallback(async () => {
-        console.log(`   async logout`);
-        setIsLoading(true);
-        try {
-            const fetchOptions = {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json;charset=utf-8'},
-            };
-            const response = await fetchWithCsrf(`/logout`, fetchOptions);
-            if (response.ok) {
-                setUsername(undefined);
-                setMessage();
-            } else {
-                const body = await response.json();
-                console.log(`   async logout: ERROR: ${response.status} - ${body.error} - ${body.message} `);
-                //TODO if logout fails???
-            }
-        } catch (e) {
-            console.log(`   async logout: ERROR ${e}`);
-            //TODO if logout fails???
+        const response = await fetchPOST(`/logout`);
+        if (response) {
+            setUsername();
+            setMessage();
         }
-        setIsLoading(false);
     }, [setIsLoading, setUsername, setMessage]);
 
+    //convert to a boolean
     const isLoggedIn = useMemo(() => !!username, [username]);
 
+    //when we want to login we open the login-box
     const login = useCallback(() => setShowLoginBox(true), [setShowLoginBox]);
 
+    //when the app opens (first render) we check if there is a cookie
+    //if there is one, it means that this user has used this app before
+    //we check if the browser/and/or/cookie contains credentials by simply trying if we can access a secure url
+    //the result is that we remain logged in when browser is refreshed
     useEffect(() => {
         console.log("useEffect authenticationContext");
         if (document.cookie)
