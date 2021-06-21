@@ -3,11 +3,13 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import {Message} from "./message";
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
+import {useBooksContext} from "../contexts/bookscontext";
 
 /** @return {null} */
 export function EditForm(props) {
-    const {selectedBook, setSelectedBook, editBook} = props;
+    const {selectedBook, setSelectedBook} = props;
     const {isLoggedIn} = useAuthenticationContext();
+    const {editBook} = useBooksContext();
 
     if (!isLoggedIn || !selectedBook) return null;
 
@@ -26,7 +28,7 @@ export function EditForm(props) {
         <Modal.Header closeButton>
             <Modal.Title>Edit the book</Modal.Title>
         </Modal.Header>
-        <Message  />
+        <Message/>
         <Form onSubmit={(e) => handleSubmit(e)}>
             <Modal.Body>
                 <Form.Group controlId="title">

@@ -1,13 +1,14 @@
-import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import {MdEdit} from 'react-icons/md';
-import {MdDelete} from 'react-icons/md';
+import {MdDelete, MdEdit} from 'react-icons/md';
 import {ButtonIfLoggedIn} from "./buttonifloggedin";
+import {useBooksContext} from "../contexts/bookscontext";
 
 
 export function Book(props) {
-    const {book, setSelectedBook, deleteBook} = props;
+    const {book, setSelectedBook} = props;
+    const {deleteBook} = useBooksContext();
+
     return <Row>
         <Col sm="4">{book.title}</Col>
         <Col sm="4">{book.author}</Col>

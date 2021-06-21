@@ -4,15 +4,15 @@ import Container from 'react-bootstrap/Container';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import {MdAdd, MdRefresh} from 'react-icons/md';
 import {ButtonIfLoggedIn} from "./buttonifloggedin";
+import {useBooksContext} from "../contexts/bookscontext";
 
 export function BookList(props) {
-    const {books, setSelectedBook, setShowCreateForm, deleteBook, getBooks} = props;
+    const {setSelectedBook, setShowCreateForm} = props;
+    const {books, getBooks} = useBooksContext();
 
     return <>
         <Container className="m-5">{books.map((b) =>
-            <Book key={b.title} book={b}
-                  setSelectedBook={setSelectedBook}
-                  deleteBook={deleteBook}/>)}
+            <Book key={b.title} book={b} setSelectedBook={setSelectedBook}/>)}
         </Container>
         <ButtonGroup>
             <Button variant="light" onClick={getBooks}><MdRefresh/></Button>

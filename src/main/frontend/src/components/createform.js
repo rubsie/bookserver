@@ -2,23 +2,27 @@ import {useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import {Message} from "../components/message";
+import {Message} from "./message";
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
+import {useBooksContext} from "../contexts/bookscontext";
 
 /** @return {null} */
 export function CreateForm(props) {
-    const {show, close, createBook} = props;
-
+    const {show, close} = props;
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
     const [priceInEur, setPriceInEur] = useState("");
     const {isLoggedIn} = useAuthenticationContext();
+    const {createBook} = useBooksContext();
 
     if (!isLoggedIn || !show) return null;
 
     function handleSubmit(e) {
         console.log("SUBMIT");
         createBook({title, author, priceInEur});
+        setTitle("");
+        setAuthor("");
+        setPriceInEur("");
         e.preventDefault();
     }
 
