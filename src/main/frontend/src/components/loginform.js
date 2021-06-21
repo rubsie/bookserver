@@ -5,14 +5,14 @@ import Form from 'react-bootstrap/Form';
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 
 /** @return {null} */
-export function LoginForm(props) {
+export function LoginForm() {
     const [loginUsername, setLoginUsername] = useState();
     const [loginPassword, setLoginPassword] = useState();
     const {showLoginBox, setShowLoginBox, authenticate} = useAuthenticationContext();
     const close = () => setShowLoginBox(false);
 
     if (!showLoginBox) return null;
-    return <Modal show={true} onHide={close}>
+    return <Modal show={true} onHide={close} >
         <Modal.Header closeButton>
             <Modal.Title>Log in</Modal.Title>
         </Modal.Header>

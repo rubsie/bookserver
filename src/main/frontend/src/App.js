@@ -3,12 +3,12 @@ import './App.css';
 import {useEffect, useState} from "react";
 import {CreateForm} from "./components/createform";
 import {EditForm} from "./components/editform";
-import {LoginBanner} from "./components/loginbanner";
+import {Booksnavbar} from "./components/booksnavbar";
 import {LoginForm} from "./components/loginform";
 import {BookList} from "./components/booklist";
 import {Message} from "./components/message";
 import {MessageProvider, useMessageContext} from "./contexts/messagecontext";
-import {AuthenticationProvider, useAuthenticationContext} from "./contexts/authenticationcontext";
+import {AuthenticationProvider} from "./contexts/authenticationcontext";
 import {fetchWithCsrf} from "./utilities/fetch";
 
 function ProvidedApp() {
@@ -148,7 +148,7 @@ function ProvidedApp() {
 
     return (
         <div className="App">
-            <LoginBanner/>
+            <Booksnavbar/>
             <Message/>
             <BookList books={books}
                       setSelectedBook={setSelectedBook}

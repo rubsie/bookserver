@@ -1,9 +1,13 @@
 import Alert from 'react-bootstrap/Alert';
 import {useMessageContext} from "../contexts/messagecontext";
 
-export function Message(props) {
+export function Message() {
     const {message, setMessage, isLoading} = useMessageContext();
+    const close = () => setMessage();
 
-    return <Alert variant="primary" onClick={() => setMessage()}>{isLoading ? "Loading Data!" : (message || "-")}</Alert>
+    const messageToShow = isLoading ? "Loading Data!" : (message || "-");
+    return <Alert variant="primary" className="text-center" onClick={close}>
+        {messageToShow}
+    </Alert>
 
 }

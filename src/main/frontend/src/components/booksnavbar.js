@@ -2,18 +2,18 @@ import NavBar from 'react-bootstrap/NavBar';
 import Nav from 'react-bootstrap/Nav';
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 
-function LoginButton(props) {
+function LoginButton() {
     const {username, login} = useAuthenticationContext();
     return <>{!username && <Nav.Link onClick={() => login()}>login</Nav.Link>}</>;
 }
 
-function LogoutButton(props) {
+function LogoutButton() {
     const {username, logout} = useAuthenticationContext();
     return <>{username && <Nav.Link onClick={() => logout()}>logout</Nav.Link>}</>;
 }
 
 /** * @return {null} */
-export function LoginBanner(props) {
+export function Booksnavbar() {
     const {username} = useAuthenticationContext();
     const userInfo = username ? `logged in as ${username}` : "not logged in.";
 
