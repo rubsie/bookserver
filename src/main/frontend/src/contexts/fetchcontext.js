@@ -1,6 +1,5 @@
-import React, {createContext, useContext, useMemo, useCallback} from 'react';
+import React, {createContext, useCallback, useContext, useMemo} from 'react';
 import {useMessageContext} from "./messagecontext";
-import {fetchWithCsrf} from "../utilities/fetch";
 
 const FetchContext = createContext();
 
@@ -15,7 +14,49 @@ const DEFAULT_HEADERS = {
 export function FetchProvider(props) {
     const {setMessage, setIsLoading} = useMessageContext();
 
-    const fetchGet = useCallback(async (url) => {
+    const getHeaders = useCallback((addCsrf) => {
+        if (!addCsrf) return DEFAULT_HEADERS;
+        const cookie = document.cookie.match(new RegExp('XSRF-TOKEN=([^;]+)'));
+        const csrfToken = cookie && cookie[1];
+        console.log(`fetchWithCredentials token=${csrfToken}`);
+        if (!csrfToken) return DEFAULT_HEADERS;
+        return {...DEFAULT_HEADERS, 'X-XSRF-TOKEN': csrfToken};
+    }, []);
+
+    const fetchCommon = useCallback(async (method, url, bodyObject) => {
+        let result = false;
+        console.log(`${method} ${url}: start`);
+        setIsLoading(true);
+        try {
+            const fetchOptions = {
+                method: method,
+                'credentials': 'include',
+                headers: getHeaders(true),
+                body: JSON.stringify(bodyObject)
+            };
+            const response = await fetch(url, fetchOptions);
+            const responseBody = await response.json();
+            if (response.ok) {
+                console.log(`${method} ${url}: received response ${JSON.stringify(responseBody)}`);
+                result = responseBody;
+            } else {
+                console.error(`ERROR ${method} ${url}: ${response.status} - ${responseBody.error} - ${responseBody.message} `);
+                const errorMessage = responseBody.errors &&
+                    responseBody.errors.reduce((accumulator, error) => `${accumulator} ${error.defaultMessage}  --- `, "--- ");
+                console.log(`   ${JSON.stringify(responseBody)}`);
+                console.log(`   ${errorMessage}`);
+                setMessage(errorMessage || responseBody.message);
+            }
+        } catch (e) {
+            console.error(`ERROR ${method} ${url}: ${e}`);
+            setMessage("Connection error");
+        }
+        setIsLoading(false);
+        console.log(`${method} ${url}: done`);
+        return result;
+    }, [setIsLoading, setMessage]);
+
+    const fetchGET = useCallback(async (url) => {
             let responseBody = null;
             console.log(`get ${url}: start`);
             setIsLoading(true);
@@ -37,40 +78,20 @@ export function FetchProvider(props) {
             return responseBody;
         }, [setIsLoading, setMessage]
     );
+    const fetchPUT = useCallback(async (url, bodyObject) => {
+        return await fetchCommon("PUT", url, bodyObject);
+    }, [fetchCommon]);
 
-    const fetchPut = useCallback(async (url, bodyObject) => {
-            let result = false;
-            console.log(`put ${url}: start`);
-            setIsLoading(true);
-            try {
-                const fetchOptions = {
-                    method: 'PUT',
-                    'credentials': 'include',
-                    headers: DEFAULT_HEADERS,
-                    body: JSON.stringify(bodyObject)
-                };
-                const response = await fetchWithCsrf(url, fetchOptions);
-                const responseBody = await response.json();
-                if (response.ok) {
-                    console.log(`put ${url}: received response ${JSON.stringify(responseBody)}`);
-                    console.log(`   async editBook: received response ${JSON.stringify(responseBody)}`);
-                    result = true;
-                } else {
-                    console.error(`ERROR put ${url}: ${response.status} - ${responseBody.error} - ${responseBody.message} `);
-                    setMessage(responseBody.message);
-                }
-            } catch (e) {
-                console.error(`ERROR put ${url}: ${e}`);
-                setMessage("Connection error");
-            }
-            setIsLoading(false);
-            console.log(`put ${url}: done`);
-            return result;
-        }, [setIsLoading, setMessage]
-    );
+    const fetchPOST = useCallback(async (url, bodyObject) => {
+        return await fetchCommon("POST", url, bodyObject);
+    }, [fetchCommon]);
 
-    const api = useMemo(() => ({fetchGet, fetchPut}),
-        [fetchGet, fetchPut]);
+    const fetchDELETE = useCallback(async (url) => {
+        return await fetchCommon("DELETE", url);
+    }, [fetchCommon]);
+
+    const api = useMemo(() => ({fetchGET, fetchPUT, fetchPOST, fetchDELETE}),
+        [fetchGET, fetchPUT, fetchPOST, fetchDELETE]);
 
     return (
         <FetchContext.Provider value={api}>

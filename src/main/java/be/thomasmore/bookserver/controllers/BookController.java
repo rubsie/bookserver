@@ -54,7 +54,7 @@ public class BookController {
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable int id) {
+    public Book delete(@PathVariable int id) {
         log.info("##### delete");
         Optional<Book> bookFromDb = bookRepository.findById(id);
         if (bookFromDb.isEmpty())
@@ -62,5 +62,6 @@ public class BookController {
                     String.format("Book with id %d not found.", id));
 
         bookRepository.deleteById(id);
+        return bookFromDb.get();
     }
 }
