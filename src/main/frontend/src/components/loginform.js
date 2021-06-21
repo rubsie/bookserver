@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState, useRef} from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -10,9 +10,16 @@ export function LoginForm() {
     const [loginPassword, setLoginPassword] = useState();
     const {showLoginBox, setShowLoginBox, authenticate} = useAuthenticationContext();
     const close = () => setShowLoginBox(false);
+    const firstInputRefElement = useRef(null);
+
+    useEffect(() => {
+        if (showLoginBox && firstInputRefElement.current) {
+            firstInputRefElement.current.focus();
+        }
+    }, [showLoginBox]);
 
     if (!showLoginBox) return null;
-    return <Modal show={true} onHide={close} >
+    return <Modal show={true} onHide={close}>
         <Modal.Header closeButton>
             <Modal.Title>Log in</Modal.Title>
         </Modal.Header>
@@ -20,12 +27,14 @@ export function LoginForm() {
             <Form onSubmit={(e) => e.preventDefault()}>
                 <Form.Group controlId="username">
                     <Form.Label>username: </Form.Label>
-                    <Form.Control required placeholder="Enter username"
-                                  onChange={(e) => setLoginUsername(e.target.value)}/>
+                    <Form.Control required placeholder="Enter username" autocomplete="username"
+                                  ref={firstInputRefElement}
+                                  onChange={e => setLoginUsername(e.target.value)}/>
+
                 </Form.Group>
                 <Form.Group controlId="password">
                     <Form.Label>password: </Form.Label>
-                    <Form.Control type="password" required placeholder="Password"
+                    <Form.Control type="password" required placeholder="Password" autocomplete="current-password"
                                   onChange={(e) => setLoginPassword(e.target.value)}/>
                 </Form.Group>
             </Form>
