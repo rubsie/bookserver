@@ -9,7 +9,7 @@ export function Book(props) {
     const {book, setShowEditFormForBook} = props;
     const {deleteBook} = useBooksContext();
 
-    return <Row>
+    return <Row className="align-items-center border-bottom ">
         <Col sm="4">{book.title}</Col>
         <Col sm="4">{book.author}</Col>
         <Col sm="2">{book.priceInEur}{book.priceInEur && " €"}</Col>

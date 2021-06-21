@@ -9,10 +9,11 @@ export function LoginForm() {
     const [loginUsername, setLoginUsername] = useState();
     const [loginPassword, setLoginPassword] = useState();
     const {showLoginBox, setShowLoginBox, authenticate} = useAuthenticationContext();
-    const close = () => setShowLoginBox(false);
     const firstInputRefElement = useRef(null);
+    const close = () => setShowLoginBox(false);
 
     useEffect(() => {
+        //put focus on first input element when the form becomes visible
         if (showLoginBox && firstInputRefElement.current) {
             firstInputRefElement.current.focus();
         }

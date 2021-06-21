@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -12,7 +12,7 @@ export function EditForm(props) {
     const [bookCopyForEdit, setBookCopyForEdit] = useState();
     const {isLoggedIn} = useAuthenticationContext();
     const {editBook} = useBooksContext();
-
+    const firstInputRefElement = useRef(null);
     const close = () => setShowEditFormForBook();
 
     //use submit event so that client-side-validations are processed
@@ -23,6 +23,13 @@ export function EditForm(props) {
         close();
         e.preventDefault();
     }
+
+    useEffect(() => {
+        //put focus on first input element when the form becomes visible
+        if (bookCopyForEdit && firstInputRefElement.current) {
+            firstInputRefElement.current.focus();
+        }
+    }, [bookCopyForEdit]);
 
     //if showEditFormForBook changes we copy it into the state bookCopyForEdit
     useEffect(() => {
@@ -42,6 +49,7 @@ export function EditForm(props) {
                 <Form.Group controlId="title">
                     <Form.Label>title: </Form.Label>
                     <Form.Control required value={bookCopyForEdit.title}
+                                  ref={firstInputRefElement}
                                   onChange={(e) => setBookCopyForEdit({...bookCopyForEdit, title: e.target.value})}/>
                 </Form.Group>
                 <Form.Group controlId="author">
