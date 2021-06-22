@@ -64,6 +64,45 @@ export function FetchProvider(props) {
         return result;
     }, [clearAllMessages, setIsLoading, setError]);
 
+    const fetchPOST2 = useCallback(async (url, ...bodyObjects) => {
+        const method = "POST";
+        const addCsrf = true;
+        const addExtraHeaders = undefined;
+        let result = undefined;
+        clearAllMessages();
+        console.log(`${method} ${url}: start`);
+        setIsLoading(true);
+        try {
+            const fetchOptions = {
+                method: method,
+                'credentials': 'include',
+                headers: getHeaders(addCsrf, addExtraHeaders),
+                body: JSON.stringify(bodyObjects)
+            };
+            const response = await fetch(url, fetchOptions);
+            console.log({response});
+            if (response.ok) {
+                const responseBody = (response.status!==204) ? await response.json(): {};
+                console.log(`${method} ${url}: received response ${JSON.stringify(responseBody)}`);
+                result = responseBody;
+            } else {
+                const responseBody =  await response.json();
+                console.error(`ERROR ${method} ${url}: ${response.status} - ${responseBody.error} - ${responseBody.message} `);
+                const errorMessage = responseBody.errors &&
+                    responseBody.errors.reduce((accumulator, error) => `${accumulator} ${error.defaultMessage}  --- `, "--- ");
+                console.log(`   ${JSON.stringify(responseBody)}`);
+                console.log(`   ${errorMessage}`);
+                setError(errorMessage || responseBody.message);
+            }
+        } catch (e) {
+            console.error(`ERROR ${method} ${url}: ${e}`);
+            setError("Connection error");
+        }
+        setIsLoading(false);
+        console.log(`${method} ${url}: done`);
+        return result;
+    }, [clearAllMessages, setIsLoading, setError]);
+
     const fetchGET = useCallback(async (url) => {
         return await fetchCommon("GET", url, undefined, false);
     }, [fetchCommon]);
@@ -84,8 +123,8 @@ export function FetchProvider(props) {
         return await fetchCommon("DELETE", url, undefined, true);
     }, [fetchCommon]);
 
-    const api = useMemo(() => ({fetchGET, fetchGETWithExtraHeaders, fetchPUT, fetchPOST, fetchDELETE}),
-        [fetchGET, fetchGETWithExtraHeaders, fetchPUT, fetchPOST, fetchDELETE]);
+    const api = useMemo(() => ({fetchGET, fetchGETWithExtraHeaders, fetchPUT, fetchPOST,fetchPOST2, fetchDELETE}),
+        [fetchGET, fetchGETWithExtraHeaders, fetchPUT, fetchPOST,fetchPOST2, fetchDELETE]);
 
     return (
         <FetchContext.Provider value={api}>

@@ -2,16 +2,7 @@ import React from "react";
 import NavBar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
-
-function LoginButton() {
-    const {username, login} = useAuthenticationContext();
-    return <>{!username && <Nav.Link onClick={() => login()}>login</Nav.Link>}</>;
-}
-
-function LogoutButton() {
-    const {username, logout} = useAuthenticationContext();
-    return <>{username && <Nav.Link onClick={() => logout()}>logout</Nav.Link>}</>;
-}
+import {LoginButton, LogoutButton} from "./authbuttons";
 
 /** * @return {null} */
 export function Booksnavbar() {

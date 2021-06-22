@@ -7,7 +7,8 @@ const AuthenticationContext = createContext();
 export function AuthenticationProvider(props) {
     const [username, setUsername] = useState();
     const [showLoginBox, setShowLoginBox] = useState(false);
-    const {clearAllMessages, setError} = useMessageContext();
+    const [showSignupBox, setShowSignupBox] = useState(false);
+    const {clearAllMessages, setMessage, setError} = useMessageContext();
     const {fetchGET, fetchGETWithExtraHeaders, fetchPOST} = useFetchContext();
 
     const authenticate = useCallback(async (username, password) => {
@@ -21,6 +22,16 @@ export function AuthenticationProvider(props) {
             setError("username/password not correct");
         }
     }, [fetchGETWithExtraHeaders, setUsername, clearAllMessages, setShowLoginBox, setError]);
+
+    const signup = useCallback(async (username, email, password) => {
+        console.log(`signup: ${username}, ${email}, ${password}`);
+        const response = await fetchPOST(`/api/signup`,{username, email, password});
+        if (response) {
+            setUsername(response.username);
+            setMessage(`welcome ${response.username}!`);
+        }
+        return response;
+    }, []);
 
     const refreshAuthentication = useCallback(async () => {
         const response = await fetchGET(`/api/authenticate`);
@@ -38,16 +49,24 @@ export function AuthenticationProvider(props) {
         }
     }, [fetchPOST, setUsername, clearAllMessages]);
 
-    //convert to a boolean
+//convert to a boolean
     const isLoggedIn = useMemo(() => !!username, [username]);
 
-    //when we want to login we open the login-box
-    const login = useCallback(() => setShowLoginBox(true), [setShowLoginBox]);
+//when we want to login we open the login-box
+    const openLoginForm = useCallback(() => {
+        setShowLoginBox(true);
+        setShowSignupBox(false);
+    }, [setShowLoginBox]);
 
-    //when the app opens (first render) we check if there is a cookie
-    //if there is one, it means that this user has used this app before
-    //we check if the browser/and/or/cookie contains credentials by simply trying if we can access a secure url
-    //the result is that we remain logged in when browser is refreshed
+    const openSignupForm = useCallback(() => {
+        setShowLoginBox(false);
+        setShowSignupBox(true);
+    }, [setShowSignupBox]);
+
+//when the app opens (first render) we check if there is a cookie
+//if there is one, it means that this user has used this app before
+//we check if the browser/and/or/cookie contains credentials by simply trying if we can access a secure url
+//the result is that we remain logged in when browser is refreshed
     useEffect(() => {
         console.log("useEffect authenticationContext");
         if (document.cookie)
@@ -59,12 +78,17 @@ export function AuthenticationProvider(props) {
             setUsername,
             showLoginBox,
             setShowLoginBox,
+            showSignupBox,
+            setShowSignupBox,
             authenticate,
             refreshAuthentication,
-            login,
+            signup,
             logout,
+            openLoginForm,
+            openSignupForm,
             isLoggedIn
-        }), [username, setUsername, showLoginBox, setShowLoginBox, authenticate, refreshAuthentication, login, logout, isLoggedIn]
+        }), [username, setUsername, showLoginBox, setShowLoginBox, showSignupBox, setShowSignupBox,
+            authenticate, refreshAuthentication, signup, logout, openLoginForm, openSignupForm, isLoggedIn]
     );
 
     return (

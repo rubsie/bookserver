@@ -12,6 +12,7 @@ import {AuthenticationProvider} from "./contexts/authenticationcontext";
 import {BooksProvider} from "./contexts/bookscontext";
 import {FetchProvider} from "./contexts/fetchcontext";
 import {IconContext} from "react-icons";
+import {SignupForm} from "./components/signupform";
 
 function ProvidedApp() {
     const [showEditFormForBook, setShowEditFormForBook] = useState();
@@ -28,6 +29,7 @@ function ProvidedApp() {
             <EditForm showEditFormForBook={showEditFormForBook} setShowEditFormForBook={setShowEditFormForBook}/>
             <CreateForm show={showCreateForm} close={() => setShowCreateForm(false)}/>
             <LoginForm/>
+            <SignupForm/>
         </div>
     );
 }

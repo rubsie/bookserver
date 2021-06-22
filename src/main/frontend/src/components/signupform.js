@@ -5,51 +5,55 @@ import Form from 'react-bootstrap/Form';
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {Message} from "./message";
 import Alert from "react-bootstrap/Alert";
-import {SignupButton} from "./authbuttons";
+import {LoginButton} from "./authbuttons";
 
 /** @return {null} */
-export function LoginForm() {
-    const [loginUsername, setLoginUsername] = useState();
-    const [loginPassword, setLoginPassword] = useState();
-    const {showLoginBox, setShowLoginBox, authenticate} = useAuthenticationContext();
+export function SignupForm() {
+    const [signupUsername, setSignupUsername] = useState();
+    const [signupEmail, setSignupEmail] = useState();
+    const [signupPassword, setSignupPassword] = useState();
+    const {showSignupBox, setShowSignupBox, signup} = useAuthenticationContext();
     const firstInputRefElement = useRef(null);
-    const close = () => setShowLoginBox(false);
+    const close = () => setShowSignupBox(false);
 
     useEffect(() => {
         //put focus on first input element when the form becomes visible
-        if (showLoginBox && firstInputRefElement.current) {
+        if (showSignupBox && firstInputRefElement.current) {
             firstInputRefElement.current.focus();
         }
-    }, [showLoginBox]);
+    }, [showSignupBox]);
 
-    if (!showLoginBox) return null;
+    if (!showSignupBox) return null;
     return <Modal show={true} onHide={close}>
         <Modal.Header closeButton>
-            <Modal.Title>Log in</Modal.Title>
+            <Modal.Title>Sign up as a new user</Modal.Title>
         </Modal.Header>
         <Form onSubmit={(e) => e.preventDefault()}>
             <Modal.Body>
                 <Message/>
                 <Alert variant="dark" >
-                    you don't have an account? <SignupButton/>
+                    already an account? <LoginButton/>
                 </Alert>
-
                 <Form.Group controlId="username">
                     <Form.Label>username: </Form.Label>
                     <Form.Control required placeholder="Enter username" autoComplete="username"
                                   ref={firstInputRefElement}
-                                  onChange={e => setLoginUsername(e.target.value)}/>
-
+                                  onChange={e => setSignupUsername(e.target.value)}/>
+                </Form.Group>
+                <Form.Group controlId="email">
+                    <Form.Label>email: </Form.Label>
+                    <Form.Control required placeholder="Enter email" autoComplete="email"
+                                  onChange={e => setSignupEmail(e.target.value)}/>
                 </Form.Group>
                 <Form.Group controlId="password">
                     <Form.Label>password: </Form.Label>
                     <Form.Control type="password" required placeholder="Password" autoComplete="current-password"
-                                  onChange={(e) => setLoginPassword(e.target.value)}/>
+                                  onChange={(e) => setSignupPassword(e.target.value)}/>
                 </Form.Group>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={close}>cancel</Button>
-                <Button variant="primary" onClick={() => authenticate(loginUsername, loginPassword)}>login</Button>
+                <Button variant="primary" onClick={() => signup(signupUsername, signupEmail, signupPassword)}>signup</Button>
             </Modal.Footer>
         </Form>
     </Modal>;
