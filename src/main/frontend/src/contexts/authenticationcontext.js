@@ -29,6 +29,7 @@ export function AuthenticationProvider(props) {
         if (response) {
             setUsername(response.username);
             setMessage(`welcome ${response.username}!`);
+            setShowSignupBox(false);
         }
         return response;
     }, []);
