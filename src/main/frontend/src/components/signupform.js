@@ -5,7 +5,8 @@ import Form from 'react-bootstrap/Form';
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {Message} from "./message";
 import Alert from "react-bootstrap/Alert";
-import {LoginButton} from "./authbuttons";
+import {LoginLink, LoginNavLink} from "./authbuttons";
+import {useMessageContext} from "../contexts/messagecontext";
 
 /** @return {null} */
 export function SignupForm() {
@@ -13,13 +14,15 @@ export function SignupForm() {
     const [signupEmail, setSignupEmail] = useState();
     const [signupPassword, setSignupPassword] = useState();
     const {showSignupBox, setShowSignupBox, signup} = useAuthenticationContext();
+    const {setMessage} = useMessageContext();
     const firstInputRefElement = useRef(null);
     const close = () => setShowSignupBox(false);
 
     useEffect(() => {
         //put focus on first input element when the form becomes visible
-        if (showSignupBox && firstInputRefElement.current) {
-            firstInputRefElement.current.focus();
+        if (showSignupBox) {
+            if (firstInputRefElement.current) firstInputRefElement.current.focus();
+            setMessage(<>You already have an account? Then <LoginLink/>.</>);
         }
     }, [showSignupBox]);
 
@@ -31,8 +34,8 @@ export function SignupForm() {
         <Form onSubmit={(e) => e.preventDefault()}>
             <Modal.Body>
                 <Message/>
-                <Alert variant="dark" >
-                    already an account? <LoginButton/>
+                <Alert variant="dark">
+                    already an account? <LoginNavLink/>
                 </Alert>
                 <Form.Group controlId="username">
                     <Form.Label>username: </Form.Label>
@@ -53,7 +56,8 @@ export function SignupForm() {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={close}>cancel</Button>
-                <Button variant="primary" onClick={() => signup(signupUsername, signupEmail, signupPassword)}>signup</Button>
+                <Button variant="primary"
+                        onClick={() => signup(signupUsername, signupEmail, signupPassword)}>signup</Button>
             </Modal.Footer>
         </Form>
     </Modal>;

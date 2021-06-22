@@ -4,21 +4,23 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {Message} from "./message";
-import Alert from "react-bootstrap/Alert";
-import {SignupButton} from "./authbuttons";
+import {SignupLink} from "./authbuttons";
+import {useMessageContext} from "../contexts/messagecontext";
 
 /** @return {null} */
 export function LoginForm() {
     const [loginUsername, setLoginUsername] = useState();
     const [loginPassword, setLoginPassword] = useState();
     const {showLoginBox, setShowLoginBox, authenticate} = useAuthenticationContext();
+    const {setMessage} = useMessageContext();
     const firstInputRefElement = useRef(null);
     const close = () => setShowLoginBox(false);
 
     useEffect(() => {
         //put focus on first input element when the form becomes visible
-        if (showLoginBox && firstInputRefElement.current) {
-            firstInputRefElement.current.focus();
+        if (showLoginBox) {
+            if (firstInputRefElement.current) firstInputRefElement.current.focus();
+            setMessage(<>You don't have an account? Then <SignupLink/>.</>);
         }
     }, [showLoginBox]);
 
@@ -30,10 +32,6 @@ export function LoginForm() {
         <Form onSubmit={(e) => e.preventDefault()}>
             <Modal.Body>
                 <Message/>
-                <Alert variant="dark" >
-                    you don't have an account? <SignupButton/>
-                </Alert>
-
                 <Form.Group controlId="username">
                     <Form.Label>username: </Form.Label>
                     <Form.Control required placeholder="Enter username" autoComplete="username"
