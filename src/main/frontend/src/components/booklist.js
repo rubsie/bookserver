@@ -16,7 +16,7 @@ export function BookList(props) {
             <Button variant="light" onClick={getBooks}><MdRefresh/></Button>
             <ButtonIfLoggedIn onClick={() => setShowCreateForm(true)}><MdAdd/></ButtonIfLoggedIn>
         </ButtonGroup>
-        <Container className="m-5">{books.map((b) =>
+        <Container className="mt-3">{books.map((b) =>
             <Book key={b.title} book={b} setShowEditFormForBook={setShowEditFormForBook}/>)}
         </Container>
     </>
