@@ -7,7 +7,7 @@ const AuthenticationContext = createContext();
 export function AuthenticationProvider(props) {
     const [username, setUsername] = useState();
     const [showLoginBox, setShowLoginBox] = useState(false);
-    const {setMessage, setIsLoading} = useMessageContext();
+    const {clearAllMessages, setError} = useMessageContext();
     const {fetchGET, fetchGETWithExtraHeaders, fetchPOST} = useFetchContext();
 
     const authenticate = useCallback(async (username, password) => {
@@ -15,28 +15,28 @@ export function AuthenticationProvider(props) {
         const response = await fetchGETWithExtraHeaders(`/api/authenticate`, extraHeaders);
         if (response) {
             setUsername(response.username);
-            setMessage();
+            clearAllMessages();
             setShowLoginBox(false);
         } else {
-            setMessage("username/password not correct");
+            setError("username/password not correct");
         }
-    }, [setUsername, setMessage, setShowLoginBox]);
+    }, [fetchGETWithExtraHeaders, setUsername, clearAllMessages, setShowLoginBox, setError]);
 
     const refreshAuthentication = useCallback(async () => {
         const response = await fetchGET(`/api/authenticate`);
         if (response) {
             setUsername(response.username);
         }
-        setMessage();
-    }, [setIsLoading, setUsername]);
+        clearAllMessages();
+    }, [fetchGET, setUsername, clearAllMessages]);
 
     const logout = useCallback(async () => {
         const response = await fetchPOST(`/logout`);
         if (response) {
             setUsername();
-            setMessage();
+            clearAllMessages();
         }
-    }, [setIsLoading, setUsername, setMessage]);
+    }, [fetchPOST, setUsername, clearAllMessages]);
 
     //convert to a boolean
     const isLoggedIn = useMemo(() => !!username, [username]);

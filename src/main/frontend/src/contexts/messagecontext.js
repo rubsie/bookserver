@@ -1,15 +1,23 @@
-import React, {createContext, useContext, useMemo, useState} from 'react';
+import React, {createContext, useCallback, useContext, useMemo, useState} from 'react';
 
 const MessageContext = createContext();
 
 
 export function MessageProvider(props) {
     const [message, setMessage] = useState();
+    const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
+    //clear message and error
+    const clearAllMessages = useCallback(() => {
+        console.log("clearAllMessages");
+        setMessage();
+        setError();
+    }, [setMessage, setError]);
+
     const api = useMemo(() => ({
-            message, setMessage, isLoading, setIsLoading
-        }), [message, setMessage, isLoading, setIsLoading]
+            message, setMessage, error, setError, isLoading, setIsLoading, clearAllMessages
+        }), [message, setMessage, error, setError, isLoading, setIsLoading, clearAllMessages]
     );
 
     return (

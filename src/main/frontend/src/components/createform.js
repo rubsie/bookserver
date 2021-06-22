@@ -16,11 +16,11 @@ export function CreateForm(props) {
     const {createBook} = useBooksContext();
     const firstInputRefElement = useRef(null);
 
-    function handleSubmit(e) {
-        console.log("SUBMIT");
-        createBook({title, author, priceInEur});
-        close();
+    async function handleSubmit(e) {
         e.preventDefault();
+        console.log("SUBMIT Create");
+        const result = await createBook({title, author, priceInEur});
+        if (result) close();
     }
 
     useEffect(() => {
@@ -31,7 +31,7 @@ export function CreateForm(props) {
         if (show && firstInputRefElement.current) {
             firstInputRefElement.current.focus();
         }
-    }, [show]);
+    }, [show, setTitle, setAuthor, setPriceInEur]);
 
 
     if (!isLoggedIn || !show) return null;

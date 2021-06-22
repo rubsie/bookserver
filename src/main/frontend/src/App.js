@@ -11,6 +11,7 @@ import {MessageProvider} from "./contexts/messagecontext";
 import {AuthenticationProvider} from "./contexts/authenticationcontext";
 import {BooksProvider} from "./contexts/bookscontext";
 import {FetchProvider} from "./contexts/fetchcontext";
+import {IconContext} from "react-icons";
 
 function ProvidedApp() {
     const [showEditFormForBook, setShowEditFormForBook] = useState();
@@ -32,15 +33,18 @@ function ProvidedApp() {
 }
 
 function App() {
-    return <MessageProvider>
-        <FetchProvider>
-            <BooksProvider>
-                <AuthenticationProvider>
-                    <ProvidedApp/>
-                </AuthenticationProvider>
-            </BooksProvider>
-        </FetchProvider>
-    </MessageProvider>;
+    return <IconContext.Provider value={{className: "icons-global-class-name"}}>
+        <MessageProvider>
+            <FetchProvider>
+                <BooksProvider>
+                    <AuthenticationProvider>
+                        <ProvidedApp/>
+                    </AuthenticationProvider>
+                </BooksProvider>
+            </FetchProvider>
+        </MessageProvider>
+    </IconContext.Provider>;
+
 }
 
 export default App;

@@ -18,11 +18,11 @@ export function EditForm(props) {
     const firstInputRefElement = useRef(null);
 
     //use submit event so that client-side-validations are processed
-    function handleSubmit(e) {
-        console.log("SUBMIT");
-        editBook({id: showEditFormForBook.id, title, author, priceInEur});
-        close();
+    async function handleSubmit(e) {
         e.preventDefault();
+        console.log("SUBMIT Edit");
+        const result = await editBook({id: showEditFormForBook.id, title, author, priceInEur});
+        if (result) close();
     }
 
     //if showEditFormForBook changes we copy it into the states we use to manage the input fields
@@ -38,7 +38,7 @@ export function EditForm(props) {
         if (showEditFormForBook && firstInputRefElement.current) {
             firstInputRefElement.current.focus();
         }
-    }, [showEditFormForBook]);
+    }, [showEditFormForBook, setTitle, setAuthor, setPriceInEur]);
 
 
     if (!isLoggedIn || !showEditFormForBook) return null;

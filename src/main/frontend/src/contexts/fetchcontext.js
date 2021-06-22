@@ -12,7 +12,7 @@ const DEFAULT_HEADERS = {
 //it provides the different types of fetch functions
 //it is a provider so that it can use the functions from the MessageContext
 export function FetchProvider(props) {
-    const {setMessage, setIsLoading} = useMessageContext();
+    const {setError, setIsLoading, clearAllMessages} = useMessageContext();
 
     //addCsrf header is only necessary for POST/PUT/DELETE, not for GET
     //we get the csrf-token from the cookie and add it in the X-XSRF-TOKEN header
@@ -30,6 +30,7 @@ export function FetchProvider(props) {
 
     const fetchCommon = useCallback(async (method, url, bodyObject, addCsrf, addExtraHeaders) => {
         let result = undefined;
+        clearAllMessages();
         console.log(`${method} ${url}: start`);
         setIsLoading(true);
         try {
@@ -52,16 +53,16 @@ export function FetchProvider(props) {
                     responseBody.errors.reduce((accumulator, error) => `${accumulator} ${error.defaultMessage}  --- `, "--- ");
                 console.log(`   ${JSON.stringify(responseBody)}`);
                 console.log(`   ${errorMessage}`);
-                setMessage(errorMessage || responseBody.message);
+                setError(errorMessage || responseBody.message);
             }
         } catch (e) {
             console.error(`ERROR ${method} ${url}: ${e}`);
-            setMessage("Connection error");
+            setError("Connection error");
         }
         setIsLoading(false);
         console.log(`${method} ${url}: done`);
         return result;
-    }, [setIsLoading, setMessage]);
+    }, [clearAllMessages, setIsLoading, setError]);
 
     const fetchGET = useCallback(async (url) => {
         return await fetchCommon("GET", url, undefined, false);
