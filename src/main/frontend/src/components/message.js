@@ -6,7 +6,7 @@ export function Message() {
     const {message, setMessage, isLoading} = useMessageContext();
     const close = () => setMessage();
 
-    const messageToShow = isLoading ? "Loading Data!" : (message || "-");
+    const messageToShow = isLoading ? "Loading Data!" : (message || <span>&nbsp;</span>);
     return <Alert variant="primary" className="text-center" onClick={close}>
         {messageToShow}
     </Alert>
