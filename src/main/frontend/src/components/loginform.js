@@ -30,14 +30,14 @@ export function LoginForm() {
                 <Message/>
                 <Form.Group controlId="username">
                     <Form.Label>username: </Form.Label>
-                    <Form.Control required placeholder="Enter username" autocomplete="username"
+                    <Form.Control required placeholder="Enter username" autoComplete="username"
                                   ref={firstInputRefElement}
                                   onChange={e => setLoginUsername(e.target.value)}/>
 
                 </Form.Group>
                 <Form.Group controlId="password">
                     <Form.Label>password: </Form.Label>
-                    <Form.Control type="password" required placeholder="Password" autocomplete="current-password"
+                    <Form.Control type="password" required placeholder="Password" autoComplete="current-password"
                                   onChange={(e) => setLoginPassword(e.target.value)}/>
                 </Form.Group>
             </Modal.Body>

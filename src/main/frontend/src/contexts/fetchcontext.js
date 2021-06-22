@@ -41,11 +41,12 @@ export function FetchProvider(props) {
             };
             const response = await fetch(url, fetchOptions);
             console.log({response});
-            const responseBody = (response.status!==204) ? await response.json(): {};
             if (response.ok) {
+                const responseBody = (response.status!==204) ? await response.json(): {};
                 console.log(`${method} ${url}: received response ${JSON.stringify(responseBody)}`);
                 result = responseBody;
             } else {
+                const responseBody =  await response.json();
                 console.error(`ERROR ${method} ${url}: ${response.status} - ${responseBody.error} - ${responseBody.message} `);
                 const errorMessage = responseBody.errors &&
                     responseBody.errors.reduce((accumulator, error) => `${accumulator} ${error.defaultMessage}  --- `, "--- ");
