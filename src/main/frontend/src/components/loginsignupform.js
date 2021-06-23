@@ -8,9 +8,8 @@ import {LoginLink, SignupLink} from "./authbuttons";
 import {useMessageContext} from "../contexts/messagecontext";
 
 function ModalWithForm(props) {
-    const {tempObject, title, isOpen, close, doSubmit} = props;
+    const {tempObject, firstInputRefElement, title, isOpen, close, doSubmit} = props;
     const {setMessage, clearAllMessages} = useMessageContext();
-    const firstInputRefElement = useRef(null);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -59,6 +58,7 @@ function LoginFormContent(props) {
     const {showLoginBox, authenticate} = useAuthenticationContext();
 
     return <ModalWithForm tempObject={tempObject}
+                          firstInputRefElement={firstInputRefElement}
                           title="Log in"
                           isOpen={showLoginBox}
                           close={close}
