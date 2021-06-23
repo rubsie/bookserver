@@ -85,3 +85,13 @@ export function ModalWithFormContent(props) {
             </Modal.Footer>
         </Form></>;
 }
+
+export function ModalWithForm(props){
+    const {isOpen, close} = props;
+    if (!isOpen) return null;
+    return <Modal show={true} onHide={close}>
+        <ModalWithFormContent {...props}>
+            {props.children}
+        </ModalWithFormContent>
+    </Modal>;
+}

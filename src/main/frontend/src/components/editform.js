@@ -1,9 +1,8 @@
 import React, {useCallback} from "react";
-import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {useBooksContext} from "../contexts/bookscontext";
-import {ModalWithFormContent, useModalWithFormProps, useModalWithFormProps2} from "./modal";
+import {ModalWithForm, useModalWithFormProps2} from "./modal";
 
 /** @return {null} */
 export function EditForm(props) {
@@ -30,29 +29,26 @@ export function EditForm(props) {
         });
     }
 
-    if (!isLoggedIn || !showEditFormForBook) return null;
-    return <Modal show={true} onHide={close}>
-        <ModalWithFormContent modalWithFormProps={modalWithFormProps}
-                              title="Edit the book"
-                              isOpen={isLoggedIn && showEditFormForBook}
-                              close={close}
-                              doSubmit={doSubmit}>
-            <Form.Group controlId="title">
-                <Form.Label>title: </Form.Label>
-                <Form.Control required value={tempObject && tempObject.title}
-                              ref={firstInputRefElement}
-                              onChange={e => onChange(e, "title")}/>
-            </Form.Group>
-            <Form.Group controlId="author">
-                <Form.Label>author: </Form.Label>
-                <Form.Control required value={tempObject && tempObject.author}
-                              onChange={e => onChange(e, "author")}/>
-            </Form.Group>
-            <Form.Group controlId="price">
-                <Form.Label>price (€): </Form.Label>
-                <Form.Control value={tempObject && tempObject.priceInEur} type="number" min="0" max="2000"
-                              onChange={e => onChangeNumber(e, "priceInEur")}/>
-            </Form.Group>
-        </ModalWithFormContent>;
-    </Modal>;
+    return <ModalWithForm modalWithFormProps={modalWithFormProps}
+                          title="Edit the book"
+                          isOpen={isLoggedIn && showEditFormForBook}
+                          close={close}
+                          doSubmit={doSubmit}>
+        <Form.Group controlId="title">
+            <Form.Label>title: </Form.Label>
+            <Form.Control required value={tempObject && tempObject.title}
+                          ref={firstInputRefElement}
+                          onChange={e => onChange(e, "title")}/>
+        </Form.Group>
+        <Form.Group controlId="author">
+            <Form.Label>author: </Form.Label>
+            <Form.Control required value={tempObject && tempObject.author}
+                          onChange={e => onChange(e, "author")}/>
+        </Form.Group>
+        <Form.Group controlId="price">
+            <Form.Label>price (€): </Form.Label>
+            <Form.Control value={tempObject && tempObject.priceInEur} type="number" min="0" max="2000"
+                          onChange={e => onChangeNumber(e, "priceInEur")}/>
+        </Form.Group>
+    </ModalWithForm>;
 }
