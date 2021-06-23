@@ -1,75 +1,58 @@
-import React, {useEffect, useRef, useState} from "react";
-import Button from 'react-bootstrap/Button';
+import React, {useCallback} from "react";
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import {Message} from "./message";
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {useBooksContext} from "../contexts/bookscontext";
+import {ModalWithFormContent, useModalWithFormProps, useModalWithFormProps2} from "./modal";
 
 /** @return {null} */
 export function EditForm(props) {
     const {showEditFormForBook, setShowEditFormForBook} = props;
-    const [title, setTitle] = useState("");
-    const [author, setAuthor] = useState("");
-    const [priceInEur, setPriceInEur] = useState("");
     const {isLoggedIn} = useAuthenticationContext();
     const {editBook} = useBooksContext();
+    const objectInitialValue = useCallback(() => {
+        return {
+            title: showEditFormForBook.title,
+            author: showEditFormForBook.author,
+            priceInEur: showEditFormForBook.priceInEur
+        };
+    }, [showEditFormForBook]);
+    const modalWithFormProps = useModalWithFormProps2(objectInitialValue);
+    const {tempObject, firstInputRefElement, onChange, onChangeNumber} = modalWithFormProps;
     const close = () => setShowEditFormForBook();
-    const firstInputRefElement = useRef(null);
 
-    //use submit event so that client-side-validations are processed
-    async function handleSubmit(e) {
-        e.preventDefault();
-        console.log("SUBMIT Edit");
-        const result = await editBook({id: showEditFormForBook.id, title, author, priceInEur});
-        if (result) close();
+    async function doSubmit(tempObject) {
+        return await editBook({
+            id: showEditFormForBook.id,
+            title: tempObject.title,
+            author: tempObject.author,
+            priceInEur: tempObject.priceInEur
+        });
     }
-
-    //if showEditFormForBook changes we copy it into the states we use to manage the input fields
-    useEffect(() => {
-        console.log(`useEffect EditForm`);
-        console.log({showEditFormForBook});
-        if (showEditFormForBook) {
-            setTitle(showEditFormForBook.title);
-            setAuthor(showEditFormForBook.author);
-            setPriceInEur(showEditFormForBook.priceInEur);
-        }
-        //put focus on first input element when the form becomes visible
-        if (showEditFormForBook && firstInputRefElement.current) {
-            firstInputRefElement.current.focus();
-        }
-    }, [showEditFormForBook, setTitle, setAuthor, setPriceInEur]);
-
 
     if (!isLoggedIn || !showEditFormForBook) return null;
     return <Modal show={true} onHide={close}>
-        <Modal.Header closeButton>
-            <Modal.Title>Edit the book</Modal.Title>
-        </Modal.Header>
-        <Message/>
-        <Form onSubmit={e => handleSubmit(e)}>
-            <Modal.Body>
-                <Form.Group controlId="title">
-                    <Form.Label>title: </Form.Label>
-                    <Form.Control required value={title}
-                                  ref={firstInputRefElement}
-                                  onChange={e => setTitle(e.target.value)}/>
-                </Form.Group>
-                <Form.Group controlId="author">
-                    <Form.Label>author: </Form.Label>
-                    <Form.Control required value={author}
-                                  onChange={e => setAuthor(e.target.value)}/>
-                </Form.Group>
-                <Form.Group controlId="price">
-                    <Form.Label>price (€): </Form.Label>
-                    <Form.Control value={priceInEur} type="number" min="0" max="2000"
-                                  onChange={e => setPriceInEur(parseInt(e.target.value) || null)}/>
-                </Form.Group>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" type="button" onClick={close}>cancel</Button>
-                <Button variant="primary" type="submit">save</Button>
-            </Modal.Footer>
-        </Form>
+        <ModalWithFormContent modalWithFormProps={modalWithFormProps}
+                              title="Edit the book"
+                              isOpen={isLoggedIn && showEditFormForBook}
+                              close={close}
+                              doSubmit={doSubmit}>
+            <Form.Group controlId="title">
+                <Form.Label>title: </Form.Label>
+                <Form.Control required value={tempObject && tempObject.title}
+                              ref={firstInputRefElement}
+                              onChange={e => onChange(e, "title")}/>
+            </Form.Group>
+            <Form.Group controlId="author">
+                <Form.Label>author: </Form.Label>
+                <Form.Control required value={tempObject && tempObject.author}
+                              onChange={e => onChange(e, "author")}/>
+            </Form.Group>
+            <Form.Group controlId="price">
+                <Form.Label>price (€): </Form.Label>
+                <Form.Control value={tempObject && tempObject.priceInEur} type="number" min="0" max="2000"
+                              onChange={e => onChangeNumber(e, "priceInEur")}/>
+            </Form.Group>
+        </ModalWithFormContent>;
     </Modal>;
 }

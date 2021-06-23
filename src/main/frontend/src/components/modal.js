@@ -6,6 +6,25 @@ import {useMessageContext} from "../contexts/messagecontext";
 import {Message} from "./message";
 
 
+export function useModalWithFormProps2(initialObjectInitializer) {
+    const [tempObject, setTempObject] = useState();
+    const firstInputRefElement = useRef(null);
+
+    const onChange = useCallback((e, fieldName) => {
+        const newTempObject = {...tempObject};
+        newTempObject[fieldName] = e.target.value;
+        setTempObject(newTempObject);
+    }, [tempObject, setTempObject]);
+
+    const onChangeNumber = useCallback((e, fieldName) => {
+        const newTempObject = {...tempObject};
+        newTempObject[fieldName] = parseInt(e.target.value) || null;
+        setTempObject(newTempObject);
+    }, [tempObject, setTempObject]);
+
+    return {tempObject, setTempObject, initialObjectInitializer, firstInputRefElement, onChange, onChangeNumber};
+}
+
 export function useModalWithFormProps(initialObject) {
     const [tempObject, setTempObject] = useState(initialObject);
     const firstInputRefElement = useRef(null);
@@ -16,13 +35,19 @@ export function useModalWithFormProps(initialObject) {
         setTempObject(newTempObject);
     }, [tempObject, setTempObject]);
 
-    return {tempObject, setTempObject, firstInputRefElement, onChange};
+    const onChangeNumber = useCallback((e, fieldName) => {
+        const newTempObject = {...tempObject};
+        newTempObject[fieldName] = parseInt(e.target.value) || null;
+        setTempObject(newTempObject);
+    }, [tempObject, setTempObject]);
+
+    return {tempObject, setTempObject, firstInputRefElement, onChange, onChangeNumber};
 }
 
 
 export function ModalWithFormContent(props) {
     const {modalWithFormProps, title, isOpen, close, doSubmit, initialMessage} = props;
-    const {tempObject, firstInputRefElement} = modalWithFormProps;
+    const {tempObject, setTempObject, initialObjectInitializer, firstInputRefElement} = modalWithFormProps;
     const {setMessage, clearAllMessages} = useMessageContext();
 
     async function handleSubmit(e) {
@@ -36,11 +61,12 @@ export function ModalWithFormContent(props) {
     useEffect(() => {
         //put focus on first input element when the form becomes visible
         if (isOpen) {
+            if (initialObjectInitializer) setTempObject(initialObjectInitializer());
             if (firstInputRefElement.current) firstInputRefElement.current.focus();
             clearAllMessages();
             setMessage(initialMessage);
         }
-    }, [isOpen]);
+    }, [isOpen, initialObjectInitializer, setTempObject]);
 
     if (!isOpen) return null;
 
