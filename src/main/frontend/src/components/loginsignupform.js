@@ -7,6 +7,7 @@ import {Message} from "./message";
 import {LoginLink, SignupLink} from "./authbuttons";
 import {useMessageContext} from "../contexts/messagecontext";
 
+
 function LoginFormContent(props) {
     const {close} = props;
     const [tempObject, setTempObject] = useState({username: "", password: ""});
@@ -62,12 +63,18 @@ function LoginFormContent(props) {
 
 export function SignupFormContent(props) {
     const {close} = props;
-    const [signupUsername, setSignupUsername] = useState();
-    const [signupEmail, setSignupEmail] = useState();
-    const [signupPassword, setSignupPassword] = useState();
+    const [tempObject, setTempObject] = useState({username: "", email: "", password: ""});
     const {showSignupBox, signup} = useAuthenticationContext();
     const {setMessage, clearAllMessages} = useMessageContext();
     const firstInputRefElement = useRef(null);
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        console.log("SUBMIT signup");
+        debugger;
+        const result = await signup(tempObject.username, tempObject.email, tempObject.password);
+        if (result) close();
+    }
 
     useEffect(() => {
         //put focus on first input element when the form becomes visible
@@ -83,30 +90,29 @@ export function SignupFormContent(props) {
         <Modal.Header closeButton>
             <Modal.Title>Sign up as a new user</Modal.Title>
         </Modal.Header>
-        <Form onSubmit={(e) => e.preventDefault()}>
+        <Form onSubmit={e => handleSubmit(e)}>
             <Modal.Body>
                 <Message/>
                 <Form.Group controlId="username">
                     <Form.Label>username: </Form.Label>
                     <Form.Control required placeholder="Enter username" autoComplete="username"
                                   ref={firstInputRefElement}
-                                  onChange={e => setSignupUsername(e.target.value)}/>
+                                  onChange={e => setTempObject({...tempObject, username: e.target.value})}/>
                 </Form.Group>
                 <Form.Group controlId="email">
                     <Form.Label>email: </Form.Label>
                     <Form.Control required placeholder="Enter email" autoComplete="email"
-                                  onChange={e => setSignupEmail(e.target.value)}/>
+                                  onChange={e => setTempObject({...tempObject, email: e.target.value})}/>
                 </Form.Group>
                 <Form.Group controlId="password">
                     <Form.Label>password: </Form.Label>
                     <Form.Control type="password" required placeholder="Password" autoComplete="current-password"
-                                  onChange={(e) => setSignupPassword(e.target.value)}/>
+                                  onChange={e => setTempObject({...tempObject, password: e.target.value})}/>
                 </Form.Group>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={close}>cancel</Button>
-                <Button variant="primary"
-                        onClick={() => signup(signupUsername, signupEmail, signupPassword)}>signup</Button>
+                <Button variant="primary" type="submit">signup</Button>
             </Modal.Footer>
         </Form>
     </>;
