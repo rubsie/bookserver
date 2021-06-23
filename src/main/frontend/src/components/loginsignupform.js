@@ -18,7 +18,6 @@ function LoginFormContent(props) {
     async function handleSubmit(e) {
         e.preventDefault();
         console.log("SUBMIT Login");
-        debugger;
         const result = await authenticate(tempObject.username, tempObject.password);
         if (result) close();
     }
