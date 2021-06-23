@@ -7,7 +7,7 @@ import {Message} from "./message";
 import {LoginLink, SignupLink} from "./authbuttons";
 import {useMessageContext} from "../contexts/messagecontext";
 
-function ModalWithForm(props) {
+function ModalWithFormContent(props) {
     const {modalWithFormProps, title, isOpen, close, doSubmit, initialMessage} = props;
     const {tempObject, firstInputRefElement} = modalWithFormProps;
     const {setMessage, clearAllMessages} = useMessageContext();
@@ -60,7 +60,34 @@ function useModalWithFormProps(initialObject) {
     return {tempObject, setTempObject, firstInputRefElement, onChange};
 }
 
-//the new one
+function UsernameControl(props) {
+    const {firstInputRefElement, onChange} = props;
+    return <Form.Group controlId="username">
+        <Form.Label>username: </Form.Label>
+        <Form.Control required placeholder="Enter username" autoComplete="username"
+                      ref={firstInputRefElement}
+                      onChange={e => onChange(e, "username")}/>
+    </Form.Group>;
+}
+
+function PasswordControl(props) {
+    const {onChange} = props;
+    return <Form.Group controlId="password">
+        <Form.Label>password: </Form.Label>
+        <Form.Control type="password" required placeholder="Password" autoComplete="current-password"
+                      onChange={e => onChange(e, "password")}/>
+    </Form.Group>;
+}
+
+function EmailControl(props) {
+    const {onChange} = props;
+    return <Form.Group controlId="email">
+        <Form.Label>email: </Form.Label>
+        <Form.Control required placeholder="Enter email" autoComplete="email"
+                      onChange={e => onChange(e, "email")}/>
+    </Form.Group>;
+}
+
 function LoginFormContent(props) {
     const {close} = props;
     const modalWithFormProps = useModalWithFormProps({username: "", password: ""});
@@ -71,136 +98,38 @@ function LoginFormContent(props) {
         return await authenticate(tempObject.username, tempObject.password);
     }
 
-    return <ModalWithForm modalWithFormProps={modalWithFormProps}
+    return <ModalWithFormContent modalWithFormProps={modalWithFormProps}
                           title="Log in"
                           isOpen={showLoginBox}
                           close={close}
                           doSubmit={doSubmit}
                           initialMessage={<>You don't have an account? Then <SignupLink/>.</>}>
-        <Form.Group controlId="username">
-            <Form.Label>username: </Form.Label>
-            <Form.Control required placeholder="Enter username" autoComplete="username"
-                          ref={firstInputRefElement}
-                          onChange={e => onChange(e, "username")}/>
-
-        </Form.Group>
-        <Form.Group controlId="password">
-            <Form.Label>password: </Form.Label>
-            <Form.Control type="password" required placeholder="Password" autoComplete="current-password"
-                          onChange={e => onChange(e, "password")}/>
-        </Form.Group>
-    </ModalWithForm>;
+        <UsernameControl firstInputRefElement={firstInputRefElement} onChange={onChange}/>
+        <PasswordControl onChange={onChange}/>
+    </ModalWithFormContent>;
 }
 
-function LoginFormContentOrig(props) {
-    const {close} = props;
-    const [tempObject, setTempObject] = useState({username: "", password: ""});
-    const {showLoginBox, authenticate} = useAuthenticationContext();
-    const {setMessage, clearAllMessages} = useMessageContext();
-    const firstInputRefElement = useRef(null);
-
-    async function handleSubmit(e) {
-        e.preventDefault();
-        console.log("SUBMIT Login");
-        const result = await authenticate(tempObject.username, tempObject.password);
-        if (result) close()
-        else firstInputRefElement.current.focus();
-    }
-
-    useEffect(() => {
-        //put focus on first input element when the form becomes visible
-        if (showLoginBox) {
-            if (firstInputRefElement.current) firstInputRefElement.current.focus();
-            clearAllMessages();
-            setMessage(<>You don't have an account? Then <SignupLink/>.</>);
-        }
-    }, [showLoginBox]);
-    if (!showLoginBox) return null;
-
-    return <>
-        <Modal.Header closeButton>
-            <Modal.Title>Log in</Modal.Title>
-        </Modal.Header>
-        <Form onSubmit={e => handleSubmit(e)}>
-            <Modal.Body>
-                <Message/>
-                <Form.Group controlId="username">
-                    <Form.Label>username: </Form.Label>
-                    <Form.Control required placeholder="Enter username" autoComplete="username"
-                                  ref={firstInputRefElement}
-                                  onChange={e => setTempObject({...tempObject, username: e.target.value})}/>
-
-                </Form.Group>
-                <Form.Group controlId="password">
-                    <Form.Label>password: </Form.Label>
-                    <Form.Control type="password" required placeholder="Password" autoComplete="current-password"
-                                  onChange={e => setTempObject({...tempObject, password: e.target.value})}/>
-                </Form.Group>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={close}>cancel</Button>
-                <Button variant="primary" type="submit">login</Button>
-            </Modal.Footer>
-        </Form></>;
-
-}
 
 export function SignupFormContent(props) {
     const {close} = props;
-    const [tempObject, setTempObject] = useState({username: "", email: "", password: ""});
+    const modalWithFormProps = useModalWithFormProps({username: "", email: "", password: ""});
+    const {firstInputRefElement, onChange} = modalWithFormProps;
     const {showSignupBox, signup} = useAuthenticationContext();
-    const {setMessage, clearAllMessages} = useMessageContext();
-    const firstInputRefElement = useRef(null);
 
-    async function handleSubmit(e) {
-        e.preventDefault();
-        console.log("SUBMIT signup");
-        const result = await signup(tempObject.username, tempObject.email, tempObject.password);
-        if (result) close()
-        else firstInputRefElement.current.focus();
+    async function doSubmit(tempObject) {
+        return await signup(tempObject.username, tempObject.email, tempObject.password);
     }
 
-    useEffect(() => {
-        //put focus on first input element when the form becomes visible
-        if (showSignupBox) {
-            if (firstInputRefElement.current) firstInputRefElement.current.focus();
-            clearAllMessages();
-            setMessage(<>You already have an account? Then <LoginLink/>.</>);
-        }
-    }, [showSignupBox]);
-
-    if (!showSignupBox) return null;
-    return <>
-        <Modal.Header closeButton>
-            <Modal.Title>Sign up as a new user</Modal.Title>
-        </Modal.Header>
-        <Form onSubmit={e => handleSubmit(e)}>
-            <Modal.Body>
-                <Message/>
-                <Form.Group controlId="username">
-                    <Form.Label>username: </Form.Label>
-                    <Form.Control required placeholder="Enter username" autoComplete="username"
-                                  ref={firstInputRefElement}
-                                  onChange={e => setTempObject({...tempObject, username: e.target.value})}/>
-                </Form.Group>
-                <Form.Group controlId="email">
-                    <Form.Label>email: </Form.Label>
-                    <Form.Control required placeholder="Enter email" autoComplete="email"
-                                  onChange={e => setTempObject({...tempObject, email: e.target.value})}/>
-                </Form.Group>
-                <Form.Group controlId="password">
-                    <Form.Label>password: </Form.Label>
-                    <Form.Control type="password" required placeholder="Password" autoComplete="current-password"
-                                  onChange={e => setTempObject({...tempObject, password: e.target.value})}/>
-                </Form.Group>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={close}>cancel</Button>
-                <Button variant="primary" type="submit">signup</Button>
-            </Modal.Footer>
-        </Form>
-    </>;
-
+    return <ModalWithFormContent modalWithFormProps={modalWithFormProps}
+                          title="Signup"
+                          isOpen={showSignupBox}
+                          close={close}
+                          doSubmit={doSubmit}
+                          initialMessage={<>You already have an account? Then <LoginLink/>.</>}>
+        <UsernameControl firstInputRefElement={firstInputRefElement} onChange={onChange}/>
+        <PasswordControl onChange={onChange}/>
+        <EmailControl onChange={onChange}/>
+    </ModalWithFormContent>;
 }
 
 /** @return {null} */
