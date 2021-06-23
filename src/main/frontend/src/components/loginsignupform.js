@@ -19,7 +19,8 @@ function LoginFormContent(props) {
         e.preventDefault();
         console.log("SUBMIT Login");
         const result = await authenticate(tempObject.username, tempObject.password);
-        if (result) close();
+        if (result) close()
+        else firstInputRefElement.current.focus();
     }
 
     useEffect(() => {
@@ -70,9 +71,9 @@ export function SignupFormContent(props) {
     async function handleSubmit(e) {
         e.preventDefault();
         console.log("SUBMIT signup");
-        debugger;
         const result = await signup(tempObject.username, tempObject.email, tempObject.password);
-        if (result) close();
+        if (result) close()
+        else firstInputRefElement.current.focus();
     }
 
     useEffect(() => {
