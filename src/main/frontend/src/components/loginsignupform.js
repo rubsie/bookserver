@@ -4,22 +4,22 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {Message} from "./message";
-import {LoginLink, LoginNavLink, SignupLink} from "./authbuttons";
+import {LoginLink, SignupLink} from "./authbuttons";
 import {useMessageContext} from "../contexts/messagecontext";
-import Alert from "react-bootstrap/Alert";
 
 function LoginFormContent(props) {
     const {close} = props;
     const [loginUsername, setLoginUsername] = useState();
     const [loginPassword, setLoginPassword] = useState();
     const {showLoginBox, authenticate} = useAuthenticationContext();
-    const {setMessage} = useMessageContext();
+    const {setMessage, clearAllMessages} = useMessageContext();
     const firstInputRefElement = useRef(null);
 
     useEffect(() => {
         //put focus on first input element when the form becomes visible
         if (showLoginBox) {
             if (firstInputRefElement.current) firstInputRefElement.current.focus();
+            clearAllMessages();
             setMessage(<>You don't have an account? Then <SignupLink/>.</>);
         }
     }, [showLoginBox]);
@@ -59,13 +59,14 @@ export function SignupFormContent(props) {
     const [signupEmail, setSignupEmail] = useState();
     const [signupPassword, setSignupPassword] = useState();
     const {showSignupBox, signup} = useAuthenticationContext();
-    const {setMessage} = useMessageContext();
+    const {setMessage, clearAllMessages} = useMessageContext();
     const firstInputRefElement = useRef(null);
 
     useEffect(() => {
         //put focus on first input element when the form becomes visible
         if (showSignupBox) {
             if (firstInputRefElement.current) firstInputRefElement.current.focus();
+            clearAllMessages();
             setMessage(<>You already have an account? Then <LoginLink/>.</>);
         }
     }, [showSignupBox]);
@@ -78,9 +79,6 @@ export function SignupFormContent(props) {
         <Form onSubmit={(e) => e.preventDefault()}>
             <Modal.Body>
                 <Message/>
-                <Alert variant="dark">
-                    already an account? <LoginNavLink/>
-                </Alert>
                 <Form.Group controlId="username">
                     <Form.Label>username: </Form.Label>
                     <Form.Control required placeholder="Enter username" autoComplete="username"
