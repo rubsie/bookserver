@@ -9,11 +9,18 @@ import {useMessageContext} from "../contexts/messagecontext";
 
 function LoginFormContent(props) {
     const {close} = props;
-    const [loginUsername, setLoginUsername] = useState();
-    const [loginPassword, setLoginPassword] = useState();
+    const [tempObject, setTempObject] = useState({username: "", password: ""});
     const {showLoginBox, authenticate} = useAuthenticationContext();
     const {setMessage, clearAllMessages} = useMessageContext();
     const firstInputRefElement = useRef(null);
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        console.log("SUBMIT Login");
+        debugger;
+        const result = await authenticate(tempObject.username, tempObject.password);
+        if (result) close();
+    }
 
     useEffect(() => {
         //put focus on first input element when the form becomes visible
@@ -29,25 +36,25 @@ function LoginFormContent(props) {
         <Modal.Header closeButton>
             <Modal.Title>Log in</Modal.Title>
         </Modal.Header>
-        <Form onSubmit={(e) => e.preventDefault()}>
+        <Form onSubmit={e => handleSubmit(e)}>
             <Modal.Body>
                 <Message/>
                 <Form.Group controlId="username">
                     <Form.Label>username: </Form.Label>
                     <Form.Control required placeholder="Enter username" autoComplete="username"
                                   ref={firstInputRefElement}
-                                  onChange={e => setLoginUsername(e.target.value)}/>
+                                  onChange={e => setTempObject({...tempObject, username: e.target.value})}/>
 
                 </Form.Group>
                 <Form.Group controlId="password">
                     <Form.Label>password: </Form.Label>
                     <Form.Control type="password" required placeholder="Password" autoComplete="current-password"
-                                  onChange={(e) => setLoginPassword(e.target.value)}/>
+                                  onChange={e => setTempObject({...tempObject, password: e.target.value})}/>
                 </Form.Group>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={close}>cancel</Button>
-                <Button variant="primary" onClick={() => authenticate(loginUsername, loginPassword)}>login</Button>
+                <Button variant="primary" type="submit">login</Button>
             </Modal.Footer>
         </Form></>;
 

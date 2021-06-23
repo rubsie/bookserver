@@ -17,10 +17,10 @@ export function AuthenticationProvider(props) {
         if (response) {
             setUsername(response.username);
             clearAllMessages();
-            setShowLoginBox(false);
         } else {
             setError("username/password not correct");
         }
+        return response;
     }, [fetchGETWithExtraHeaders, setUsername, clearAllMessages, setShowLoginBox, setError]);
 
     const signup = useCallback(async (username, email, password) => {
