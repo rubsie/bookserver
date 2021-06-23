@@ -8,8 +8,8 @@ import {LoginLink, SignupLink} from "./authbuttons";
 import {useMessageContext} from "../contexts/messagecontext";
 
 function ModalWithForm(props) {
-    const {objectForModalWithForm, title, isOpen, close, doSubmit, initialMessage} = props;
-    const {tempObject, firstInputRefElement} = objectForModalWithForm;
+    const {modalWithFormProps, title, isOpen, close, doSubmit, initialMessage} = props;
+    const {tempObject, firstInputRefElement} = modalWithFormProps;
     const {setMessage, clearAllMessages} = useMessageContext();
 
     async function handleSubmit(e) {
@@ -71,7 +71,7 @@ function LoginFormContent(props) {
         return await authenticate(tempObject.username, tempObject.password);
     }
 
-    return <ModalWithForm objectForModalWithForm={modalWithFormProps}
+    return <ModalWithForm modalWithFormProps={modalWithFormProps}
                           title="Log in"
                           isOpen={showLoginBox}
                           close={close}
