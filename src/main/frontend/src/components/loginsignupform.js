@@ -37,7 +37,7 @@ function LoginFormContent(props) {
     const {close} = props;
     const modalWithFormProps = useModalWithFormProps({username: "", password: ""});
     const {firstInputRefElement, onChange} = modalWithFormProps;
-    const {showLoginBox, authenticate} = useAuthenticationContext();
+    const {showLoginForm, authenticate} = useAuthenticationContext();
 
     async function doSubmit(tempObject) {
         return await authenticate(tempObject.username, tempObject.password);
@@ -45,7 +45,7 @@ function LoginFormContent(props) {
 
     return <ModalWithFormContent modalWithFormProps={modalWithFormProps}
                                  title="Log in"
-                                 isOpen={showLoginBox}
+                                 isOpen={showLoginForm}
                                  close={close}
                                  doSubmit={doSubmit}
                                  initialMessage={<>You don't have an account? Then <SignupLink/>.</>}>
@@ -59,7 +59,7 @@ export function SignupFormContent(props) {
     const {close} = props;
     const modalWithFormProps = useModalWithFormProps({username: "", email: "", password: ""});
     const {firstInputRefElement, onChange} = modalWithFormProps;
-    const {showSignupBox, signup} = useAuthenticationContext();
+    const {showSignupForm, signup} = useAuthenticationContext();
 
     async function doSubmit(tempObject) {
         return await signup(tempObject.username, tempObject.email, tempObject.password);
@@ -67,7 +67,7 @@ export function SignupFormContent(props) {
 
     return <ModalWithFormContent modalWithFormProps={modalWithFormProps}
                                  title="Signup"
-                                 isOpen={showSignupBox}
+                                 isOpen={showSignupForm}
                                  close={close}
                                  doSubmit={doSubmit}
                                  initialMessage={<>You already have an account? Then <LoginLink/>.</>}>
@@ -79,13 +79,13 @@ export function SignupFormContent(props) {
 
 /** @return {null} */
 export function LoginSignupForm() {
-    const {showLoginBox, setShowLoginBox, showSignupBox, setShowSignupBox} = useAuthenticationContext();
+    const {showLoginForm, setShowLoginForm, showSignupForm, setShowSignupForm} = useAuthenticationContext();
     const close = () => {
-        setShowLoginBox(false);
-        setShowSignupBox(false);
+        setShowLoginForm(false);
+        setShowSignupForm(false);
     }
 
-    if (!showLoginBox && !showSignupBox) return null;
+    if (!showLoginForm && !showSignupForm) return null;
     return <Modal show={true} onHide={close}>
         <LoginFormContent close={close}/>
         <SignupFormContent close={close}/>

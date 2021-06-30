@@ -6,8 +6,8 @@ const AuthenticationContext = createContext();
 
 export function AuthenticationProvider(props) {
     const [username, setUsername] = useState();
-    const [showLoginBox, setShowLoginBox] = useState(false);
-    const [showSignupBox, setShowSignupBox] = useState(false);
+    const [showLoginForm, setShowLoginForm] = useState(false);
+    const [showSignupForm, setShowSignupForm] = useState(false);
     const {clearAllMessages, setMessage, setError} = useMessageContext();
     const {fetchGET, fetchGETWithExtraHeaders, fetchPOST} = useFetchContext();
 
@@ -21,7 +21,7 @@ export function AuthenticationProvider(props) {
             setError("username/password not correct");
         }
         return response;
-    }, [fetchGETWithExtraHeaders, setUsername, clearAllMessages, setShowLoginBox, setError]);
+    }, [fetchGETWithExtraHeaders, setUsername, clearAllMessages, setError]);
 
     const signup = useCallback(async (username, email, password) => {
         console.log(`signup: ${username}, ${email}, ${password}`);
@@ -29,10 +29,10 @@ export function AuthenticationProvider(props) {
         if (response) {
             setUsername(response.username);
             setMessage(`welcome ${response.username}!`);
-            setShowSignupBox(false);
+            setShowSignupForm(false);
         }
         return response;
-    }, []);
+    }, [fetchPOST, setUsername, setMessage, setShowSignupForm]);
 
     const refreshAuthentication = useCallback(async () => {
         const response = await fetchGET(`/api/authenticate`);
@@ -55,14 +55,14 @@ export function AuthenticationProvider(props) {
 
 //when we want to login we open the login-box
     const openLoginForm = useCallback(() => {
-        setShowLoginBox(true);
-        setShowSignupBox(false);
-    }, [setShowLoginBox]);
+        setShowLoginForm(true);
+        setShowSignupForm(false);
+    }, [setShowLoginForm]);
 
     const openSignupForm = useCallback(() => {
-        setShowLoginBox(false);
-        setShowSignupBox(true);
-    }, [setShowSignupBox]);
+        setShowLoginForm(false);
+        setShowSignupForm(true);
+    }, [setShowSignupForm]);
 
 //when the app opens (first render) we check if there is a cookie
 //if there is one, it means that this user has used this app before
@@ -77,10 +77,10 @@ export function AuthenticationProvider(props) {
     const api = useMemo(() => ({
             username,
             setUsername,
-            showLoginBox,
-            setShowLoginBox,
-            showSignupBox,
-            setShowSignupBox,
+            showLoginForm,
+            setShowLoginForm,
+            showSignupForm,
+            setShowSignupForm,
             authenticate,
             refreshAuthentication,
             signup,
@@ -88,7 +88,7 @@ export function AuthenticationProvider(props) {
             openLoginForm,
             openSignupForm,
             isLoggedIn
-        }), [username, setUsername, showLoginBox, setShowLoginBox, showSignupBox, setShowSignupBox,
+        }), [username, setUsername, showLoginForm, setShowLoginForm, showSignupForm, setShowSignupForm,
             authenticate, refreshAuthentication, signup, logout, openLoginForm, openSignupForm, isLoggedIn]
     );
 
