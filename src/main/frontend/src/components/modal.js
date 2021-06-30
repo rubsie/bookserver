@@ -66,7 +66,7 @@ export function ModalWithFormContent(props) {
             clearAllMessages();
             setMessage(initialMessage);
         }
-    }, [isOpen, initialObjectInitializer, setTempObject]);
+    }, [isOpen, initialObjectInitializer, setTempObject, firstInputRefElement, clearAllMessages, setMessage, initialMessage]);
 
     if (!isOpen) return null;
 
