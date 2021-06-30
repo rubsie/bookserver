@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {LoginLink, SignupLink} from "./authbuttons";
-import {ModalWithFormContent, useModalWithFormProps} from "./modal";
+import {ModalWithFormContent, usePropsForModalWithInitialObject} from "./modal";
 
 function UsernameControl(props) {
     const {firstInputRefElement, onChange} = props;
@@ -33,11 +33,19 @@ function EmailControl(props) {
     </Form.Group>;
 }
 
+function SignupMessage() {
+    return <>You don't have an account? Then <SignupLink/>.</>;
+}
+
+function LoginMessage() {
+    return <>You already have an account? Then <LoginLink/>.</>;
+}
+
 function LoginFormContent(props) {
     const {close} = props;
-    const modalWithFormProps = useModalWithFormProps({username: "", password: ""});
-    const {firstInputRefElement, onChange} = modalWithFormProps;
     const {showLoginForm, authenticate} = useAuthenticationContext();
+    const modalWithFormProps = usePropsForModalWithInitialObject({username: "", password: ""});
+    const {firstInputRefElement, onChange} = modalWithFormProps;
 
     async function doSubmit(tempObject) {
         return await authenticate(tempObject.username, tempObject.password);
@@ -48,7 +56,7 @@ function LoginFormContent(props) {
                                  isOpen={showLoginForm}
                                  close={close}
                                  doSubmit={doSubmit}
-                                 initialMessage={<>You don't have an account? Then <SignupLink/>.</>}>
+                                 initialMessage={SignupMessage}>
         <UsernameControl firstInputRefElement={firstInputRefElement} onChange={onChange}/>
         <PasswordControl onChange={onChange}/>
     </ModalWithFormContent>;
@@ -57,7 +65,7 @@ function LoginFormContent(props) {
 
 export function SignupFormContent(props) {
     const {close} = props;
-    const modalWithFormProps = useModalWithFormProps({username: "", email: "", password: ""});
+    const modalWithFormProps = usePropsForModalWithInitialObject({username: "", email: "", password: ""});
     const {firstInputRefElement, onChange} = modalWithFormProps;
     const {showSignupForm, signup} = useAuthenticationContext();
 
@@ -70,7 +78,7 @@ export function SignupFormContent(props) {
                                  isOpen={showSignupForm}
                                  close={close}
                                  doSubmit={doSubmit}
-                                 initialMessage={<>You already have an account? Then <LoginLink/>.</>}>
+                                 initialMessage={LoginMessage}>
         <UsernameControl firstInputRefElement={firstInputRefElement} onChange={onChange}/>
         <PasswordControl onChange={onChange}/>
         <EmailControl onChange={onChange}/>

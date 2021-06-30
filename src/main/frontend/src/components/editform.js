@@ -2,7 +2,7 @@ import React, {useCallback} from "react";
 import Form from 'react-bootstrap/Form';
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {useBooksContext} from "../contexts/bookscontext";
-import {ModalWithForm, useModalWithFormProps2} from "./modal";
+import {ModalWithForm, usePropsForModalWithInitializer} from "./modal";
 
 /** @return {null} */
 export function EditForm(props) {
@@ -16,7 +16,7 @@ export function EditForm(props) {
             priceInEur: showEditFormForBook.priceInEur
         };
     }, [showEditFormForBook]);
-    const modalWithFormProps = useModalWithFormProps2(objectInitialValue);
+    const modalWithFormProps = usePropsForModalWithInitializer(objectInitialValue);
     const {tempObject, firstInputRefElement, onChange, onChangeNumber} = modalWithFormProps;
     const close = () => setShowEditFormForBook();
 

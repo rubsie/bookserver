@@ -6,7 +6,7 @@ import {useMessageContext} from "../contexts/messagecontext";
 import {Message} from "./message";
 
 
-export function useModalWithFormProps2(initialObjectInitializer) {
+export function usePropsForModalWithInitializer(initialObjectInitializer) {
     const [tempObject, setTempObject] = useState();
     const firstInputRefElement = useRef(null);
 
@@ -25,7 +25,7 @@ export function useModalWithFormProps2(initialObjectInitializer) {
     return {tempObject, setTempObject, initialObjectInitializer, firstInputRefElement, onChange, onChangeNumber};
 }
 
-export function useModalWithFormProps(initialObject) {
+export function usePropsForModalWithInitialObject(initialObject) {
     const [tempObject, setTempObject] = useState(initialObject);
     const firstInputRefElement = useRef(null);
 
