@@ -1,69 +1,41 @@
-import React, {useEffect, useRef, useState} from "react";
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import React from "react";
 import Form from 'react-bootstrap/Form';
-import {Message} from "./message";
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {useBooksContext} from "../contexts/bookscontext";
+import {ModalWithForm, usePropsForModalWithInitialObject} from "./modal";
 
 /** @return {null} */
 export function CreateForm(props) {
     const {show, close} = props;
-    const [title, setTitle] = useState("");
-    const [author, setAuthor] = useState("");
-    const [priceInEur, setPriceInEur] = useState("");
     const {isLoggedIn} = useAuthenticationContext();
+    const modalWithFormProps = usePropsForModalWithInitialObject({title: "", author: "", priceInEur: ""});
+    const {tempObject, firstInputRefElement, onChange, onChangeNumber} = modalWithFormProps;
     const {createBook} = useBooksContext();
-    const firstInputRefElement = useRef(null);
 
-    async function handleSubmit(e) {
-        e.preventDefault();
-        console.log("SUBMIT Create");
-        const result = await createBook({title, author, priceInEur});
-        if (result) close();
+    async function doSubmit(tempObject) {
+        return await createBook(tempObject);
     }
 
-    useEffect(() => {
-        setTitle("");
-        setAuthor("");
-        setPriceInEur("");
-        //put focus on first input element when the form becomes visible
-        if (show && firstInputRefElement.current) {
-            firstInputRefElement.current.focus();
-        }
-    }, [show, setTitle, setAuthor, setPriceInEur]);
-
-
-    if (!isLoggedIn || !show) return null;
-    return <Modal show={true} onHide={close}>
-        <Modal.Header closeButton>
-            <Modal.Title>New book</Modal.Title>
-        </Modal.Header>
-        <Message/>
-        <Form onSubmit={(e) => handleSubmit(e)}>
-            <Modal.Body>
-                <Form.Group controlId="title">
-                    <Form.Label>title: </Form.Label>
-                    <Form.Control required value={title}
-                                  ref={firstInputRefElement}
-                                  onChange={(e) => setTitle(e.target.value)}/>
-                </Form.Group>
-                <Form.Group controlId="author">
-                    <Form.Label>author: </Form.Label>
-                    <Form.Control required value={author}
-                                  onChange={(e) => setAuthor(e.target.value)}/>
-                </Form.Group>
-                <Form.Group controlId="price">
-                    <Form.Label>price (€): </Form.Label>
-                    <Form.Control value={priceInEur} type="number" min="0" max="2000"
-                                  onChange={(e) => setPriceInEur(parseInt(e.target.value) || null)}/>
-                </Form.Group>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" type="button" onClick={close}>cancel</Button>
-                <Button variant="primary" type="submit">create</Button>
-            </Modal.Footer>
-        </Form>
-    </Modal>;
-
+    return <ModalWithForm modalWithFormProps={modalWithFormProps}
+                          title="New book"
+                          isOpen={isLoggedIn && show}
+                          close={close}
+                          doSubmit={doSubmit}
+                          saveButtonText={"save"}>
+        <Form.Group controlId="title">
+            <Form.Label>title: </Form.Label>
+            <Form.Control required value={tempObject && tempObject.title}
+                          ref={firstInputRefElement}
+                          onChange={e => onChange(e, "title")}/>
+        </Form.Group>
+        <Form.Group controlId="author">
+            <Form.Label>author: </Form.Label>
+            <Form.Control required alue={tempObject && tempObject.author}
+                          onChange={e => onChange(e, "author")}/> </Form.Group>
+        <Form.Group controlId="price">
+            <Form.Label>price (€): </Form.Label>
+            <Form.Control value={tempObject && tempObject.priceInEur} type="number" min="0" max="2000"
+                          onChange={e => onChangeNumber(e, "priceInEur")}/>
+        </Form.Group>
+    </ModalWithForm>;
 }

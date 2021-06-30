@@ -85,6 +85,7 @@ export function SignupFormContent(props) {
     </ModalWithFormContent>;
 }
 
+//Note: Login and Signup are in 1 modal to avoid disturbing animations when the user switches between login and signup.
 /** @return {null} */
 export function LoginSignupForm() {
     const {showLoginForm, setShowLoginForm, showSignupForm, setShowSignupForm} = useAuthenticationContext();

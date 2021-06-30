@@ -46,7 +46,7 @@ export function usePropsForModalWithInitialObject(initialObject) {
 
 
 export function ModalWithFormContent(props) {
-    const {modalWithFormProps, title, isOpen, close, doSubmit, initialMessage} = props;
+    const {modalWithFormProps, title, isOpen, close, doSubmit, initialMessage, saveButtonText} = props;
     const {tempObject, setTempObject, initialObjectInitializer, firstInputRefElement} = modalWithFormProps;
     const {setMessage, clearAllMessages} = useMessageContext();
 
@@ -81,7 +81,7 @@ export function ModalWithFormContent(props) {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={close}>cancel</Button>
-                <Button variant="primary" type="submit">{title}</Button>
+                <Button variant="primary" type="submit">{saveButtonText || title}</Button>
             </Modal.Footer>
         </Form></>;
 }

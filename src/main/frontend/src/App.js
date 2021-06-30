@@ -14,7 +14,7 @@ import {IconContext} from "react-icons";
 import {LoginSignupForm} from "./components/loginsignupform";
 
 function ProvidedApp() {
-    const [showEditFormForBook, setShowEditFormForBook] = useState();
+    const [bookShownInEditForm, setBookShownInEditForm] = useState();
     const [showCreateForm, setShowCreateForm] = useState(false);
 
     console.log("render App()");
@@ -23,9 +23,9 @@ function ProvidedApp() {
         <div className="App">
             <Booksnavbar/>
             <Message/>
-            <BookList setShowEditFormForBook={setShowEditFormForBook}
+            <BookList setShowEditFormForBook={setBookShownInEditForm}
                       setShowCreateForm={setShowCreateForm}/>
-            <EditForm showEditFormForBook={showEditFormForBook} setShowEditFormForBook={setShowEditFormForBook}/>
+            <EditForm bookShownInEditForm={bookShownInEditForm} setBookShownInEditForm={setBookShownInEditForm}/>
             <CreateForm show={showCreateForm} close={() => setShowCreateForm(false)}/>
             <LoginSignupForm/>
         </div>

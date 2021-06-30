@@ -4,25 +4,27 @@ import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {useBooksContext} from "../contexts/bookscontext";
 import {ModalWithForm, usePropsForModalWithInitializer} from "./modal";
 
+//bookShownInEditForm is the book object that is selected to show. If not defined the edit-form is not open.
+
 /** @return {null} */
 export function EditForm(props) {
-    const {showEditFormForBook, setShowEditFormForBook} = props;
+    const {bookShownInEditForm, setBookShownInEditForm} = props;
     const {isLoggedIn} = useAuthenticationContext();
     const {editBook} = useBooksContext();
     const objectInitialValue = useCallback(() => {
         return {
-            title: showEditFormForBook.title,
-            author: showEditFormForBook.author,
-            priceInEur: showEditFormForBook.priceInEur
+            title: bookShownInEditForm.title,
+            author: bookShownInEditForm.author,
+            priceInEur: bookShownInEditForm.priceInEur
         };
-    }, [showEditFormForBook]);
+    }, [bookShownInEditForm]);
     const modalWithFormProps = usePropsForModalWithInitializer(objectInitialValue);
     const {tempObject, firstInputRefElement, onChange, onChangeNumber} = modalWithFormProps;
-    const close = () => setShowEditFormForBook();
+    const close = () => setBookShownInEditForm();
 
     async function doSubmit(tempObject) {
         return await editBook({
-            id: showEditFormForBook.id,
+            id: bookShownInEditForm.id,
             title: tempObject.title,
             author: tempObject.author,
             priceInEur: tempObject.priceInEur
@@ -31,9 +33,10 @@ export function EditForm(props) {
 
     return <ModalWithForm modalWithFormProps={modalWithFormProps}
                           title="Edit the book"
-                          isOpen={isLoggedIn && showEditFormForBook}
+                          isOpen={isLoggedIn && bookShownInEditForm}
                           close={close}
-                          doSubmit={doSubmit}>
+                          doSubmit={doSubmit}
+                          saveButtonText={"save"}>
         <Form.Group controlId="title">
             <Form.Label>title: </Form.Label>
             <Form.Control required value={tempObject && tempObject.title}
