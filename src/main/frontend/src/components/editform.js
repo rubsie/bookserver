@@ -5,8 +5,6 @@ import {useBooksContext} from "../contexts/bookscontext";
 import {ModalWithForm, usePropsForModalWithInitializer} from "./modal";
 
 //bookShownInEditForm is the book object that is selected to show. If not defined the edit-form is not open.
-
-/** @return {null} */
 export function EditForm(props) {
     const {bookShownInEditForm, setBookShownInEditForm} = props;
     const {isLoggedIn} = useAuthenticationContext();

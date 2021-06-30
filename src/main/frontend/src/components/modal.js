@@ -5,6 +5,13 @@ import Button from "react-bootstrap/Button";
 import {useMessageContext} from "../contexts/messagecontext";
 import {Message} from "./message";
 
+/** Usage:
+ * Component ModalWithForm creates a modal that will be open if prop isOpen is truthy.
+ * Content of the Modal is predefined in Component ModalWithFormContent.
+ * You can also use ModalWithFormContent directly (if you want to define the modal yourself).
+ * You need to  use the context usePropsForModalWithInitializer or usePropsForModalWithInitialObject
+ * -- it initializes everything the ModalWithFormContent needs and that you want to use inside the content
+ * */
 
 export function usePropsForModalWithInitializer(initialObjectInitializer) {
     const [tempObject, setTempObject] = useState();

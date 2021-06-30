@@ -4,7 +4,6 @@ import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {useBooksContext} from "../contexts/bookscontext";
 import {ModalWithForm, usePropsForModalWithInitialObject} from "./modal";
 
-/** @return {null} */
 export function CreateForm(props) {
     const {show, close} = props;
     const {isLoggedIn} = useAuthenticationContext();
