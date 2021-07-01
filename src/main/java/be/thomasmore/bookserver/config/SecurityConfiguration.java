@@ -50,6 +50,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().anyRequest().permitAll();
         http.httpBasic();
         //http.formLogin();
+        http.logout().invalidateHttpSession(true);
+        http.logout().deleteCookies("JSESSIONID");
         http.csrf().ignoringAntMatchers("/h2-console/**");
         http.headers().frameOptions().sameOrigin();
     }
