@@ -8,6 +8,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 
 @NoArgsConstructor
 @Data
@@ -16,11 +17,16 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_generator")
     @SequenceGenerator(name = "book_generator", sequenceName = "book_seq", allocationSize = 1)
     @Id
-    int id;
+    private int id;
     @NotBlank(message="Book Title should not be blank") @NotNull
-    String title;
+    private String title;
+
+    //todo: clean up
     @NotBlank(message="Book Author should not be blank") @NotNull
-    String author; //this is not normalized but I don't care for this example
+    private String author; //this is not normalized but I don't care for this example
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Collection<Author> authors;
 
     @Min(value=0, message="price should not be smaller than 0")
     @Max(value=200, message="price should not be greater than 200")

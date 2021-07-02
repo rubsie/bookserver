@@ -2,6 +2,7 @@ package be.thomasmore.bookserver.config;
 
 import be.thomasmore.bookserver.services.GenreService;
 import be.thomasmore.bookserver.services.GenreServiceImpl;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,5 +11,10 @@ public class BeanConfiguration {
     @Bean
     GenreService getGenreService() {
         return new GenreServiceImpl();
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }
