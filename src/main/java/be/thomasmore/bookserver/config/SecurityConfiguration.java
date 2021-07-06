@@ -25,6 +25,9 @@ import java.util.Collections;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+    @Value("${disable-security-for-test-purposes:false}")
+    private boolean disableSecurityForTestPurposes;
+
     @Autowired
     private DataSource dataSource;
 
@@ -40,6 +43,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        if (disableSecurityForTestPurposes) {
+            http.csrf().disable();
+            http.authorizeRequests().anyRequest().permitAll();
+            return;
+        }
         //http.csrf().disable(); DOE DIT ZEKER NIET!!!!
         http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         http.authorizeRequests().antMatchers("/api/genre/**").authenticated();
