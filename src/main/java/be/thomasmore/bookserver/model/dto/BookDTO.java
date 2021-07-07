@@ -1,6 +1,7 @@
 package be.thomasmore.bookserver.model.dto;
 
 import be.thomasmore.bookserver.model.Author;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +13,15 @@ public class BookDTO {
     private int id;
     private String title;
     private String author; //this is not normalized but I don't care for this example
-    private Collection<String> authorNames;
+    private Collection<BookAuthorDTO> authors;
     Integer priceInEur;
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Data
+    public static class BookAuthorDTO {
+        private int id;
+        private String authorName;
+    }
 }
 

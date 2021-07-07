@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
+import java.util.Set;
 
 @NoArgsConstructor
 @Data
@@ -21,13 +22,17 @@ public class Author {
     private String name;
 
     @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY)
-    private Collection<Book> books;
+    private Set<Book> books;
+
+    public Author(int id) {
+        this.id = id;
+    }
 
     public Collection<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(Collection<Book> books) {
+    public void setBooks(Set<Book> books) {
         this.books = books;
     }
 }
