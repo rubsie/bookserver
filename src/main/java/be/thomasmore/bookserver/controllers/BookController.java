@@ -2,6 +2,7 @@ package be.thomasmore.bookserver.controllers;
 
 import be.thomasmore.bookserver.model.Author;
 import be.thomasmore.bookserver.model.Book;
+import be.thomasmore.bookserver.model.dto.AuthorDTO;
 import be.thomasmore.bookserver.model.dto.BookDTO;
 import be.thomasmore.bookserver.repositories.AuthorRepository;
 import be.thomasmore.bookserver.repositories.BookRepository;
@@ -15,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 
 @RestController
@@ -70,6 +72,39 @@ public class BookController {
                     String.format("Book with id %d not found.", id));
 
         Book book = convertToEntity(bookDto, bookFromDb.get());
+        Book savedBook = bookRepository.save(book);
+        return convertToDto(savedBook);
+    }
+
+    @ApiOperation(value = "find the authors for the given book. ")
+    @GetMapping("{id}/authors")
+    public Iterable<AuthorDTO> authorsForBook(@PathVariable int id) {
+        log.info(String.format("##### get authors for book with id %d", id));
+        Optional<Book> bookFromDb = bookRepository.findById(id);
+        if (bookFromDb.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    String.format("Book with id %d not found.", id));
+
+        ArrayList<AuthorDTO> authorsDTO = new ArrayList<>();
+        for (Author a : bookFromDb.get().getAuthors()) authorsDTO.add(convertToDto(a));
+        return authorsDTO;
+    }
+
+
+    //TODO @Valid
+    @PutMapping("{id}/authors")
+    public BookDTO editAuthorsForBook(@PathVariable int id, @RequestBody Collection<BookDTO.BookAuthorDTO> authors) {
+        log.info(String.format("##### edit authors for book %d", id));
+
+        Optional<Book> bookFromDb = bookRepository.findById(id);
+        if (bookFromDb.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    String.format("Book with id %d not found.", id));
+
+        Book book =  bookFromDb.get();
+        ArrayList<Author> authorIds = new ArrayList<>();
+        for (BookDTO.BookAuthorDTO a: authors) authorIds.add(new Author(a.getId()));
+        book.setAuthors(authorIds);
         Book savedBook = bookRepository.save(book);
         return convertToDto(savedBook);
     }
@@ -130,6 +165,10 @@ public class BookController {
 //            book.setAuthors(authorsFromDb);
 //        }
         return book;
+    }
+
+    private AuthorDTO convertToDto(Author author) {
+        return modelMapper.map(author, AuthorDTO.class);
     }
 
 }
