@@ -62,7 +62,7 @@ export function FetchProvider(props) {
         setIsLoading(false);
         console.log(`${method} ${url}: done`);
         return result;
-    }, [clearAllMessages, setIsLoading, setError]);
+    }, [clearAllMessages, setIsLoading, setError, getHeaders]);
 
     const fetchPOST2 = useCallback(async (url, ...bodyObjects) => {
         const method = "POST";
@@ -101,7 +101,7 @@ export function FetchProvider(props) {
         setIsLoading(false);
         console.log(`${method} ${url}: done`);
         return result;
-    }, [clearAllMessages, setIsLoading, setError]);
+    }, [clearAllMessages, setIsLoading, setError, getHeaders]);
 
     const fetchGET = useCallback(async (url) => {
         return await fetchCommon("GET", url, undefined, false);

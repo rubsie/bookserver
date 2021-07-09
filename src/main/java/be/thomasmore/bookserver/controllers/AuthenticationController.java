@@ -37,7 +37,7 @@ public class AuthenticationController {
     @GetMapping("/authenticate")
     public AuthenticationBean authenticate(Principal principal) {
         log.info("##### authenticate");
-        return new AuthenticationBean(principal.getName());
+        return new AuthenticationBean(principal!=null ? principal.getName() : "anonymous");
     }
 
     @PostMapping("/signup")
