@@ -55,6 +55,7 @@ public class BookController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     String.format("Book with title %s already exists.", bookDto.getTitle()));
         Book book = convertToEntity(bookDto);
+        //todo: author names not filled in
         return convertToDto(bookRepository.save(book));
     }
 
@@ -110,7 +111,7 @@ public class BookController {
     }
 
     @DeleteMapping("{id}")
-    public BookDTO delete(@PathVariable int id) {
+    public void delete(@PathVariable int id) {
         log.info(String.format("##### delete book %d", id));
         Optional<Book> bookFromDb = bookRepository.findById(id);
         if (bookFromDb.isEmpty())
@@ -118,7 +119,6 @@ public class BookController {
                     String.format("Book with id %d not found.", id));
 
         bookRepository.deleteById(id);
-        return convertToDto(bookFromDb.get());
     }
 
     /**
