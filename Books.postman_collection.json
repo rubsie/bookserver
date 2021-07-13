@@ -34,6 +34,34 @@
 			"response": []
 		},
 		{
+			"name": "list all authors",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dmVyYTp2ZXJh",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/authors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"authors"
+					]
+				},
+				"description": "geeft lijst van  alle books in de database. \ngeen authentication nodig."
+			},
+			"response": []
+		},
+		{
 			"name": "list all books filter on title",
 			"request": {
 				"method": "GET",
