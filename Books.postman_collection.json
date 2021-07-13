@@ -1,0 +1,434 @@
+{
+	"info": {
+		"_postman_id": "6e08ed40-a5a5-4384-80e8-705a96ecee37",
+		"name": "Books",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "list all books",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dmVyYTp2ZXJh",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books"
+					]
+				},
+				"description": "geeft lijst van  alle books in de database. \ngeen authentication nodig."
+			},
+			"response": []
+		},
+		{
+			"name": "list all books filter on title",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/books?titleKeyWord=y",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books"
+					],
+					"query": [
+						{
+							"key": "titleKeyWord",
+							"value": "y"
+						}
+					]
+				},
+				"description": "geeft gefilterde lijst van  alle books in de database. \ngeen authentication nodig."
+			},
+			"response": []
+		},
+		{
+			"name": "unexisting request (ERROR)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/UNEXISTING",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"UNEXISTING"
+					]
+				},
+				"description": "een GET request naar een url die niet voorzien is in de server. \n\nHier krijg je een 404 error (not found)"
+			},
+			"response": []
+		},
+		{
+			"name": "authenticate",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dmVyYTp2ZXJh",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \"username\":\"vera\", \"password\": \"vera\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/authenticate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"authenticate"
+					]
+				},
+				"description": "GET /api/authenticate is alleen mogelijk als user ingelogd is.\n\nIn dit geval sturen we Auth info mee in de header, daardoor lukt deze request. \n\nDe server (spring security) valideert user/password. Zie SecurityConfiguration.java.\n\nAls deze request gestuurd is kan je het csrf-token uit het cookie halen om mee te sturen met een post/put/delete reqeuest."
+			},
+			"response": []
+		},
+		{
+			"name": "authenticate without credentials (ERROR)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dmVyYTp2ZXJh",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/authenticate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"authenticate"
+					]
+				},
+				"description": "Als de user al ingelogd is lukt deze request. \nAls de user nog niet ingelogd is geeft deze request een error (401). \n\nGET /api/authenticate is alleen mogelijk als user ingelogd is, maar hier wordt geen auth info meegestuurd."
+			},
+			"response": []
+		},
+		{
+			"name": "create book 7",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "e2ebcfd8-3469-4686-a95c-68703df5e0e8",
+						"description": "zet deze value met waarde uit cookie XSRF-TOKEN",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \"title\":\"dddddddddddddddd\", \"author\": \"Douglas Adams\", \"authors\": [{\"id\": 2} ], \"priceInEur\":10, \"isbn\": \"1234567\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create with invalid author-id",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "3a96ae28-2c45-4a74-9c02-300a5be5f13b",
+						"description": "zet deze value met waarde uit cookie XSRF-TOKEN",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \"title\":\"dddddddddddddddd\", \"author\": \"Douglas Adams\", \"authors\": [{\"id\": 77} ], \"priceInEur\":10, \"isbn\": \"1234567\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books"
+					]
+				},
+				"description": "deze request mislukt omdat er een author-id meegestuurd wordt die niet bestaat in de database."
+			},
+			"response": []
+		},
+		{
+			"name": "edit book 7",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "673cbcb6-db38-4b1d-ae57-2e752d427895",
+						"description": "zet deze value met waarde uit cookie XSRF-TOKEN",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"id\":7, \"title\":\"aaaaa\",   \"isbn\": \"1234567\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/books/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete book 7",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/books/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list authors for book 6",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dmVyYTp2ZXJh",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/books/6/authors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"6",
+						"authors"
+					]
+				},
+				"description": "geeft lijst van  alle books in de database. \ngeen authentication nodig."
+			},
+			"response": []
+		},
+		{
+			"name": "edit authors for book 7",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "673cbcb6-db38-4b1d-ae57-2e752d427895",
+						"description": "zet deze value met waarde uit cookie XSRF-TOKEN",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{ \"id\":3}]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/books/7/authors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"7",
+						"authors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Basic dmVyYTp2ZXJ",
+						"disabled": true
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "4f5db987-67f9-4b85-b34e-ec08f28f37ea",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Basic dmVyYTp2ZXJh",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "2f140dae-80b1-4eeb-a07f-2279f2a7ae8b",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
