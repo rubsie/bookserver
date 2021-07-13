@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +26,9 @@ import java.util.Optional;
 @RequestMapping("/api")
 @Slf4j
 public class AuthenticationController {
+    @Value("${disable.security.for.test.purposes}")
+    private boolean disableSecurityForTestPurposes;
+
     @Autowired
     UserRepository userRepository;
 
@@ -37,7 +41,11 @@ public class AuthenticationController {
     @GetMapping("/authenticate")
     public AuthenticationBean authenticate(Principal principal) {
         log.info("##### authenticate");
-        return new AuthenticationBean(principal!=null ? principal.getName() : "anonymous");
+        if (disableSecurityForTestPurposes) {
+            log.info("##### authenticate ATTENTION: disabled for test purposes");
+            return new AuthenticationBean("DEV-USER");
+        }
+        return new AuthenticationBean(principal != null ? principal.getName() : "anonymous");
     }
 
     @PostMapping("/signup")
