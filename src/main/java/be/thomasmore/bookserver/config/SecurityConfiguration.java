@@ -40,6 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         if (disableSecurityForTestPurposes) {
             http.csrf().disable();
             http.authorizeRequests().anyRequest().permitAll();
+            http.headers().frameOptions().sameOrigin();
             return;
         }
         //http.csrf().disable(); DOE DIT ZEKER NIET!!!!
