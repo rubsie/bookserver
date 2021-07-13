@@ -35,7 +35,7 @@ export function CreateForm(props) {
             <Form.Label>authors: </Form.Label>
             <Form.Control as="select" multiple required value={tempObject && tempObject.authors}
                           onChange={e => onChangeSelect(e, "authors")}>
-                {authors.map(a => <option value={a.id}>{a.name}</option>)}
+                {authors.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
             </Form.Control>
         </Form.Group>
         <Form.Group controlId="price">

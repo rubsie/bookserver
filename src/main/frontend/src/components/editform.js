@@ -3,32 +3,41 @@ import Form from 'react-bootstrap/Form';
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {useBooksContext} from "../contexts/bookscontext";
 import {ModalWithForm, usePropsForModalWithInitializer} from "./modal";
+import {useAuthorsContext} from "../contexts/authorscontext";
 
 //bookShownInEditForm is the book object that is selected to show. If not defined the edit-form is not open.
 export function EditForm(props) {
     const {bookShownInEditForm, setBookShownInEditForm} = props;
     const {isLoggedIn} = useAuthenticationContext();
-    const {editBook} = useBooksContext();
+    const {editBook, editAuthorsForBook} = useBooksContext();
     const objectInitialValue = useCallback(() => {
         return {
             title: bookShownInEditForm.title,
-            author: bookShownInEditForm.author,
+            authors: bookShownInEditForm.authors.map(a => a.id),
             priceInEur: bookShownInEditForm.priceInEur
         };
     }, [bookShownInEditForm]);
     const modalWithFormProps = usePropsForModalWithInitializer(objectInitialValue);
-    const {tempObject, firstInputRefElement, onChange, onChangeNumber} = modalWithFormProps;
+    const {tempObject, firstInputRefElement, onChange, onChangeNumber, onChangeSelect} = modalWithFormProps;
+    const {authors} = useAuthorsContext()
     const close = () => setBookShownInEditForm();
 
     async function doSubmit(tempObject) {
-        return await editBook({
+        const oldAuthorIds = bookShownInEditForm.authors.map(a => a.id);
+        const newAuthorIds = tempObject.authors;
+        const authorsChanged = oldAuthorIds.length !== newAuthorIds.length ||
+            oldAuthorIds.some(oldAuthorId => !newAuthorIds.includes(oldAuthorId));
+        console.log(`doSubmit`, {tempObject, authorsChanged, oldAuthorIds, newAuthorIds});
+        if (authorsChanged) await editAuthorsForBook(bookShownInEditForm, newAuthorIds.map(id => ({id})));
+        const savedBook = await editBook({
             id: bookShownInEditForm.id,
             title: tempObject.title,
-            author: tempObject.author,
             priceInEur: tempObject.priceInEur
         });
+        return savedBook;
     }
 
+    /* TODO edit book with new author  */
     return <ModalWithForm modalWithFormProps={modalWithFormProps}
                           title="Edit the book"
                           isOpen={isLoggedIn && bookShownInEditForm}
@@ -41,10 +50,12 @@ export function EditForm(props) {
                           ref={firstInputRefElement}
                           onChange={e => onChange(e, "title")}/>
         </Form.Group>
-        <Form.Group controlId="author">
-            <Form.Label>author: </Form.Label>
-            <Form.Control required value={tempObject && tempObject.author}
-                          onChange={e => onChange(e, "author")}/>
+        <Form.Group controlId="authorIds">
+            <Form.Label>authors: </Form.Label>
+            <Form.Control as="select" multiple required value={tempObject && tempObject.authors}
+                          onChange={e => onChangeSelect(e, "authors")}>
+                {authors.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
+            </Form.Control>
         </Form.Group>
         <Form.Group controlId="price">
             <Form.Label>price (€): </Form.Label>
