@@ -12,6 +12,7 @@ import {BooksProvider} from "./contexts/bookscontext";
 import {FetchProvider} from "./contexts/fetchcontext";
 import {IconContext} from "react-icons";
 import {LoginSignupForm} from "./components/loginsignupform";
+import {AuthorsProvider} from "./contexts/authorscontext";
 
 function ProvidedApp() {
     const [bookShownInEditForm, setBookShownInEditForm] = useState();
@@ -36,11 +37,13 @@ function App() {
     return <IconContext.Provider value={{className: "icons-global-class-name"}}>
         <MessageProvider>
             <FetchProvider>
-                <BooksProvider>
-                    <AuthenticationProvider>
-                        <ProvidedApp/>
-                    </AuthenticationProvider>
-                </BooksProvider>
+                <AuthorsProvider>
+                    <BooksProvider>
+                        <AuthenticationProvider>
+                            <ProvidedApp/>
+                        </AuthenticationProvider>
+                    </BooksProvider>
+                </AuthorsProvider>
             </FetchProvider>
         </MessageProvider>
     </IconContext.Provider>;

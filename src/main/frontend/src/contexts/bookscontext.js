@@ -56,8 +56,8 @@ export function BooksProvider(props) {
         getBooks();
     }, [getBooks]);
 
-    const api = useMemo(() => ({books, setBooks, getBooks, editBook, createBook, deleteBook}),
-        [books, setBooks, getBooks, editBook, createBook, deleteBook]);
+    const api = useMemo(() => ({books, getBooks, editBook, createBook, deleteBook}),
+        [books, getBooks, editBook, createBook, deleteBook]);
 
     return <BooksContext.Provider value={api}>
         {props.children}

@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {useBooksContext} from "../contexts/bookscontext";
 import {ModalWithForm, usePropsForModalWithInitialObject} from "./modal";
+import {useAuthorsContext} from "../contexts/authorscontext";
 
 export function CreateForm(props) {
     const {show, close} = props;
@@ -10,14 +11,16 @@ export function CreateForm(props) {
     const modalWithFormProps = usePropsForModalWithInitialObject({title: "", author: "", authors: [], priceInEur: ""});
     const {tempObject, firstInputRefElement, onChange, onChangeNumber, onChangeSelect} = modalWithFormProps;
     const {createBook} = useBooksContext();
+    const {authors} = useAuthorsContext()
 
     async function doSubmit(tempObject) {
         return await createBook({...tempObject, authors: tempObject.authors.map(id => ({id}))});
     }
 
     console.log(`CreateForm`, {tempObject});
+    console.log({authors});
     /* TODO fill in authors iso author */
-    /* TODO fill in authors from db iso hardcoded */
+    /* TODO create book with new author  */
     return <ModalWithForm modalWithFormProps={modalWithFormProps}
                           title="New book"
                           isOpen={isLoggedIn && show}
@@ -38,9 +41,7 @@ export function CreateForm(props) {
             <Form.Label>authors: </Form.Label>
             <Form.Control as="select" multiple required value={tempObject && tempObject.authors}
                           onChange={e => onChangeSelect(e, "authors")}>
-                <option value={1}>Margaret</option>
-                <option value={2}>Haruki</option>
-                <option value={3}>Erich</option>
+                {authors.map(a => <option value={a.id}>{a.name}</option>)}
             </Form.Control>
         </Form.Group>
         <Form.Group controlId="price">
