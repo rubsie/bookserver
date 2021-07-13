@@ -48,7 +48,14 @@ export function usePropsForModalWithInitialObject(initialObject) {
         setTempObject(newTempObject);
     }, [tempObject, setTempObject]);
 
-    return {tempObject, setTempObject, firstInputRefElement, onChange, onChangeNumber};
+    const onChangeSelect = useCallback((e, fieldName) => {
+        const newTempObject = {...tempObject};
+        const selectedOptions = Array.from(e.target.options).filter(o => o.selected).map(o => o.value);
+        newTempObject[fieldName] = selectedOptions;
+        setTempObject(newTempObject);
+    }, [tempObject, setTempObject]);
+
+    return {tempObject, setTempObject, firstInputRefElement, onChange, onChangeNumber, onChangeSelect};
 }
 
 

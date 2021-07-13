@@ -22,7 +22,6 @@ public class Book {
     private String title;
 
     //todo: clean up
-    @NotBlank(message="Book Author should not be blank") @NotNull
     private String author; //this is not normalized but I don't care for this example
 
     @ManyToMany(fetch = FetchType.LAZY)

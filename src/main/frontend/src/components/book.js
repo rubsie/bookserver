@@ -11,13 +11,9 @@ export function Book(props) {
     const {book, setShowEditFormForBook} = props;
     const {deleteBook} = useBooksContext();
 
-    function getAuthorNames() {
-        return book.authors.reduce((result, author) => result + (result && ", ") + author.authorName, "");
-    }
-
     return <Row className="align-items-center border-bottom ">
         <Col sm="6">{book.title}</Col>
-        <Col sm="3">{getAuthorNames()}</Col>
+        <Col sm="3">{book.authors.map(a => a.authorName).join(",")}</Col>
         <Col sm="1">{book.priceInEur}{book.priceInEur && " €"}</Col>
         <Col sm="2">
             <ButtonGroup>
