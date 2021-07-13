@@ -8,7 +8,7 @@ import {useAuthorsContext} from "../contexts/authorscontext";
 export function CreateForm(props) {
     const {show, close} = props;
     const {isLoggedIn} = useAuthenticationContext();
-    const modalWithFormProps = usePropsForModalWithInitialObject({title: "", author: "", authors: [], priceInEur: ""});
+    const modalWithFormProps = usePropsForModalWithInitialObject({title: "",  authors: [], priceInEur: ""});
     const {tempObject, firstInputRefElement, onChange, onChangeNumber, onChangeSelect} = modalWithFormProps;
     const {createBook} = useBooksContext();
     const {authors} = useAuthorsContext()
@@ -18,8 +18,6 @@ export function CreateForm(props) {
     }
 
     console.log(`CreateForm`, {tempObject});
-    console.log({authors});
-    /* TODO fill in authors iso author */
     /* TODO create book with new author  */
     return <ModalWithForm modalWithFormProps={modalWithFormProps}
                           title="New book"
@@ -33,10 +31,6 @@ export function CreateForm(props) {
                           ref={firstInputRefElement}
                           onChange={e => onChange(e, "title")}/>
         </Form.Group>
-        <Form.Group controlId="author">
-            <Form.Label>author: </Form.Label>
-            <Form.Control value={tempObject && tempObject.author}
-                          onChange={e => onChange(e, "author")}/> </Form.Group>
         <Form.Group controlId="authorIds">
             <Form.Label>authors: </Form.Label>
             <Form.Control as="select" multiple required value={tempObject && tempObject.authors}
