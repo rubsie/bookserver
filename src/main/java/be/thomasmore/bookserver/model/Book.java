@@ -21,8 +21,8 @@ public class Book {
     @NotBlank(message="Book Title should not be blank") @NotNull
     private String title;
 
-    //todo: clean up
-    private String author; //this is not normalized but I don't care for this example
+    //todo: clean up (with flyway)
+    private String author = ""; //this is not normalized but I don't care for this example
 
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Author> authors;
