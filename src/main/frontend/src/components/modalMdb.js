@@ -1,7 +1,4 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import {useMessageContext} from "../contexts/messagecontext";
 import {Message} from "./message";
 import {
@@ -9,6 +6,7 @@ import {
     MDBModal,
     MDBModalBody,
     MDBModalContent,
+    MDBModalDialog,
     MDBModalFooter,
     MDBModalHeader,
     MDBModalTitle
@@ -109,7 +107,6 @@ export function ModalMdbWithFormContent(props) {
     if (!isOpen) return null;
 
 //TODO closeButton
-//TODO size
 //TODO soms kapot na cancel ???
 
     return <MDBModalContent>
@@ -133,8 +130,9 @@ export function ModalMdbWithForm(props) {
     const {isOpen, close} = props;
     if (!isOpen) return null;
     return <MDBModal show={true} onHide={close}>
-        <ModalMdbWithFormContent {...props}>
-            {props.children}
-        </ModalMdbWithFormContent>
-    </MDBModal>;
+        <MDBModalDialog>
+            <ModalMdbWithFormContent {...props}>
+                {props.children}
+            </ModalMdbWithFormContent>
+        </MDBModalDialog> </MDBModal>;
 }

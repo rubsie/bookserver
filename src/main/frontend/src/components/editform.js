@@ -1,12 +1,9 @@
 import React, {useCallback} from "react";
-import Form from 'react-bootstrap/Form';
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {useBooksContext} from "../contexts/bookscontext";
-import {ModalWithForm, usePropsForModalWithInitializer} from "./modal";
 import {useAuthorsContext} from "../contexts/authorscontext";
 import {ModalMdbWithForm, usePropsForModalMdbWithInitializer} from "./modalMdb";
 import {MDBInput} from "mdb-react-ui-kit";
-import * as PropTypes from "prop-types";
 
 
 //bookShownInEditForm is the book object that is selected to show. If not defined the edit-form is not open.
