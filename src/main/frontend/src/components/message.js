@@ -1,15 +1,15 @@
 import React, {useCallback} from "react";
-import Alert from 'react-bootstrap/Alert';
 import {useMessageContext} from "../contexts/messagecontext";
 import {FiAlertTriangle} from 'react-icons/fi';
 import {MdSync} from 'react-icons/md';
+import {MDBTypography} from "mdb-react-ui-kit";
 
 export function Message() {
     const {message, clearAllMessages, error, isLoading} = useMessageContext();
 
     console.log("render Message");
 
-    const getVariant = useCallback(() => {
+    const getNoteColor = useCallback(() => {
         if (error) return `danger`;
         if (isLoading || message) return 'primary';
         return "";
@@ -21,8 +21,8 @@ export function Message() {
         return message || <span>&nbsp;</span>;
     }, [error, isLoading, message]);
 
-    return <Alert variant={getVariant()} className="text-center" onClick={() => clearAllMessages()}>
+    return <MDBTypography note noteColor={getNoteColor()}  className="border-0" onClick={() => clearAllMessages()}>
         {getMessageToShow()}
-    </Alert>
+    </MDBTypography>
 
 }
