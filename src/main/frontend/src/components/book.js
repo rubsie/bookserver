@@ -1,16 +1,15 @@
 import React from "react";
 import {MdDelete, MdEdit} from 'react-icons/md';
-import {ButtonIfLoggedIn} from "./buttonifloggedin";
 import {useBooksContext} from "../contexts/bookscontext";
-import {MDBCard, MDBCardBody, MDBCardFooter, MDBCardText, MDBCardTitle, MDBCol} from "mdb-react-ui-kit";
+import {MDBBtn, MDBCard, MDBCardBody, MDBCardFooter, MDBCardText, MDBCardTitle, MDBCol} from "mdb-react-ui-kit";
+import {IfLoggedIn} from "./ifLoggedIn";
 
 
 export function Book(props) {
     const {book, setShowEditFormForBook} = props;
     const {deleteBook} = useBooksContext();
 
-    //return <MDBCol size={6} sm={4} md={3} xl={2} className="mt-3">
-    return <MDBCol size={6} sm={4} md={3} xl={2} className='mt-3'>
+    return <MDBCol size={12} sm={6} lg={4} xl={2} className='mt-3'>
         <MDBCard className="h-100">
             <MDBCardBody>
                 <MDBCardTitle>{book.title}</MDBCardTitle>
@@ -19,10 +18,12 @@ export function Book(props) {
                     <div>{book.priceInEur}{book.priceInEur && " €"}</div>
                 </MDBCardText>
             </MDBCardBody>
-            <MDBCardFooter>
-                <ButtonIfLoggedIn onClick={() => setShowEditFormForBook(book)}><MdEdit/></ButtonIfLoggedIn>
-                <ButtonIfLoggedIn onClick={() => deleteBook(book)}><MdDelete/></ButtonIfLoggedIn>
-            </MDBCardFooter>
+            <IfLoggedIn>
+                <MDBCardFooter>
+                    <MDBBtn size='sm' onClick={() => setShowEditFormForBook(book)}><MdEdit color="inherit"/></MDBBtn>
+                    <MDBBtn size='sm' onClick={() => deleteBook(book)}><MdDelete color="inherit"/></MDBBtn>
+                </MDBCardFooter>
+            </IfLoggedIn>
         </MDBCard>
     </MDBCol>;
 }
