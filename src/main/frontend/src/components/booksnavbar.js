@@ -1,7 +1,7 @@
 import React from "react";
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {LoginNavLink, LogoutNavLink} from "./authbuttons";
-import {MDBNavbar, MDBNavbarBrand, MDBNavbarItem, MDBNavbarNav} from "mdb-react-ui-kit";
+import {MDBNavbar, MDBNavbarBrand, MDBNavbarItem, MDBNavbarNav} from 'mdb-react-ui-kit';
 
 /** * @return {null} */
 export function Booksnavbar() {
@@ -10,7 +10,7 @@ export function Booksnavbar() {
 
     return <MDBNavbar dark bgColor='dark' sticky="top">
         <MDBNavbarBrand>{userInfo}</MDBNavbarBrand>
-        <MDBNavbarNav right>
+        <MDBNavbarNav right fullWidth={false} className='mb-2 mb-lg-0'>
             <MDBNavbarItem><LoginNavLink/></MDBNavbarItem>
             <MDBNavbarItem><LogoutNavLink/></MDBNavbarItem>
         </MDBNavbarNav>
