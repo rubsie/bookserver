@@ -1,36 +1,35 @@
 import React from "react";
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {LoginLink, SignupLink} from "./authbuttons";
-import {ModalWithFormContent, usePropsForModalWithInitialObject} from "./modal";
+import {MDBInput, MDBModal, MDBModalDialog} from "mdb-react-ui-kit";
+import {ModalMdbWithFormContent, usePropsForModalMdbWithInitialObject} from "./modalMdb";
 
 function UsernameControl(props) {
     const {firstInputRefElement, onChange} = props;
-    return <Form.Group controlId="username">
-        <Form.Label>username: </Form.Label>
-        <Form.Control required placeholder="Enter username" autoComplete="username"
-                      ref={firstInputRefElement}
-                      onChange={e => onChange(e, "username")}/>
-    </Form.Group>;
+    return <MDBInput className="mt-2"
+                     required
+                     label="username"
+                     placeholder="enter username" autoComplete="username"
+                     ref={firstInputRefElement}
+                     onChange={e => onChange(e, "username")}/>;
 }
 
 function PasswordControl(props) {
     const {onChange} = props;
-    return <Form.Group controlId="password">
-        <Form.Label>password: </Form.Label>
-        <Form.Control type="password" required placeholder="Password" autoComplete="current-password"
-                      onChange={e => onChange(e, "password")}/>
-    </Form.Group>;
+    return <MDBInput className="mt-2"
+                     type="password" required
+                     label="password"
+                     placeholder="enter password" autoComplete="current-password"
+                     onChange={e => onChange(e, "password")}/>;
 }
 
 function EmailControl(props) {
     const {onChange} = props;
-    return <Form.Group controlId="email">
-        <Form.Label>email: </Form.Label>
-        <Form.Control required placeholder="Enter email" autoComplete="email"
-                      onChange={e => onChange(e, "email")}/>
-    </Form.Group>;
+    return <MDBInput className="mt-2"
+                     required
+                     label="email"
+                     placeholder="enter email" autoComplete="email"
+                     onChange={e => onChange(e, "email")}/>;
 }
 
 function SignupMessage() {
@@ -44,28 +43,28 @@ function LoginMessage() {
 function LoginFormContent(props) {
     const {close} = props;
     const {showLoginForm, authenticate} = useAuthenticationContext();
-    const modalWithFormProps = usePropsForModalWithInitialObject({username: "", password: ""});
+    const modalWithFormProps = usePropsForModalMdbWithInitialObject({username: "", password: ""});
     const {firstInputRefElement, onChange} = modalWithFormProps;
 
     async function doSubmit(tempObject) {
         return await authenticate(tempObject.username, tempObject.password);
     }
 
-    return <ModalWithFormContent modalWithFormProps={modalWithFormProps}
-                                 title="Log in"
-                                 isOpen={showLoginForm}
-                                 close={close}
-                                 doSubmit={doSubmit}
-                                 initialMessage={SignupMessage}>
+    return <ModalMdbWithFormContent modalWithFormProps={modalWithFormProps}
+                                    title="Log in"
+                                    isOpen={showLoginForm}
+                                    close={close}
+                                    doSubmit={doSubmit}
+                                    initialMessage={SignupMessage}>
         <UsernameControl firstInputRefElement={firstInputRefElement} onChange={onChange}/>
         <PasswordControl onChange={onChange}/>
-    </ModalWithFormContent>;
+    </ModalMdbWithFormContent>;
 }
 
 
 export function SignupFormContent(props) {
     const {close} = props;
-    const modalWithFormProps = usePropsForModalWithInitialObject({username: "", email: "", password: ""});
+    const modalWithFormProps = usePropsForModalMdbWithInitialObject({username: "", email: "", password: ""});
     const {firstInputRefElement, onChange} = modalWithFormProps;
     const {showSignupForm, signup} = useAuthenticationContext();
 
@@ -73,16 +72,16 @@ export function SignupFormContent(props) {
         return await signup(tempObject.username, tempObject.email, tempObject.password);
     }
 
-    return <ModalWithFormContent modalWithFormProps={modalWithFormProps}
-                                 title="Signup"
-                                 isOpen={showSignupForm}
-                                 close={close}
-                                 doSubmit={doSubmit}
-                                 initialMessage={LoginMessage}>
+    return <ModalMdbWithFormContent modalWithFormProps={modalWithFormProps}
+                                    title="Signup"
+                                    isOpen={showSignupForm}
+                                    close={close}
+                                    doSubmit={doSubmit}
+                                    initialMessage={LoginMessage}>
         <UsernameControl firstInputRefElement={firstInputRefElement} onChange={onChange}/>
         <PasswordControl onChange={onChange}/>
         <EmailControl onChange={onChange}/>
-    </ModalWithFormContent>;
+    </ModalMdbWithFormContent>;
 }
 
 //Note: Login and Signup are in 1 modal to avoid disturbing animations when the user switches between login and signup.
@@ -95,9 +94,11 @@ export function LoginSignupForm() {
     }
 
     if (!showLoginForm && !showSignupForm) return null;
-    return <Modal show={true} onHide={close}>
-        <LoginFormContent close={close}/>
-        <SignupFormContent close={close}/>
-    </Modal>;
+    return <MDBModal show={true} onHide={close}>
+        <MDBModalDialog>
+            <LoginFormContent close={close}/>
+            <SignupFormContent close={close}/>
+        </MDBModalDialog>
+    </MDBModal>;
 
 }
