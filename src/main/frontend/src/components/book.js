@@ -19,9 +19,9 @@ export function Book(props) {
                 </MDBCardText>
             </MDBCardBody>
             <IfLoggedIn>
-                <MDBCardFooter>
-                    <MDBBtn size='sm' onClick={() => setShowEditFormForBook(book)}><MdEdit color="inherit"/></MDBBtn>
-                    <MDBBtn size='sm' onClick={() => deleteBook(book)}><MdDelete color="inherit"/></MDBBtn>
+                <MDBCardFooter >
+                    <MDBBtn className="m-1" size='sm' onClick={() => setShowEditFormForBook(book)}><MdEdit color="inherit"/></MDBBtn>
+                    <MDBBtn className="m-1" size='sm' onClick={() => deleteBook(book)}><MdDelete color="inherit"/></MDBBtn>
                 </MDBCardFooter>
             </IfLoggedIn>
         </MDBCard>

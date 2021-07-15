@@ -10,9 +10,9 @@ export function BookList(props) {
     const {books, getBooks} = useBooksContext();
 
     return <>
-        <MDBBtn variant="light" onClick={getBooks}><MdRefresh color="inherit"/></MDBBtn>
+        <MDBBtn className="m-1" onClick={getBooks}><MdRefresh color="inherit"/></MDBBtn>
         <IfLoggedIn>
-            <MDBBtn onClick={() => setShowCreateForm(true)}><MdAdd color="inherit"/></MDBBtn>
+            <MDBBtn className="m-1" onClick={() => setShowCreateForm(true)}><MdAdd color="inherit"/></MDBBtn>
         </IfLoggedIn>
         <MDBContainer fluid>
             <MDBRow>
