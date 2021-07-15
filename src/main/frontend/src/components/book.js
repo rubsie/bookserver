@@ -1,25 +1,28 @@
 import React from "react";
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import {MdDelete, MdEdit} from 'react-icons/md';
 import {ButtonIfLoggedIn} from "./buttonifloggedin";
 import {useBooksContext} from "../contexts/bookscontext";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
+import {MDBCard, MDBCardBody, MDBCardFooter, MDBCardText, MDBCardTitle, MDBCol} from "mdb-react-ui-kit";
 
 
 export function Book(props) {
     const {book, setShowEditFormForBook} = props;
     const {deleteBook} = useBooksContext();
 
-    return <Row className="align-items-center border-bottom ">
-        <Col sm="6">{book.title}</Col>
-        <Col sm="3">{book.authors.map(a => a.authorName).join(",")}</Col>
-        <Col sm="1">{book.priceInEur}{book.priceInEur && " €"}</Col>
-        <Col sm="2">
-            <ButtonGroup>
+    //return <MDBCol size={6} sm={4} md={3} xl={2} className="mt-3">
+    return <MDBCol size={6} sm={4} md={3} xl={2} className='mt-3'>
+        <MDBCard className="h-100">
+            <MDBCardBody>
+                <MDBCardTitle>{book.title}</MDBCardTitle>
+                <MDBCardText>
+                    <div>{book.authors.map(a => a.authorName).join(",")}</div>
+                    <div>{book.priceInEur}{book.priceInEur && " €"}</div>
+                </MDBCardText>
+            </MDBCardBody>
+            <MDBCardFooter>
                 <ButtonIfLoggedIn onClick={() => setShowEditFormForBook(book)}><MdEdit/></ButtonIfLoggedIn>
                 <ButtonIfLoggedIn onClick={() => deleteBook(book)}><MdDelete/></ButtonIfLoggedIn>
-            </ButtonGroup>
-        </Col>
-    </Row>
+            </MDBCardFooter>
+        </MDBCard>
+    </MDBCol>;
 }
