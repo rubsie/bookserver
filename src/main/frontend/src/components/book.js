@@ -10,7 +10,7 @@ export function Book(props) {
     const {deleteBook} = useBooksContext();
 
     return <MDBCol size={12} sm={6} lg={4} xl={2} className='mt-3'>
-        <MDBCard className="h-100">
+        <MDBCard className="h-100  border border-1">
             <MDBCardBody>
                 <MDBCardTitle>{book.title}</MDBCardTitle>
                 <MDBCardText>
@@ -19,9 +19,11 @@ export function Book(props) {
                 </MDBCardText>
             </MDBCardBody>
             <IfLoggedIn>
-                <MDBCardFooter >
-                    <MDBBtn className="m-1" size='sm' onClick={() => setShowEditFormForBook(book)}><MdEdit color="inherit"/></MDBBtn>
-                    <MDBBtn className="m-1" size='sm' onClick={() => deleteBook(book)}><MdDelete color="inherit"/></MDBBtn>
+                <MDBCardFooter>
+                    <MDBBtn className="m-1" size='sm' onClick={() => setShowEditFormForBook(book)}><MdEdit
+                        color="inherit"/></MDBBtn>
+                    <MDBBtn className="m-1" size='sm' onClick={() => deleteBook(book)}><MdDelete
+                        color="inherit"/></MDBBtn>
                 </MDBCardFooter>
             </IfLoggedIn>
         </MDBCard>

@@ -8,9 +8,9 @@ export function Booksnavbar() {
     const {username} = useAuthenticationContext();
     const userInfo = username ? `logged in as ${username}` : "not logged in.";
 
-    return <MDBNavbar dark bgColor='dark' sticky="top">
+    return <MDBNavbar dark bgColor='dark' sticky="top" className='p-2'>
         <MDBNavbarBrand>{userInfo}</MDBNavbarBrand>
-        <MDBNavbarNav right fullWidth={false} className='mb-2 mb-lg-0'>
+        <MDBNavbarNav right fullWidth={false}>
             <MDBNavbarItem><LoginNavLink/></MDBNavbarItem>
             <MDBNavbarItem><LogoutNavLink/></MDBNavbarItem>
         </MDBNavbarNav>
