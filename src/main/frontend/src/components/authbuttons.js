@@ -1,29 +1,29 @@
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import React from "react";
-import Alert from "react-bootstrap/Alert";
-import {MDBNavbarLink} from "mdb-react-ui-kit";
+import {MDBCardLink, MDBNavbarLink} from "mdb-react-ui-kit";
+import {IfLoggedIn, IfNotLoggedIn} from "./ifLoggedIn";
 
 export function LoginNavLink() {
-    const {isLoggedIn, openLoginForm} = useAuthenticationContext();
-    return <>{!isLoggedIn && <MDBNavbarLink onClick={openLoginForm}>login</MDBNavbarLink>}</>;
+    const {openLoginForm} = useAuthenticationContext();
+    return <IfNotLoggedIn><MDBNavbarLink onClick={openLoginForm}>login</MDBNavbarLink>}</IfNotLoggedIn>;
 }
 
 export function LoginLink() {
-    const {isLoggedIn, openLoginForm} = useAuthenticationContext();
-    return <>{!isLoggedIn && <Alert.Link onClick={openLoginForm}>login</Alert.Link>}</>;
+    const {openLoginForm} = useAuthenticationContext();
+    return <IfNotLoggedIn><MDBCardLink onClick={openLoginForm}>login</MDBCardLink></IfNotLoggedIn>;
 }
 
 export function SignupNavLink() {
-    const {isLoggedIn, openSignupForm} = useAuthenticationContext();
-    return <>{!isLoggedIn && <MDBNavbarLink onClick={openSignupForm}>signup</MDBNavbarLink>}</>;
+    const {openSignupForm} = useAuthenticationContext();
+    return <IfNotLoggedIn><MDBNavbarLink onClick={openSignupForm}>signup</MDBNavbarLink></IfNotLoggedIn>;
 }
 
 export function SignupLink() {
     const {isLoggedIn, openSignupForm} = useAuthenticationContext();
-    return <>{!isLoggedIn && <Alert.Link onClick={openSignupForm}>signup</Alert.Link>}</>;
+    return <IfNotLoggedIn> <MDBCardLink onClick={openSignupForm}>signup</MDBCardLink></IfNotLoggedIn>;
 }
 
 export function LogoutNavLink() {
-    const {isLoggedIn, logout} = useAuthenticationContext();
-    return <>{isLoggedIn && <MDBNavbarLink onClick={logout}>logout</MDBNavbarLink>}</>;
+    const {logout} = useAuthenticationContext();
+    return <IfLoggedIn><MDBNavbarLink onClick={logout}>logout</MDBNavbarLink></IfLoggedIn>;
 }
