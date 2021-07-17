@@ -106,12 +106,12 @@ export function ModalMdbWithFormContent(props) {
 
     if (!isOpen) return null;
 
-//TODO closeButton
 //TODO soms kapot na cancel ???
 
     return <MDBModalContent>
-        <MDBModalHeader closeButton>
+        <MDBModalHeader>
             <MDBModalTitle>{title}</MDBModalTitle>
+            <MDBBtn className='btn-close' color='none' onClick={close}/>
         </MDBModalHeader>
         <form onSubmit={e => handleSubmit(e)}>
             <MDBModalBody>
