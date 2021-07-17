@@ -4,6 +4,7 @@ import {useBooksContext} from "../contexts/bookscontext";
 import {useAuthorsContext} from "../contexts/authorscontext";
 import {ModalMdbWithForm, usePropsForModalMdbWithInitialObject} from "./modalMdb";
 import {MDBInput} from "mdb-react-ui-kit";
+import {MySelectMultiple} from "./select";
 
 export function CreateForm(props) {
     const {show, close} = props;
@@ -30,12 +31,11 @@ export function CreateForm(props) {
                   ref={firstInputRefElement}
                   onChange={e => onChange(e, "title")}/>
 
-        <MDBInput className="mt-2" label="authors" disabled value={tempObject && tempObject.authors}/>
-        {/*<select label="authors" multiple required value={tempObject && tempObject.authors}*/}
-        {/*        onChange={e => onChangeSelect(e, "authors")}>*/}
-        {/*    {authors.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}*/}
-        {/*</select>*/}
-        <MDBInput className="mt-2" label="price (€)" required type="number" min="0" max="2000"
+        <MySelectMultiple value={tempObject && tempObject.authors}
+                          onChange={e => onChangeSelect(e, "authors")}>
+            {authors.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
+        </MySelectMultiple>
+        <MDBInput className="mt-2" label="price (€)" type="number" min="0" max="2000"
                   value={tempObject ? String(tempObject.priceInEur) : ""}
                   onChange={e => onChangeNumber(e, "priceInEur")}/>
 
