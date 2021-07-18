@@ -11,11 +11,12 @@ import {MySelectMultiple} from "./select";
 export function EditForm(props) {
     const {bookShownInEditForm, setBookShownInEditForm} = props;
     const {isLoggedIn} = useAuthenticationContext();
-    const {editBook, editAuthorsForBook} = useBooksContext();
+    const {editBookWithAuthors} = useBooksContext();
     const objectInitialValue = useCallback(() => {
         return {
+            id: bookShownInEditForm.id,
             title: bookShownInEditForm.title,
-            authors: bookShownInEditForm.authors.map(a => a.id),
+            authorIds: bookShownInEditForm.authors.map(a => a.id),
             priceInEur: bookShownInEditForm.priceInEur
         };
     }, [bookShownInEditForm]);
@@ -25,18 +26,9 @@ export function EditForm(props) {
     const close = () => setBookShownInEditForm();
 
     async function doSubmit(tempObject) {
-        const oldAuthorIds = bookShownInEditForm.authors.map(a => a.id);
-        const newAuthorIds = tempObject.authors;
-        const authorsChanged = oldAuthorIds.length !== newAuthorIds.length ||
-            oldAuthorIds.some(oldAuthorId => !newAuthorIds.includes(oldAuthorId));
-        console.log(`doSubmit`, {tempObject, authorsChanged, oldAuthorIds, newAuthorIds});
-        //first we modify the authors - so that in the next step savedBook will contain the modified authors
-        let savedBook = await editBook({
-            id: bookShownInEditForm.id,
-            title: tempObject.title,
-            priceInEur: tempObject.priceInEur
-        });
-        if (authorsChanged) savedBook = await editAuthorsForBook(bookShownInEditForm, newAuthorIds.map(id => ({id})));
+        console.log(`doSubmit`, {tempObject});
+        const authorIdObjects = tempObject.authorIds.map(id => ({id}));
+        const savedBook = await editBookWithAuthors(tempObject, authorIdObjects);
         return savedBook;
     }
 
@@ -51,8 +43,8 @@ export function EditForm(props) {
                   ref={firstInputRefElement}
                   onChange={e => onChange(e, "title")}/>
 
-        <MySelectMultiple value={tempObject && tempObject.authors}
-                          onChange={e => onChangeSelect(e, "authors")}>
+        <MySelectMultiple value={tempObject && tempObject.authorIds}
+                          onChange={e => onChangeSelect(e, "authorIds")}>
             {authors.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
         </MySelectMultiple>
         <MDBInput className="mt-2" label="price (€)" type="number" min="0" max="2000"

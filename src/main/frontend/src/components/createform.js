@@ -9,21 +9,16 @@ import {MySelectMultiple} from "./select";
 export function CreateForm(props) {
     const {show, close} = props;
     const {isLoggedIn} = useAuthenticationContext();
-    const modalWithFormProps = usePropsForModalMdbWithInitialObject({title: "", authors: [], priceInEur: ""});
+    const {createBookWithAuthors} = useBooksContext();
+    const modalWithFormProps = usePropsForModalMdbWithInitialObject({title: "", authorIds: [], priceInEur: ""});
     const {tempObject, firstInputRefElement, onChange, onChangeNumber, onChangeSelect} = modalWithFormProps;
-    const {createBook, editAuthorsForBook} = useBooksContext();
     const {authors} = useAuthorsContext()
 
     async function doSubmit(tempObject) {
         console.log(`doSubmit`, {tempObject});
-        const authorIds = tempObject.authors.map(id => ({id}));
-        //first we modify the authors - so that in the next step savedBook will contain the modified authors
-        let savedBook = await createBook({
-            title: tempObject.title,
-            priceInEur: tempObject.priceInEur
-        });
-        const bookSavedWithAuthors = await editAuthorsForBook(savedBook, authorIds);
-        return bookSavedWithAuthors;
+        const authorIdObjects = tempObject.authorIds.map(id => ({id}));
+        const savedBook = await createBookWithAuthors(tempObject, authorIdObjects);
+        return savedBook;
     }
 
     console.log(`CreateForm`, {tempObject});
@@ -39,8 +34,8 @@ export function CreateForm(props) {
                   ref={firstInputRefElement}
                   onChange={e => onChange(e, "title")}/>
 
-        <MySelectMultiple value={tempObject && tempObject.authors}
-                          onChange={e => onChangeSelect(e, "authors")}>
+        <MySelectMultiple value={tempObject && tempObject.authorIds}
+                          onChange={e => onChangeSelect(e, "authorIds")}>
             {authors.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
         </MySelectMultiple>
         <MDBInput className="mt-2" label="price (€)" type="number" min="0" max="2000"
