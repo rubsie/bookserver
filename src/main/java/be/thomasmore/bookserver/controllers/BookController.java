@@ -32,9 +32,13 @@ public class BookController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @ApiOperation(value = "find all the books that are stored in the database - " +
-            "or if Request Parameter titleKeyWord is given all books where the title contains this titleKeyWord (ignore-case). " +
-            "In the authors Collection only id and name are filled in")
+    @ApiOperation(value = "list of books in the database.",
+            notes = "If Request Parameter <b>titleKeyWord</b> is given: " +
+                    "only books where the title contains this titleKeyWord (ignore-case). </br>" +
+                    "Otherwise all books are returned. </br>" +
+                    "</br>" +
+                    "The authors Collection contains only id and name. </br>" +
+                    "Use GET api/authors/{id}/authors  to fetch more info about the authors. ")
     @GetMapping("")
     public Iterable<BookDTO> findAll(@RequestParam(required = false) String titleKeyWord) {
         log.info("##### findAll books - titleKeyWord=" + titleKeyWord);
@@ -46,9 +50,11 @@ public class BookController {
         return booksDTO;
     }
 
-
-    @ApiOperation(value = "create a new book in the database - " +
-            "the objects in the author array have to contain ids that exist in the author table.")
+    @ApiOperation(value = "create a new book in the database.",
+            notes = "The authors are <b>not</b> updated in the new book.</br>" +
+                    "Use PUT api/books/{id}/authors to update those. </br>" +
+                    "</br>" +
+                    "Returns new book (containing id from database). ")
     @PostMapping("")
     public BookDTO create(@Valid @RequestBody BookDTO bookDto) {
         log.info("##### create book");
@@ -56,20 +62,21 @@ public class BookController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     String.format("Book with title %s already exists.", bookDto.getTitle()));
         Book book = convertToEntity(bookDto);
-        //TODO: author names not filled in
-        final Book savedBook = bookRepository.save(book);
-        //trying to fetch it again to see if author names are filled in
-        final Book fetchedBook = bookRepository.findById(savedBook.getId()).get();
-        return convertToDto(fetchedBook);
+        return convertToDto(bookRepository.save(book));
     }
 
     //TODO @Valid
+    @ApiOperation(value = "edit existing book in the database.",
+            notes = "The authors are <b>not</b> updated in the new book.</br>" +
+                    "Use PUT api/books/{id}/authors to update those. </br>" +
+                    "</br>" +
+                    "Returns updated book. ")
     @PutMapping("{id}")
     public BookDTO edit(@PathVariable int id, @RequestBody BookDTO bookDto) {
         log.info(String.format("##### edit book %d", id));
         if (bookDto.getId() != id)
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    String.format("id %d does not match.", id));
+                    String.format("id in book (%d) does not match id in url (%d).", bookDto.getId(), id));
 
         Optional<Book> bookFromDb = bookRepository.findById(id);
         if (bookFromDb.isEmpty())
@@ -82,7 +89,9 @@ public class BookController {
         return convertToDto(savedBook);
     }
 
-    @ApiOperation(value = "find the authors for the given book. ")
+    @ApiOperation(value = "find the authors for the given book. ",
+            notes = "Returns authors collection that contains only id and name. </br>" +
+                    "Use GET api/authors/{id}/authors to fetch more info about the authors. ")
     @GetMapping("{id}/authors")
     public Iterable<AuthorDTO> authorsForBook(@PathVariable int id) {
         log.info(String.format("##### get authors for book with id %d", id));
@@ -99,6 +108,9 @@ public class BookController {
 
 
     //TODO @Valid
+    @ApiOperation(value = "update the authors for the given book. ",
+            notes = "The authors Collection has to contain ids of existing authors. </br>" +
+                    "Returns updated book containing id and name of the authors. ")
     @PutMapping("{id}/authors")
     public BookDTO editAuthorsForBook(@PathVariable int id, @RequestBody Collection<BookDTO.BookAuthorDTO> authors) {
         log.info(String.format("##### edit authors for book %d", id));
@@ -110,7 +122,8 @@ public class BookController {
 
         Book book = bookFromDb.get();
         ArrayList<Author> authorIds = new ArrayList<>();
-        for (BookDTO.BookAuthorDTO a : authors) authorIds.add(new Author(a.getId()));
+        if (authors != null)
+            for (BookDTO.BookAuthorDTO a : authors) authorIds.add(new Author(a.getId()));
         book.setAuthors(authorIds);
         Book savedBook = bookRepository.save(book);
         return convertToDto(savedBook);
@@ -131,7 +144,7 @@ public class BookController {
      * @param book the entity from the db
      * @return BookDTO object to send to the client.
      * The BookDTO contains an array of  BookDTO.AuthorDto
-     * so that the client does not need to do a second request to display this info.
+     * so that the client does not need to do a second request to display this basic info.
      */
     private BookDTO convertToDto(Book book) {
         BookDTO bookDto = modelMapper.map(book, BookDTO.class);
@@ -151,7 +164,7 @@ public class BookController {
     private Book convertToEntity(BookDTO bookDto) {
         Book book = modelMapper.map(bookDto, Book.class);
         ArrayList<Author> authors = new ArrayList<>();
-        //dit update de book-author relation, niet de author
+        //if this is used to save, it updates book-author relation, not the author objects!
         if (book.getAuthors() != null)
             for (Author a : book.getAuthors()) authors.add(new Author(a.getId()));
         book.setAuthors(authors);
