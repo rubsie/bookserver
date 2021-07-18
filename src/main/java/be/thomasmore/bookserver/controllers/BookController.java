@@ -106,7 +106,6 @@ public class BookController {
         return authorsDTO;
     }
 
-
     //TODO @Valid
     @ApiOperation(value = "update the authors for the given book. ",
             notes = "The authors Collection has to contain ids of existing authors. </br>" +
@@ -130,6 +129,7 @@ public class BookController {
     }
 
     @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         log.info(String.format("##### delete book %d", id));
         Optional<Book> bookFromDb = bookRepository.findById(id);
