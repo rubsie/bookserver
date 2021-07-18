@@ -112,7 +112,7 @@ public class BookController {
             notes = "The authors Collection has to contain ids of existing authors. </br>" +
                     "Returns updated book containing id and name of the authors. ")
     @PutMapping("{id}/authors")
-    public BookDTO editAuthorsForBook(@PathVariable int id, @RequestBody Collection<BookDTO.BookAuthorDTO> authors) {
+    public BookDTO editAuthorsForBook(@PathVariable int id, @RequestBody Collection<Integer> authorIds) {
         log.info(String.format("##### edit authors for book %d", id));
 
         Optional<Book> bookFromDb = bookRepository.findById(id);
@@ -121,10 +121,10 @@ public class BookController {
                     String.format("Book with id %d not found.", id));
 
         Book book = bookFromDb.get();
-        ArrayList<Author> authorIds = new ArrayList<>();
-        if (authors != null)
-            for (BookDTO.BookAuthorDTO a : authors) authorIds.add(new Author(a.getId()));
-        book.setAuthors(authorIds);
+        ArrayList<Author> authorIdObjects = new ArrayList<>();
+        if (authorIds != null)
+            for (Integer authorId : authorIds) authorIdObjects.add(new Author(authorId));
+        book.setAuthors(authorIdObjects);
         Book savedBook = bookRepository.save(book);
         return convertToDto(savedBook);
     }

@@ -16,8 +16,7 @@ export function CreateForm(props) {
 
     async function doSubmit(tempObject) {
         console.log(`doSubmit`, {tempObject});
-        const savedBook = await createBookWithAuthors(tempObject, tempObject.authorIds);
-        return savedBook;
+        return await createBookWithAuthors(tempObject, tempObject.authorIds);
     }
 
     console.log(`CreateForm`, {tempObject});

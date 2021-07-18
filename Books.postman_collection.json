@@ -201,7 +201,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \"title\":\"dddddddddddddddd\", \"author\": \"Douglas Adams\", \"authors\": [{\"id\": 2} ], \"priceInEur\":10, \"isbn\": \"1234567\"}",
+					"raw": "{  \"title\":\"aaa\",  \"authors\": [{\"id\": 2} ], \"priceInEur\":10, \"isbn\": \"1234567\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -220,43 +220,6 @@
 						"books"
 					]
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "create with invalid author-id",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "X-XSRF-TOKEN",
-						"value": "3a96ae28-2c45-4a74-9c02-300a5be5f13b",
-						"description": "zet deze value met waarde uit cookie XSRF-TOKEN",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{  \"title\":\"dddddddddddddddd\", \"author\": \"Douglas Adams\", \"authors\": [{\"id\": 77} ], \"priceInEur\":10, \"isbn\": \"1234567\"}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/books",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"books"
-					]
-				},
-				"description": "deze request mislukt omdat er een author-id meegestuurd wordt die niet bestaat in de database."
 			},
 			"response": []
 		},
@@ -362,7 +325,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[{ \"id\":3}]",
+					"raw": "[3]",
 					"options": {
 						"raw": {
 							"language": "json"

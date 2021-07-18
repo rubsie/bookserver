@@ -27,8 +27,7 @@ export function EditForm(props) {
 
     async function doSubmit(tempObject) {
         console.log(`doSubmit`, {tempObject});
-        const savedBook = await editBookWithAuthors(tempObject, tempObject.authorIds);
-        return savedBook;
+        return await editBookWithAuthors(tempObject, tempObject.authorIds);
     }
 
     /* TODO edit book with new author  */
