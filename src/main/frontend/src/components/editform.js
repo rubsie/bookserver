@@ -30,12 +30,13 @@ export function EditForm(props) {
         const authorsChanged = oldAuthorIds.length !== newAuthorIds.length ||
             oldAuthorIds.some(oldAuthorId => !newAuthorIds.includes(oldAuthorId));
         console.log(`doSubmit`, {tempObject, authorsChanged, oldAuthorIds, newAuthorIds});
-        if (authorsChanged) await editAuthorsForBook(bookShownInEditForm, newAuthorIds.map(id => ({id})));
-        const savedBook = await editBook({
+        //first we modify the authors - so that in the next step savedBook will contain the modified authors
+        let savedBook = await editBook({
             id: bookShownInEditForm.id,
             title: tempObject.title,
             priceInEur: tempObject.priceInEur
         });
+        if (authorsChanged) savedBook = await editAuthorsForBook(bookShownInEditForm, newAuthorIds.map(id => ({id})));
         return savedBook;
     }
 

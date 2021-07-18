@@ -11,11 +11,19 @@ export function CreateForm(props) {
     const {isLoggedIn} = useAuthenticationContext();
     const modalWithFormProps = usePropsForModalMdbWithInitialObject({title: "", authors: [], priceInEur: ""});
     const {tempObject, firstInputRefElement, onChange, onChangeNumber, onChangeSelect} = modalWithFormProps;
-    const {createBook} = useBooksContext();
+    const {createBook, editAuthorsForBook} = useBooksContext();
     const {authors} = useAuthorsContext()
 
     async function doSubmit(tempObject) {
-        return await createBook({...tempObject, authors: tempObject.authors.map(id => ({id}))});
+        console.log(`doSubmit`, {tempObject});
+        const authorIds = tempObject.authors.map(id => ({id}));
+        //first we modify the authors - so that in the next step savedBook will contain the modified authors
+        let savedBook = await createBook({
+            title: tempObject.title,
+            priceInEur: tempObject.priceInEur
+        });
+        const bookSavedWithAuthors = await editAuthorsForBook(savedBook, authorIds);
+        return bookSavedWithAuthors;
     }
 
     console.log(`CreateForm`, {tempObject});

@@ -33,7 +33,8 @@ public class BookController {
     private ModelMapper modelMapper;
 
     @ApiOperation(value = "find all the books that are stored in the database - " +
-            "or if Request Parameter titleKeyWord is given all books where the title contains this titleKeyWord (ignore-case)")
+            "or if Request Parameter titleKeyWord is given all books where the title contains this titleKeyWord (ignore-case). " +
+            "In the authors Collection only id and name are filled in")
     @GetMapping("")
     public Iterable<BookDTO> findAll(@RequestParam(required = false) String titleKeyWord) {
         log.info("##### findAll books - titleKeyWord=" + titleKeyWord);
@@ -56,7 +57,10 @@ public class BookController {
                     String.format("Book with title %s already exists.", bookDto.getTitle()));
         Book book = convertToEntity(bookDto);
         //TODO: author names not filled in
-        return convertToDto(bookRepository.save(book));
+        final Book savedBook = bookRepository.save(book);
+        //trying to fetch it again to see if author names are filled in
+        final Book fetchedBook = bookRepository.findById(savedBook.getId()).get();
+        return convertToDto(fetchedBook);
     }
 
     //TODO @Valid
@@ -72,6 +76,7 @@ public class BookController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("Book with id %d not found.", id));
 
+        //overwrite fields present in bookDto - relations are not touched
         Book book = convertToEntity(bookDto, bookFromDb.get());
         Book savedBook = bookRepository.save(book);
         return convertToDto(savedBook);
@@ -87,7 +92,8 @@ public class BookController {
                     String.format("Book with id %d not found.", id));
 
         ArrayList<AuthorDTO> authorsDTO = new ArrayList<>();
-        for (Author a : bookFromDb.get().getAuthors()) authorsDTO.add(convertToDto(a));
+        if (bookFromDb.get().getAuthors() != null)
+            for (Author a : bookFromDb.get().getAuthors()) authorsDTO.add(convertToDto(a));
         return authorsDTO;
     }
 
@@ -102,9 +108,9 @@ public class BookController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("Book with id %d not found.", id));
 
-        Book book =  bookFromDb.get();
+        Book book = bookFromDb.get();
         ArrayList<Author> authorIds = new ArrayList<>();
-        for (BookDTO.BookAuthorDTO a: authors) authorIds.add(new Author(a.getId()));
+        for (BookDTO.BookAuthorDTO a : authors) authorIds.add(new Author(a.getId()));
         book.setAuthors(authorIds);
         Book savedBook = bookRepository.save(book);
         return convertToDto(savedBook);
@@ -130,8 +136,9 @@ public class BookController {
     private BookDTO convertToDto(Book book) {
         BookDTO bookDto = modelMapper.map(book, BookDTO.class);
         ArrayList<BookDTO.BookAuthorDTO> authors = new ArrayList<>();
-        for (Author a : book.getAuthors())
-            authors.add(new BookDTO.BookAuthorDTO(a.getId(), a.getName()));
+        if (book.getAuthors() != null)
+            for (Author a : book.getAuthors())
+                authors.add(new BookDTO.BookAuthorDTO(a.getId(), a.getName()));
         bookDto.setAuthors(authors);
         return bookDto;
     }
@@ -144,7 +151,9 @@ public class BookController {
     private Book convertToEntity(BookDTO bookDto) {
         Book book = modelMapper.map(bookDto, Book.class);
         ArrayList<Author> authors = new ArrayList<>();
-        for (Author a : book.getAuthors()) authors.add(new Author(a.getId()));
+        //dit update de book-author relation, niet de author
+        if (book.getAuthors() != null)
+            for (Author a : book.getAuthors()) authors.add(new Author(a.getId()));
         book.setAuthors(authors);
         return book;
     }
@@ -158,12 +167,6 @@ public class BookController {
      */
     private Book convertToEntity(BookDTO bookDto, Book book) {
         modelMapper.map(bookDto, book);
-//        if (bookDto.getAuthors() != null) {
-//            int[] authorIds = bookDto.getAuthors().stream().mapToInt(a -> a.getId()).toArray();
-//            List<Author> authorsFromDb = authorRepository.findByIdIn(authorIds);
-//            for (Author a : book.getAuthors()) authorsFromDb.add(new Author(a.getId()));
-//            book.setAuthors(authorsFromDb);
-//        }
         return book;
     }
 

@@ -28,11 +28,4 @@ public class Author {
         this.id = id;
     }
 
-    public Collection<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(Set<Book> books) {
-        this.books = books;
-    }
 }

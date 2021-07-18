@@ -31,7 +31,12 @@ export function BooksProvider(props) {
 
     const editAuthorsForBook = useCallback(async (book, authors) => {
         if (!book) return;
-        return await fetchPUT(`/api/books/${book.id}/authors`, authors);
+        //returns book with saved authors
+        const result = await fetchPUT(`/api/books/${book.id}/authors`, authors);
+        if (result) {
+            setBooks(books.map((b) => b.id === result.id ? result : b));
+        }
+        return result;
     }, [fetchPUT]);
 
     //returns the new book object
