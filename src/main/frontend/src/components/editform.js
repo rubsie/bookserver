@@ -27,8 +27,7 @@ export function EditForm(props) {
 
     async function doSubmit(tempObject) {
         console.log(`doSubmit`, {tempObject});
-        const authorIdObjects = tempObject.authorIds.map(id => ({id}));
-        const savedBook = await editBookWithAuthors(tempObject, authorIdObjects);
+        const savedBook = await editBookWithAuthors(tempObject, tempObject.authorIds);
         return savedBook;
     }
 

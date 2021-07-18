@@ -16,8 +16,7 @@ export function CreateForm(props) {
 
     async function doSubmit(tempObject) {
         console.log(`doSubmit`, {tempObject});
-        const authorIdObjects = tempObject.authorIds.map(id => ({id}));
-        const savedBook = await createBookWithAuthors(tempObject, authorIdObjects);
+        const savedBook = await createBookWithAuthors(tempObject, tempObject.authorIds);
         return savedBook;
     }
 
