@@ -5,7 +5,7 @@ import {IfLoggedIn, IfNotLoggedIn} from "./ifLoggedIn";
 
 export function LoginNavLink() {
     const {openLoginForm} = useAuthenticationContext();
-    return <IfNotLoggedIn><MDBNavbarLink onClick={openLoginForm}>login</MDBNavbarLink>}</IfNotLoggedIn>;
+    return <IfNotLoggedIn><MDBNavbarLink onClick={openLoginForm}>login</MDBNavbarLink></IfNotLoggedIn>;
 }
 
 export function LoginLink() {
@@ -19,7 +19,7 @@ export function SignupNavLink() {
 }
 
 export function SignupLink() {
-    const {isLoggedIn, openSignupForm} = useAuthenticationContext();
+    const {openSignupForm} = useAuthenticationContext();
     return <IfNotLoggedIn> <MDBCardLink onClick={openSignupForm}>signup</MDBCardLink></IfNotLoggedIn>;
 }
 
