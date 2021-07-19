@@ -4,9 +4,6 @@ import {useFetchContext} from "./fetchcontext";
 
 const BooksContext = createContext();
 
-//todo message (created etc) wordt niet meer getoond
-//focus is weg in dialogs
-
 export function BooksProvider(props) {
     const [books, setBooks] = useState([]);
     const [isBooksDirty, setIsBooksDirty] = useState(true);
@@ -34,9 +31,9 @@ export function BooksProvider(props) {
         if (!book) return;
         const savedBook = await fetchPOST(`/api/books`, book);
         if (!savedBook) return;
-        setMessage(`book ${book.title} created`);
         const savedBookWithAuthors = await editAuthorsForBook(savedBook, authorIds);
         if (savedBookWithAuthors) setIsBooksDirty(true);
+        setMessage(`book ${book.title} created`);
         return savedBookWithAuthors;
     }, [fetchPOST, setMessage, editAuthorsForBook, setIsBooksDirty]);
 
@@ -55,9 +52,9 @@ export function BooksProvider(props) {
         if (!book) return;
         const savedBook = await fetchPUT(`/api/books/${book.id}`, book);
         if (!savedBook) return;
-        setMessage(`book ${book.title} modified`);
         const savedBookWithAuthors = await editAuthorsForBook(savedBook, authorIds);
         setIsBooksDirty(true);
+        setMessage(`book ${book.title} modified`);
         return savedBookWithAuthors;
     }, [fetchPUT, setMessage, editAuthorsForBook, setIsBooksDirty]);
 
