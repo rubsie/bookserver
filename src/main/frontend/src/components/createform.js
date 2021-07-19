@@ -29,7 +29,7 @@ export function CreateForm(props) {
                              saveButtonText={"save"}>
 
         <MDBInput className="mt-2" label="title" required value={tempObject && tempObject.title}
-                  ref={firstInputRefElement}
+                  inputRef={firstInputRefElement}
                   onChange={e => onChange(e, "title")}/>
 
         <MySelectMultiple value={tempObject && tempObject.authorIds}

@@ -10,7 +10,7 @@ function UsernameControl(props) {
                      required
                      label="username"
                      placeholder="enter username" autoComplete="username"
-                     ref={firstInputRefElement}
+                     inputRef={firstInputRefElement}
                      onChange={e => onChange(e, "username")}/>;
 }
 
