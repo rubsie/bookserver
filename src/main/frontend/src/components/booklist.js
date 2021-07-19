@@ -12,7 +12,6 @@ export function BookList(props) {
             <MDBRow>
                 {books.map(b =>
                     <Book key={b.title} book={b} setShowEditFormForBook={setShowEditFormForBook}/>)}
-
             </MDBRow>
         </MDBContainer>
     </>

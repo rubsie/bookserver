@@ -23,10 +23,9 @@ function ProvidedApp() {
 
     return (
         <div className="App">
-            <Booksnavbar/>
+            <Booksnavbar setShowCreateForm={setShowCreateForm}/>
             <Message/>
-            <BookList setShowEditFormForBook={setBookShownInEditForm}
-                      setShowCreateForm={setShowCreateForm}/>
+            <BookList setShowEditFormForBook={setBookShownInEditForm}/>
             <EditForm bookShownInEditForm={bookShownInEditForm} setBookShownInEditForm={setBookShownInEditForm}/>
             <CreateForm show={showCreateForm} close={() => setShowCreateForm(false)}/>
             <LoginSignupForm/>
