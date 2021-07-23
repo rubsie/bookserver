@@ -18,12 +18,10 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/api/books",
-					"protocol": "http",
+					"raw": "{{url}}/api/books",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"books"
@@ -46,12 +44,10 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/api/authors",
-					"protocol": "http",
+					"raw": "{{url}}/api/authors",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"authors"
@@ -67,19 +63,18 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/books?titleKeyWord=y",
-					"protocol": "http",
+					"raw": "{{url}}/api/books?titleKeyWord=dev",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
+						"api",
 						"books"
 					],
 					"query": [
 						{
 							"key": "titleKeyWord",
-							"value": "y"
+							"value": "dev"
 						}
 					]
 				},
@@ -93,12 +88,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/UNEXISTING",
-					"protocol": "http",
+					"raw": "{{url}}/api/UNEXISTING",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"UNEXISTING"
@@ -132,12 +125,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/authenticate",
-					"protocol": "http",
+					"raw": "{{url}}/api/authenticate",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"authenticate"
@@ -172,12 +163,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/authenticate",
-					"protocol": "http",
+					"raw": "{{url}}/api/authenticate",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"authenticate"
@@ -201,7 +190,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \"title\":\"aaa\",  \"authors\": [{\"id\": 2} ], \"priceInEur\":10, \"isbn\": \"1234567\"}",
+					"raw": "{  \"title\":\"bbb\",  \"priceInEur\":10, \"isbn\": \"1234567\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -209,12 +198,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/books",
-					"protocol": "http",
+					"raw": "{{url}}/api/books",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"books"
@@ -245,12 +232,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/books/7",
-					"protocol": "http",
+					"raw": "{{url}}/api/books/7",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"books",
@@ -266,12 +251,10 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/books/7",
-					"protocol": "http",
+					"raw": "{{url}}/api/books/7",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"books",
@@ -294,12 +277,10 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/api/books/6/authors",
-					"protocol": "http",
+					"raw": "{{url}}/api/books/6/authors",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"books",
@@ -333,12 +314,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/books/7/authors",
-					"protocol": "http",
+					"raw": "{{url}}/api/books/7/authors",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"books",
@@ -362,17 +341,15 @@
 					},
 					{
 						"key": "X-XSRF-TOKEN",
-						"value": "4f5db987-67f9-4b85-b34e-ec08f28f37ea",
+						"value": "cc66ce0d-117a-43b3-8f86-3c0f90024a42",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/logout",
-					"protocol": "http",
+					"raw": "{{url}}/logout",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"logout"
 					]
@@ -408,18 +385,42 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost:8080/login",
-					"protocol": "http",
+					"raw": "{{url}}/login",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"login"
 					]
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:8080"
 		}
 	]
 }

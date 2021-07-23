@@ -1,4 +1,7 @@
-* you need: 
+###demo 
+* https://vp-books.herokuapp.com/
+  
+###you need: 
   * server: java 1.15 (on PATH) 
   * frontend: npm (7.16) and node (v16.3) (on PATH)
 * import repo in intellij (as maven project)
@@ -19,7 +22,7 @@
       * jdbc url: jdbc:h2:mem:books
       * username: sa, no pw
   * postman: 
-      * import Books.postman_collection.json
+      * import collection Books.postman_collection.json
       * post/put/delete:
         * csrf-beveiliging 
         * copy value van XSRF-TOKEN Cookie in de Header X-XSRF-TOKEN
@@ -35,7 +38,7 @@
 ```
 * try out: http://localhost:3000
 * or with ip   
-* login in with vera/vera or register 
+* login in with vera/vera or register new user  
 
 
   
