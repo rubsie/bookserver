@@ -9,8 +9,8 @@ create table author
 create table book_authors(
     books_id integer not null,
     authors_id integer not null,
-    foreign key(authors_id) references author(id) nocheck,
-    foreign key(books_id) references book(id) nocheck
+    foreign key(authors_id) references author(id),
+    foreign key(books_id) references book(id)
 );
 
 /*convert the data that is already in the author-column of the book-table*/
