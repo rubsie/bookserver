@@ -2,15 +2,12 @@ import React, {useCallback} from "react";
 import {useMessageContext} from "../contexts/messagecontext";
 import {FiAlertTriangle} from 'react-icons/fi';
 import {MdSync} from 'react-icons/md';
-import {MDBTypography} from "mdb-react-ui-kit";
 import {Alert} from "react-bootstrap";
 
 export function Message() {
-
-
     const {message, clearAllMessages, error, isLoading} = useMessageContext();
 
-    console.log("render Message");
+    console.log("render Message", {message});
 
     const getNoteColor = useCallback(() => {
         if (error) return `danger`;
