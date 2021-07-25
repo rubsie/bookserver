@@ -3,8 +3,11 @@ import {useMessageContext} from "../contexts/messagecontext";
 import {FiAlertTriangle} from 'react-icons/fi';
 import {MdSync} from 'react-icons/md';
 import {MDBTypography} from "mdb-react-ui-kit";
+import {Alert} from "react-bootstrap";
 
 export function Message() {
+
+
     const {message, clearAllMessages, error, isLoading} = useMessageContext();
 
     console.log("render Message");
@@ -21,8 +24,9 @@ export function Message() {
         return message || <span>&nbsp;</span>;
     }, [error, isLoading, message]);
 
-    return <MDBTypography note noteColor={getNoteColor()}  className="border-0" onClick={() => clearAllMessages()}>
+    return <Alert variant={getNoteColor()}
+                  onClick={() => clearAllMessages()}>
         {getMessageToShow()}
-    </MDBTypography>
+    </Alert>
 
 }
