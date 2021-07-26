@@ -2,9 +2,8 @@ import React, {useCallback} from "react";
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {useBooksContext} from "../contexts/bookscontext";
 import {useAuthorsContext} from "../contexts/authorscontext";
-import {ModalMdbWithForm, usePropsForModalMdbWithInitializer} from "./modalMdb";
-import {MDBInput} from "mdb-react-ui-kit";
-import {MySelectMultiple} from "./select";
+import {ModalWithForm, usePropsForModalWithInitializer} from "./modal";
+import {Form} from "react-bootstrap";
 
 
 //bookShownInEditForm is the book object that is selected to show. If not defined the edit-form is not open.
@@ -20,7 +19,7 @@ export function EditForm(props) {
             priceInEur: bookShownInEditForm.priceInEur
         };
     }, [bookShownInEditForm]);
-    const modalWithFormProps = usePropsForModalMdbWithInitializer(objectInitialValue);
+    const modalWithFormProps = usePropsForModalWithInitializer(objectInitialValue);
     const {tempObject, firstInputRefElement, onChange, onChangeNumber, onChangeSelect} = modalWithFormProps;
     const {authors} = useAuthorsContext()
     const close = () => setBookShownInEditForm();
@@ -31,22 +30,29 @@ export function EditForm(props) {
     }
 
     /* TODO edit book with new author  */
-    return <ModalMdbWithForm modalWithFormProps={modalWithFormProps}
-                             title="Edit the book"
-                             isOpen={isLoggedIn && bookShownInEditForm}
-                             close={close}
-                             doSubmit={doSubmit}
-                             saveButtonText={"save"}>
-        <MDBInput className="mt-2" label="title" required value={tempObject && tempObject.title}
-                  inputRef={firstInputRefElement}
-                  onChange={e => onChange(e, "title")}/>
-
-        <MySelectMultiple value={tempObject && tempObject.authorIds}
+    return <ModalWithForm modalWithFormProps={modalWithFormProps}
+                          title="Edit the book"
+                          isOpen={isLoggedIn && bookShownInEditForm}
+                          close={close}
+                          doSubmit={doSubmit}
+                          saveButtonText={"save"}>
+        <Form.Group controlId="title" className="mb-3">
+            <Form.Label>title: </Form.Label>
+            <Form.Control required value={tempObject && tempObject.title}
+                          ref={firstInputRefElement}
+                          onChange={e => onChange(e, "title")}/>
+        </Form.Group>
+        <Form.Group controlId="authorIds" className="mb-3">
+            <Form.Label>authors: </Form.Label>
+            <Form.Control as="select" multiple required value={tempObject && tempObject.authorIds}
                           onChange={e => onChangeSelect(e, "authorIds")}>
-            {authors.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
-        </MySelectMultiple>
-        <MDBInput className="mt-2" label="price (€)" type="number" min="0" max="2000"
-                  value={tempObject ? String(tempObject.priceInEur) : ""}
-                  onChange={e => onChangeNumber(e, "priceInEur")}/>
-    </ModalMdbWithForm>;
+                {authors.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
+            </Form.Control>
+        </Form.Group>
+        <Form.Group controlId="price" className="mb-3">
+            <Form.Label>price (€): </Form.Label>
+            <Form.Control value={tempObject && tempObject.priceInEur} type="number" min="0" max="2000"
+                          onChange={e => onChangeNumber(e, "priceInEur")}/>
+        </Form.Group>
+    </ModalWithForm>;
 }
