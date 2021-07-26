@@ -14,7 +14,7 @@ export function Booksnavbar(props) {
     const userInfo = username ? `logged in as ${username}` : "not logged in.";
 
     return <>
-        <Navbar fixed="top" bg="dark" variant="dark" className="shadow-sm">
+        <Navbar fixed="top" bg="dark" variant="dark" className="shadow p-2">
             <Navbar.Brand>{userInfo}</Navbar.Brand>
             <Container>
                 <Nav>
@@ -23,7 +23,7 @@ export function Booksnavbar(props) {
                         <MdRefresh color="inherit"/></Button>
                     <IfLoggedIn>
                         <Button className="m-1" size='sm' color="light"
-                                nClick={() => setShowCreateForm(true)}>
+                                onClick={() => setShowCreateForm(true)}>
                             <MdAdd color="inherit"/></Button>
                     </IfLoggedIn>
                 </Nav>
