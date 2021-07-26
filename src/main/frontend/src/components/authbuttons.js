@@ -1,8 +1,7 @@
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import React from "react";
-import {MDBCardLink} from "mdb-react-ui-kit";
 import {IfLoggedIn, IfNotLoggedIn} from "./ifLoggedIn";
-import {Nav} from "react-bootstrap";
+import {Alert, Nav} from "react-bootstrap";
 
 export function LoginNavLink() {
     const {openLoginForm} = useAuthenticationContext();
@@ -16,7 +15,7 @@ export function LoginNavLink() {
 export function LoginLink() {
     const {openLoginForm} = useAuthenticationContext();
     return <IfNotLoggedIn>
-        <MDBCardLink onClick={openLoginForm}>login</MDBCardLink>
+        <Alert.Link onClick={openLoginForm}>login</Alert.Link>
     </IfNotLoggedIn>;
 }
 
@@ -31,7 +30,9 @@ export function SignupNavLink() {
 
 export function SignupLink() {
     const {openSignupForm} = useAuthenticationContext();
-    return <IfNotLoggedIn> <MDBCardLink onClick={openSignupForm}>signup</MDBCardLink></IfNotLoggedIn>;
+    return <IfNotLoggedIn>
+        <Alert.Link onClick={openSignupForm}>signup</Alert.Link>
+    </IfNotLoggedIn>;
 }
 
 export function LogoutNavLink() {
