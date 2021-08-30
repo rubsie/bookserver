@@ -1,7 +1,6 @@
 import React from "react";
 import {MdDelete, MdEdit} from 'react-icons/md';
 import {useBooksContext} from "../contexts/bookscontext";
-import {IfLoggedIn} from "./ifLoggedIn";
 import {Button, Card, Col} from "react-bootstrap";
 
 
@@ -16,16 +15,14 @@ export function Book(props) {
                 <Card.Text>{book.authors.map(a => a.authorName).join(",")}</Card.Text>
                 <Card.Text>{book.priceInEur}{book.priceInEur && " €"}</Card.Text>
             </Card.Body>
-            <IfLoggedIn>
-                <Card.Footer>
-                    <Button className="m-1" size='sm'
-                            onClick={() => setShowEditFormForBook(book)}><MdEdit
-                        color="inherit"/></Button>
-                    <Button className="m-1" size='sm'
-                            onClick={() => deleteBook(book)}><MdDelete
-                        color="inherit"/></Button>
-                </Card.Footer>
-            </IfLoggedIn>
+            <Card.Footer>
+                <Button className="m-1" size='sm'
+                        onClick={() => setShowEditFormForBook(book)}><MdEdit
+                    color="inherit"/></Button>
+                <Button className="m-1" size='sm'
+                        onClick={() => deleteBook(book)}><MdDelete
+                    color="inherit"/></Button>
+            </Card.Footer>
         </Card>
     </Col>;
 }
