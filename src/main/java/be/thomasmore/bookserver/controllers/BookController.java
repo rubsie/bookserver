@@ -46,6 +46,21 @@ public class BookController {
         return booksDTO;
     }
 
+    @ApiOperation(value = "get 1 book from the database.",
+            notes = "Book with id is fetched from database. " +
+                    "</br>" +
+                    "The authors Collection contains only id and name. </br>" +
+                    "Use GET api/authors/{id}/authors  to fetch more info about the authors. ")
+    @GetMapping("{id}")
+    public BookDTO findOne(@PathVariable int id) {
+        log.info(String.format("##### findOne book %d", id));
+        final Optional<Book> book = bookRepository.findById(id);
+        if (book.isEmpty())
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    String.format("Book with id %d does not exist.", id));
+        return convertToDto(book.get());
+    }
+
     @ApiOperation(value = "create a new book in the database.",
             notes = "The authors are <b>not</b> updated in the new book.</br>" +
                     "Use PUT api/books/{id}/authors to update those. </br>" +
