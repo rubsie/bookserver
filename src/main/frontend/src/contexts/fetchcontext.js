@@ -20,12 +20,12 @@ export function FetchProvider(props) {
         clearAllMessages();
         console.log(`${method} ${url}: start`);
         setIsLoading(true);
+        const fetchOptions = {
+            method: method,
+            headers: {...DEFAULT_HEADERS},
+            body: JSON.stringify(bodyObject)
+        };
         try {
-            const fetchOptions = {
-                method: method,
-                headers: {...DEFAULT_HEADERS},
-                body: JSON.stringify(bodyObject)
-            };
             const response = await fetch(url, fetchOptions);
             console.log({response});
             if (response.ok) {

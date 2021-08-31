@@ -22,8 +22,9 @@ export function AuthorsProvider(props) {
         getAuthors();
     }, [getAuthors]);
 
-    const api = useMemo(() => ({authors, getAuthors}),
-        [authors, getAuthors]);
+    const api = useMemo(() => ({
+        authors
+    }), [authors]);
 
     return <AuthorsContext.Provider value={api}>
         {props.children}
