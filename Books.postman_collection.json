@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6e08ed40-a5a5-4384-80e8-705a96ecee37",
+		"_postman_id": "00b75c46-d69d-490d-8495-cdf3ce56dbff",
 		"name": "Books",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -53,7 +53,7 @@
 						"authors"
 					]
 				},
-				"description": "geeft lijst van  alle books in de database. \ngeen authentication nodig."
+				"description": "geeft lijst van  alle authors in de database. \ngeen authentication nodig."
 			},
 			"response": []
 		},
@@ -105,14 +105,7 @@
 			"name": "create book 7",
 			"request": {
 				"method": "POST",
-				"header": [
-					{
-						"key": "X-XSRF-TOKEN",
-						"value": "e2ebcfd8-3469-4686-a95c-68703df5e0e8",
-						"description": "zet deze value met waarde uit cookie XSRF-TOKEN",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \"title\":\"bbb\",  \"priceInEur\":10, \"isbn\": \"1234567\"}",
@@ -139,14 +132,7 @@
 			"name": "edit book 7",
 			"request": {
 				"method": "PUT",
-				"header": [
-					{
-						"key": "X-XSRF-TOKEN",
-						"value": "673cbcb6-db38-4b1d-ae57-2e752d427895",
-						"description": "zet deze value met waarde uit cookie XSRF-TOKEN",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": "{ \"id\":7, \"title\":\"aaaaa\",   \"isbn\": \"1234567\"}",
@@ -221,14 +207,7 @@
 			"name": "edit authors for book 7",
 			"request": {
 				"method": "PUT",
-				"header": [
-					{
-						"key": "X-XSRF-TOKEN",
-						"value": "673cbcb6-db38-4b1d-ae57-2e752d427895",
-						"description": "zet deze value met waarde uit cookie XSRF-TOKEN",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": "[3]",
