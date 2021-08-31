@@ -4,7 +4,6 @@ import be.thomasmore.bookserver.model.Author;
 import be.thomasmore.bookserver.model.Book;
 import be.thomasmore.bookserver.model.dto.AuthorDTO;
 import be.thomasmore.bookserver.model.dto.BookDTO;
-import be.thomasmore.bookserver.repositories.AuthorRepository;
 import be.thomasmore.bookserver.repositories.BookRepository;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +24,6 @@ import java.util.Optional;
 public class BookController {
     @Autowired
     private BookRepository bookRepository;
-
-    @Autowired
-    private AuthorRepository authorRepository;
 
     @Autowired
     private ModelMapper modelMapper;

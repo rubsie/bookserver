@@ -7,6 +7,7 @@ const DEFAULT_HEADERS = {
     'Content-Type': 'application/json;charset=utf-8',
     'X-Requested-With': 'XMLHttpRequest'
 };
+const HTTP_STATUS_NO_CONTENT = 204;
 
 //utility context: this provider does not contain state.
 //it provides the different types of fetch functions
@@ -14,21 +15,7 @@ const DEFAULT_HEADERS = {
 export function FetchProvider(props) {
     const {setError, setIsLoading, clearAllMessages} = useMessageContext();
 
-    //addCsrf header is only necessary for POST/PUT/DELETE, not for GET
-    //we get the csrf-token from the cookie and add it in the X-XSRF-TOKEN header
-    const getHeaders = useCallback((addCsrf, addExtraHeaders) => {
-        const headersWithExtra = {...DEFAULT_HEADERS, ...addExtraHeaders};
-        if (!addCsrf) return headersWithExtra;
-
-        const cookie = document.cookie.match(new RegExp('XSRF-TOKEN=([^;]+)'));
-        const csrfToken = cookie && cookie[1];
-        console.log(`fetchWithCredentials token=${csrfToken}`);
-        if (!csrfToken) return headersWithExtra;
-
-        return {...headersWithExtra, 'X-XSRF-TOKEN': csrfToken};
-    }, []);
-
-    const fetchCommon = useCallback(async (method, url, bodyObject, addCsrf, addExtraHeaders) => {
+    const fetchCommon = useCallback(async (method, url, bodyObject) => {
         let result = undefined;
         clearAllMessages();
         console.log(`${method} ${url}: start`);
@@ -36,14 +23,13 @@ export function FetchProvider(props) {
         try {
             const fetchOptions = {
                 method: method,
-                'credentials': 'include',
-                headers: getHeaders(addCsrf, addExtraHeaders),
+                headers: {...DEFAULT_HEADERS},
                 body: JSON.stringify(bodyObject)
             };
             const response = await fetch(url, fetchOptions);
             console.log({response});
             if (response.ok) {
-                const responseBody = (response.status !== 204) ? await response.json() : {};
+                const responseBody = (response.status !== HTTP_STATUS_NO_CONTENT) ? await response.json() : {};
                 console.log(`${method} ${url}: received response ${JSON.stringify(responseBody)}`);
                 result = responseBody;
             } else {
@@ -62,36 +48,31 @@ export function FetchProvider(props) {
         setIsLoading(false);
         console.log(`${method} ${url}: done`);
         return result;
-    }, [clearAllMessages, setIsLoading, setError, getHeaders]);
+    }, [clearAllMessages, setIsLoading, setError]);
 
     const fetchGET = useCallback(async (url) => {
-        return await fetchCommon("GET", url, undefined, false);
-    }, [fetchCommon]);
-
-    const fetchGETWithExtraHeaders = useCallback(async (url, addExtraHeaders) => {
-        return await fetchCommon("GET", url, undefined, false, addExtraHeaders);
+        return await fetchCommon("GET", url, undefined);
     }, [fetchCommon]);
 
     const fetchPUT = useCallback(async (url, bodyObject) => {
-        return await fetchCommon("PUT", url, bodyObject, true);
+        return await fetchCommon("PUT", url, bodyObject);
     }, [fetchCommon]);
 
     const fetchPOST = useCallback(async (url, bodyObject) => {
-        return await fetchCommon("POST", url, bodyObject, true);
+        return await fetchCommon("POST", url, bodyObject);
     }, [fetchCommon]);
 
     const fetchDELETE = useCallback(async (url) => {
-        return await fetchCommon("DELETE", url, undefined, true);
+        return await fetchCommon("DELETE", url, undefined);
     }, [fetchCommon]);
 
     const api = useMemo(() => ({
             fetchGET,
-            fetchGETWithExtraHeaders,
             fetchPUT,
             fetchPOST,
             fetchDELETE
         }),
-        [fetchGET, fetchGETWithExtraHeaders, fetchPUT, fetchPOST, fetchDELETE]);
+        [fetchGET, fetchPUT, fetchPOST, fetchDELETE]);
 
     return (
         <FetchContext.Provider value={api}>

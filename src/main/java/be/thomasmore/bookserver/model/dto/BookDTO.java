@@ -1,6 +1,5 @@
 package be.thomasmore.bookserver.model.dto;
 
-import be.thomasmore.bookserver.model.Author;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

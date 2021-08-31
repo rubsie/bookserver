@@ -1,9 +1,7 @@
 package be.thomasmore.bookserver.controllers;
 
 import be.thomasmore.bookserver.model.Author;
-import be.thomasmore.bookserver.model.Book;
 import be.thomasmore.bookserver.model.dto.AuthorDTO;
-import be.thomasmore.bookserver.model.dto.BookDTO;
 import be.thomasmore.bookserver.repositories.AuthorRepository;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +9,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
