@@ -472,6 +472,31 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "list all books with authorization header",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dmVyYTp2ZXJh",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/books",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"books"
+					]
+				},
+				"description": "geeft lijst van  alle books in de database. \ngeen authentication nodig."
+			},
+			"response": []
 		}
 	],
 	"event": [
