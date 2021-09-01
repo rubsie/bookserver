@@ -131,7 +131,14 @@
 			"name": "create book 7",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "b318395e-a214-4394-8f36-44de98a87792",
+						"description": "voor je de Request stuurt zet je in deze Header de waarde uit cookie XSRF-TOKEN",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \"title\":\"bbb\",  \"priceInEur\":10, \"isbn\": \"1234567\"}",
@@ -158,7 +165,14 @@
 			"name": "edit book 7",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "e2ebcfd8-3469-4686-a95c-68703df5e0e8",
+						"description": "voor je de Request stuurt zet je in deze Header de waarde uit cookie XSRF-TOKEN",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{ \"id\":7, \"title\":\"aaaaa\",   \"isbn\": \"1234567\"}",
@@ -186,7 +200,14 @@
 			"name": "delete book 7",
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "e2ebcfd8-3469-4686-a95c-68703df5e0e8",
+						"description": "voor je de Request stuurt zet je in deze Header de waarde uit cookie XSRF-TOKEN",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "{{url}}/api/books/7",
 					"host": [
@@ -223,13 +244,41 @@
 			"response": []
 		},
 		{
+			"name": "list authors for book 7",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/books/7/authors",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"books",
+						"7",
+						"authors"
+					]
+				},
+				"description": "geeft lijst van  alle books in de database. \ngeen authentication nodig."
+			},
+			"response": []
+		},
+		{
 			"name": "edit authors for book 7",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "e2ebcfd8-3469-4686-a95c-68703df5e0e8",
+						"description": "voor je de Request stuurt zet je in deze Header de waarde uit cookie XSRF-TOKEN",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "[3]",
+					"raw": "[3,4]",
 					"options": {
 						"raw": {
 							"language": "json"

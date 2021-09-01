@@ -15,14 +15,27 @@ const HTTP_STATUS_NO_CONTENT = 204;
 export function FetchProvider(props) {
     const {setError, setIsLoading, clearAllMessages} = useMessageContext();
 
-    const fetchCommon = useCallback(async (method, url, bodyObject) => {
+    //addCsrf header is only necessary for POST/PUT/DELETE, not for GET
+    //we get the csrf-token from the cookie and add it in the X-XSRF-TOKEN header
+    const getHeaders = useCallback((addCsrf) => {
+        if (!addCsrf) return {...DEFAULT_HEADERS};
+
+        const cookie = document.cookie.match(new RegExp('XSRF-TOKEN=([^;]+)'));
+        const csrfToken = cookie && cookie[1];
+        console.log({csrfToken});
+        if (!csrfToken) return {...DEFAULT_HEADERS};
+
+        return {...DEFAULT_HEADERS, 'X-XSRF-TOKEN': csrfToken};
+    }, []);
+
+    const fetchCommon = useCallback(async (method, url, bodyObject, addCsrf) => {
         let result = undefined;
         clearAllMessages();
         console.log(`${method} ${url}: start`);
         setIsLoading(true);
         const fetchOptions = {
             method: method,
-            headers: {...DEFAULT_HEADERS},
+            headers: getHeaders(addCsrf),
             body: JSON.stringify(bodyObject)
         };
         try {
@@ -55,15 +68,15 @@ export function FetchProvider(props) {
     }, [fetchCommon]);
 
     const fetchPUT = useCallback(async (url, bodyObject) => {
-        return await fetchCommon("PUT", url, bodyObject);
+        return await fetchCommon("PUT", url, bodyObject, true);
     }, [fetchCommon]);
 
     const fetchPOST = useCallback(async (url, bodyObject) => {
-        return await fetchCommon("POST", url, bodyObject);
+        return await fetchCommon("POST", url, bodyObject, true);
     }, [fetchCommon]);
 
     const fetchDELETE = useCallback(async (url) => {
-        return await fetchCommon("DELETE", url, undefined);
+        return await fetchCommon("DELETE", url, undefined, true);
     }, [fetchCommon]);
 
     const api = useMemo(() => ({

@@ -25,7 +25,10 @@
       * username: sa, no pw
   * postman: 
       * import collection Books.postman_collection.json
-      * or... import swagger-doc in postman: http://localhost:8080/v2/api-docs 
+      * or... import swagger-doc in postman: http://localhost:8080/v2/api-docs
+      * post/put/delete:
+        * csrf-protection
+        * copy value van XSRF-TOKEN Cookie in de Header X-XSRF-TOKEN
   * client is served by server 
       * on index.html:  http://localhost:8080/
       * but you must do a "maven compile" first to make this work
