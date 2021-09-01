@@ -25,9 +25,6 @@ import java.util.Optional;
 @RequestMapping("/api")
 @Slf4j
 public class AuthenticationController {
-    @Value("${disable.security.for.test.purposes}")
-    private boolean disableSecurityForTestPurposes;
-
     @Autowired
     UserRepository userRepository;
 
@@ -40,10 +37,6 @@ public class AuthenticationController {
     @GetMapping("/authenticate")
     public AuthenticationDTO authenticate(Principal principal) {
         log.info("##### authenticate");
-        if (disableSecurityForTestPurposes) {
-            log.info("##### authenticate ATTENTION: disabled for test purposes");
-            return new AuthenticationDTO("DEV-USER");
-        }
         return new AuthenticationDTO(principal != null ? principal.getName() : "anonymous");
     }
 

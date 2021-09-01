@@ -76,7 +76,6 @@ export function AuthenticationProvider(props) {
 
     const api = useMemo(() => ({
             username,
-            setUsername,
             showLoginForm,
             setShowLoginForm,
             showSignupForm,
@@ -88,7 +87,7 @@ export function AuthenticationProvider(props) {
             openLoginForm,
             openSignupForm,
             isLoggedIn
-        }), [username, setUsername, showLoginForm, setShowLoginForm, showSignupForm, setShowSignupForm,
+        }), [username, showLoginForm, setShowLoginForm, showSignupForm, setShowSignupForm,
             authenticate, refreshAuthentication, signup, logout, openLoginForm, openSignupForm, isLoggedIn]
     );
 
