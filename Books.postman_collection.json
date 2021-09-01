@@ -299,6 +299,179 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "genre without authorization header",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/genres",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"genres"
+					]
+				},
+				"description": "GET /api/genre is alleen mogelijk als user ingelogd is (zie SecurityConfiguration.java).\n\nIn dit geval sturen we GEEN Auth info mee in de header, daardoor lukt deze request niet ALS HET DE EERSTE REQUEST IS. \nAls je voordien al een Request met Auth header gestuurd hebt dan onthoudt de browser (of Postman) dat. Er is dan een cookie met de sessie-id van deze user. Als je het JSESSIONID cookie weggooit begin je terug van scratch. \n\nDe server (spring security) valideert user/password. Zie SecurityConfiguration.java."
+			},
+			"response": []
+		},
+		{
+			"name": "genre with authorization header",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dmVyYTp2ZXJh",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/genres",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"genres"
+					]
+				},
+				"description": "GET /api/genre is alleen mogelijk als user ingelogd is (zie SecurityConfiguration.java).\n\nIn dit geval sturen we WEL Auth info mee in de header, daardoor lukt deze request ALTIJD en de browser (of Postman) onthoudt ook dat je ingelogd bent. Er is dan een cookie met de sessie-id van deze user. Als je het JSESSIONID cookie weggooit begin je terug van scratch. \n\nDe server (spring security) valideert user/password. Zie SecurityConfiguration.java."
+			},
+			"response": []
+		},
+		{
+			"name": "authenticate without authorization header (ERROR)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dmVyYTp2ZXJh",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/authenticate",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"authenticate"
+					]
+				},
+				"description": "Als de user al ingelogd is lukt deze request. \nAls de user nog niet ingelogd is geeft deze request een error (401). \n\nGET /api/authenticate is alleen mogelijk als user ingelogd is (zie SecurityConfiguration.java).\n\nIn dit geval sturen we GEEN Auth info mee in de header, daardoor lukt deze request niet ALS HET DE EERSTE REQUEST IS. \nAls je voordien al een Request met Auth header gestuurd hebt dan onthoudt de browser (of Postman) dat. Er is dan een cookie met de sessie-id van deze user. Als je het JSESSIONID cookie weggooit begin je terug van scratch. \n\nDe server (spring security) valideert user/password. Zie SecurityConfiguration.java."
+			},
+			"response": []
+		},
+		{
+			"name": "authenticate with autorization header",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dmVyYTp2ZXJh",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/authenticate",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"authenticate"
+					]
+				},
+				"description": "GET /api/authenticate is alleen mogelijk als user ingelogd is (zie SecurityConfiguration.java).\n\nIn dit geval sturen we WEL Auth info mee in de header, daardoor lukt deze request ALTIJD en de browser (of Postman) onthoudt ook dat je ingelogd bent. Er is dan een cookie met de sessie-id van deze user. Als je het JSESSIONID cookie weggooit begin je terug van scratch. \n\nDe server (spring security) valideert user/password. Zie SecurityConfiguration.java."
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Basic dmVyYTp2ZXJ",
+						"disabled": true
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "76415192-f8f6-49cf-89a5-209c4c989239",
+						"type": "text",
+						"description": "voor je de Request stuurt zet je in deze Header de waarde uit cookie XSRF-TOKEN"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/logout",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
