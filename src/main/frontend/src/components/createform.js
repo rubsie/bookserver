@@ -1,4 +1,5 @@
 import React from "react";
+import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {useBooksContext} from "../contexts/bookscontext";
 import {useAuthorsContext} from "../contexts/authorscontext";
 import {ModalWithForm, usePropsForModalWithInitialObject} from "./modal";
@@ -6,6 +7,7 @@ import {Form} from "react-bootstrap";
 
 export function CreateForm(props) {
     const {show, close} = props;
+    const {isLoggedIn} = useAuthenticationContext();
     const {createBookWithAuthors} = useBooksContext();
     const modalWithFormProps = usePropsForModalWithInitialObject({title: "", authorIds: [], priceInEur: ""});
     const {tempObject, firstInputRefElement, onChange, onChangeNumber, onChangeSelect} = modalWithFormProps;
@@ -20,7 +22,7 @@ export function CreateForm(props) {
     /* TODO create book with new author  */
     return <ModalWithForm modalWithFormProps={modalWithFormProps}
                           title="New book"
-                          isOpen={show}
+                          isOpen={isLoggedIn && show}
                           close={close}
                           doSubmit={doSubmit}
                           saveButtonText={"save"}>

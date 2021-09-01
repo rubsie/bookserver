@@ -48,5 +48,6 @@
         "proxy": "https://vp-books.herokuapp.com/",
       ```  
    * attention: this might nog work very well because on heroku versie3 is deployed
-
+* login with vera/vera, marie/password, admin/admin
+* ... or signup to register as a new user 
   

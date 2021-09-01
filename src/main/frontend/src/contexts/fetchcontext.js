@@ -17,25 +17,26 @@ export function FetchProvider(props) {
 
     //addCsrf header is only necessary for POST/PUT/DELETE, not for GET
     //we get the csrf-token from the cookie and add it in the X-XSRF-TOKEN header
-    const getHeaders = useCallback((addCsrf) => {
-        if (!addCsrf) return {...DEFAULT_HEADERS};
+    const getHeaders = useCallback((addCsrf, addExtraHeaders) => {
+        const headersWithExtra = {...DEFAULT_HEADERS, ...addExtraHeaders};
+        if (!addCsrf) return headersWithExtra;
 
         const cookie = document.cookie.match(new RegExp('XSRF-TOKEN=([^;]+)'));
         const csrfToken = cookie && cookie[1];
         console.log({csrfToken});
-        if (!csrfToken) return {...DEFAULT_HEADERS};
+        if (!csrfToken) return headersWithExtra;
 
-        return {...DEFAULT_HEADERS, 'X-XSRF-TOKEN': csrfToken};
+        return {...headersWithExtra, 'X-XSRF-TOKEN': csrfToken};
     }, []);
 
-    const fetchCommon = useCallback(async (method, url, bodyObject, addCsrf) => {
+    const fetchCommon = useCallback(async (method, url, bodyObject, addCsrf, addExtraHeaders) => {
         let result = undefined;
         clearAllMessages();
         console.log(`${method} ${url}: start`);
         setIsLoading(true);
         const fetchOptions = {
             method: method,
-            headers: getHeaders(addCsrf),
+            headers: getHeaders(addCsrf, addExtraHeaders),
             body: JSON.stringify(bodyObject)
         };
         try {
@@ -67,6 +68,10 @@ export function FetchProvider(props) {
         return await fetchCommon("GET", url, undefined);
     }, [fetchCommon]);
 
+    const fetchGETWithExtraHeaders = useCallback(async (url, addExtraHeaders) => {
+        return await fetchCommon("GET", url, undefined, false, addExtraHeaders);
+    }, [fetchCommon]);
+
     const fetchPUT = useCallback(async (url, bodyObject) => {
         return await fetchCommon("PUT", url, bodyObject, true);
     }, [fetchCommon]);
@@ -81,11 +86,12 @@ export function FetchProvider(props) {
 
     const api = useMemo(() => ({
             fetchGET,
+            fetchGETWithExtraHeaders,
             fetchPUT,
             fetchPOST,
             fetchDELETE
         }),
-        [fetchGET, fetchPUT, fetchPOST, fetchDELETE]);
+        [fetchGET, fetchGETWithExtraHeaders, fetchPUT, fetchPOST, fetchDELETE]);
 
     return (
         <FetchContext.Provider value={api}>

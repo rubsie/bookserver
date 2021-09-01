@@ -1,4 +1,5 @@
 import React, {useCallback} from "react";
+import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {useBooksContext} from "../contexts/bookscontext";
 import {useAuthorsContext} from "../contexts/authorscontext";
 import {ModalWithForm, usePropsForModalWithInitializer} from "./modal";
@@ -8,6 +9,7 @@ import {Form} from "react-bootstrap";
 //bookShownInEditForm is the book object that is selected to show. If not defined the edit-form is not open.
 export function EditForm(props) {
     const {bookShownInEditForm, setBookShownInEditForm} = props;
+    const {isLoggedIn} = useAuthenticationContext();
     const {editBookWithAuthors} = useBooksContext();
     const objectInitialValue = useCallback(() => {
         return {
@@ -30,7 +32,7 @@ export function EditForm(props) {
     /* TODO edit book with new author  */
     return <ModalWithForm modalWithFormProps={modalWithFormProps}
                           title="Edit the book"
-                          isOpen={bookShownInEditForm}
+                          isOpen={isLoggedIn && bookShownInEditForm}
                           close={close}
                           doSubmit={doSubmit}
                           saveButtonText={"save"}>

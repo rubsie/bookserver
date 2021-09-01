@@ -8,9 +8,11 @@ import {EditForm} from "./components/editform";
 import {BookList} from "./components/booklist";
 import {Message} from "./components/message";
 import {MessageProvider} from "./contexts/messagecontext";
+import {AuthenticationProvider} from "./contexts/authenticationcontext";
 import {BooksProvider} from "./contexts/bookscontext";
 import {FetchProvider} from "./contexts/fetchcontext";
 import {IconContext} from "react-icons";
+import {LoginSignupForm} from "./components/loginsignupform";
 import {AuthorsProvider} from "./contexts/authorscontext";
 
 function ProvidedApp() {
@@ -26,6 +28,7 @@ function ProvidedApp() {
             <BookList setShowEditFormForBook={setBookShownInEditForm}/>
             <EditForm bookShownInEditForm={bookShownInEditForm} setBookShownInEditForm={setBookShownInEditForm}/>
             <CreateForm show={showCreateForm} close={() => setShowCreateForm(false)}/>
+            <LoginSignupForm/>
         </div>
     );
 }
@@ -36,7 +39,9 @@ function App() {
             <FetchProvider>
                 <AuthorsProvider>
                     <BooksProvider>
-                        <ProvidedApp/>
+                        <AuthenticationProvider>
+                            <ProvidedApp/>
+                        </AuthenticationProvider>
                     </BooksProvider>
                 </AuthorsProvider>
             </FetchProvider>
