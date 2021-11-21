@@ -50,4 +50,20 @@ public class SlowPokemonController {
         return s;
     }
 
+    @ApiOperation(value = "demo for slow response to use in pokemon app. ",
+            notes = "Throws exception. </br>" +
+                    "it sleeps 5 seconds before it does. ")
+    @CrossOrigin
+    @GetMapping("ERROR/{id}")
+    public String findOneWithException(@PathVariable int id) {
+        log.info(String.format("##### Pokemon findOneWithException with id %d with exception", id));
+        try {
+            sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info("##### Pokemon findOneWithException throws NOW");
+        throw new RuntimeException("DUMMY POKEMON EXCEPTION");
+    }
+
 }
