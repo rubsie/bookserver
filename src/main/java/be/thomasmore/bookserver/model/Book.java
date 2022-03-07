@@ -31,6 +31,9 @@ public class Book {
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Author> authors;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Collection<Genre> genres;
+
     @Min(value=0, message="price should not be smaller than 0")
     @Max(value=200, message="price should not be greater than 200")
     Integer priceInEur;

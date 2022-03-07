@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @NoArgsConstructor
 @Data
@@ -18,6 +19,9 @@ public class Genre {
     int id;
     @NotBlank(message="Genre name should not be blank") @NotNull
     String name;
+
+    @ManyToMany(mappedBy = "genres", fetch = FetchType.LAZY)
+    private Set<Book> books;
 
     private float prijs;
 }
