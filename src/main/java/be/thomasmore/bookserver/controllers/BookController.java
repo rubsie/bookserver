@@ -46,6 +46,25 @@ public class BookController {
         return booksDTO;
     }
 
+//    @ApiOperation(value = "list of books in the database in certain price range.",
+//            notes = "If Request Parameter <b>price min</b> and <b>price max</b> is given: " +
+//                    "only books where the price is between min (incl) and max (excl) are returned. </br>" +
+//                    "Otherwise all books are returned. </br>" +
+//                    "</br>" +
+//                    "The authors Collection contains only id and name. </br>" +
+//                    "Use GET api/authors/{id}/authors  to fetch more info about the authors. ")
+//    @GetMapping("")
+//    public Iterable<BookDTO> findAll(@RequestParam(required = false) Integer min, Integer max) {
+//        log.info("##### findAll books - titleKeyWord=" + titleKeyWord);
+//        final Iterable<Book> books = (titleKeyWord == null) ?
+//                bookRepository.findAll() :
+//                bookRepository.findByTitleContainingIgnoreCase(titleKeyWord);
+//        ArrayList<BookDTO> booksDTO = new ArrayList<>();
+//        for (Book b : books) booksDTO.add(convertToDto(b));
+//        return booksDTO;
+//    }
+
+
     @ApiOperation(value = "get 1 book from the database.",
             notes = "Book with id is fetched from database. " +
                     "</br>" +
