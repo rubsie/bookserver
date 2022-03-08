@@ -22,6 +22,4 @@ public class Genre {
 
     @ManyToMany(mappedBy = "genres", fetch = FetchType.LAZY)
     private Set<Book> books;
-
-    private float prijs;
 }
