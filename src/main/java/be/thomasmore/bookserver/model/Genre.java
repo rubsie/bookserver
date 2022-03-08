@@ -18,6 +18,4 @@ public class Genre {
     int id;
     @NotBlank(message="Genre name should not be blank") @NotNull
     String name;
-
-    private float prijs;
 }
