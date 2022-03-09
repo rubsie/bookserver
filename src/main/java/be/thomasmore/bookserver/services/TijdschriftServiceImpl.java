@@ -14,4 +14,9 @@ public class TijdschriftServiceImpl implements TijdschriftService{
     public Iterable<Tijdschrift> findAll() {
         return tijdschriftRepository.findAll();
     }
+
+    @Override
+    public Iterable<Tijdschrift> findByNaamContainingIgnoreCase(String str) {
+        return tijdschriftRepository.findByNaamContainingIgnoreCase(str);
+    }
 }
