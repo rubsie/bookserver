@@ -13,4 +13,5 @@ public class Tijdschrift {
     private long id;
     private String type;
     private String naam;
+    private float prijs;
 }
