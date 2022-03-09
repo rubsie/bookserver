@@ -92,6 +92,34 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "wijzig krant 1",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"id\":1, \"naam\":\"De Tijd\", \"oplage\": 3000000 }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/kranten/1",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "kranten",
+            "1"
+          ]
+        }
+      },
+      "response": []
     }
   ],
   "event": [

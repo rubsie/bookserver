@@ -58,5 +58,13 @@ public class KrantController {
         else throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Krant met id %d bestaat niet", id));
     }
 
-
+    @PutMapping("{id}")
+    public void edit(@PathVariable int id,
+                     @RequestBody Krant krant){
+        log.info("##### edit krant -- id=" + id);
+        Optional<Krant> optKrant = krantRepository.findById(id);
+        if (optKrant.isPresent())
+            krantRepository.save(krant);
+        else throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Krant met id %d bestaat niet", id));
+    }
 }
