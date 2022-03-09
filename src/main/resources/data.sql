@@ -7,6 +7,15 @@ values(nextval('KRANT_SEQ'), 'HLN', 1500000);
 insert into Krant(ID, NAAM, OPLAGE)
 values(nextval('KRANT_SEQ'), 'Het Nieuwsblad', 2000000);
 
+insert into Tijdschrift(ID, NAAM, TYPE)
+values(nextval('TIJDSCHRIFT_SEQ'), 'Sportmagazine', 'maandblad');
+
+insert into Tijdschrift(ID, NAAM, TYPE)
+values(nextval('TIJDSCHRIFT_SEQ'), 'Flair', 'weekblad');
+
+insert into Tijdschrift(ID, NAAM, TYPE)
+values(nextval('TIJDSCHRIFT_SEQ'), 'Automagazine', 'maandblad');
+
 insert into BOOK (ID, TITLE, AUTHOR, PRICE_IN_EUR)
 values (nextval('BOOK_SEQ'), 'Oryx and Crake', 'Margaret Atwood', 22); /*1*/
 
