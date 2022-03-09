@@ -62,6 +62,9 @@ public class KrantController {
     public void edit(@PathVariable int id,
                      @RequestBody Krant krant){
         log.info("##### edit krant -- id=" + id);
+        if(id!=krant.getId())
+            throw new ResponseStatusException((HttpStatus.INTERNAL_SERVER_ERROR),String.format("is in url %d komt niet overeen met id van krant %d",id, krant.getId()));
+
         Optional<Krant> optKrant = krantRepository.findById(id);
         if (optKrant.isPresent())
             krantRepository.save(krant);
