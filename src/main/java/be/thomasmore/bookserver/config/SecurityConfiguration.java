@@ -1,7 +1,6 @@
 package be.thomasmore.bookserver.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,9 +24,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //http.csrf().disable(); DOE DIT ZEKER NIET!!!!
+        //http.csrf().disable(); //DOE DIT ZEKER NIET!!!!
         http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         http.authorizeRequests().antMatchers("/api/genres/**").authenticated();
+        http.authorizeRequests().antMatchers("/api/kranten/**").permitAll();
         http.authorizeRequests().antMatchers("/api/authenticate/**").authenticated();
         http.authorizeRequests().antMatchers("/api/signup/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/**").permitAll();

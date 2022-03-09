@@ -35,7 +35,7 @@ public class KrantController {
 
     @GetMapping("{id}")
     public Krant read(@PathVariable int id) {
-        log.info("##### read krant -- if=" + id);
+        log.info("##### read krant -- id=" + id);
         Optional<Krant> optKrant = krantRepository.findById(id);
         if (optKrant.isPresent())
             return optKrant.get();
@@ -43,8 +43,20 @@ public class KrantController {
     }
 
     @PostMapping()
-    public Krant create(@RequestBody Krant krant){
-        Krant nieweKrant=krantRepository.save(krant);
+    public Krant create(@RequestBody Krant krant) {
+        log.info("##### create krant");
+        Krant nieweKrant = krantRepository.save(krant);
         return nieweKrant;
     }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable int id) {
+        log.info("##### delete krant -- id=" + id);
+        Optional<Krant> optKrant = krantRepository.findById(id);
+        if (optKrant.isPresent())
+            krantRepository.deleteById(id);
+        else throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Krant met id %d bestaat niet", id));
+    }
+
+
 }

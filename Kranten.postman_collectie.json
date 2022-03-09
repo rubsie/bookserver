@@ -6,7 +6,7 @@
   },
   "item": [
     {
-      "name": "alle kranten oplijsten",
+      "name": "alle kranten",
       "request": {
         "method": "GET",
         "header": [],
@@ -71,6 +71,25 @@
           ]
         },
         "description": "geeft 1 krant met gegeven id uit de database. \ngeen authentication nodig."
+      },
+      "response": []
+    },
+    {
+      "name": "delete krant 1",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/kranten/1",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "kranten",
+            "1"
+          ]
+        }
       },
       "response": []
     }
