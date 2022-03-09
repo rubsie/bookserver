@@ -27,4 +27,6 @@ public class TijdchriftController {
         log.info("##### findAll tijdschriften");
         return tijdschriftService.findByNaamContainingIgnoreCase(zoekterm);
     }
+
+
 }
