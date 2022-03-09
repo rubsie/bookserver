@@ -53,6 +53,26 @@
         "description": "kranten gefilterd op oplage. \ngeen authentication nodig."
       },
       "response": []
+    },
+    {
+      "name": "read krant",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/kranten/1",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "kranten",
+            "1"
+          ]
+        },
+        "description": "geeft 1 krant met gegeven id uit de database. \ngeen authentication nodig."
+      },
+      "response": []
     }
   ],
   "event": [

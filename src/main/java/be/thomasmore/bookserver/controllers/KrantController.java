@@ -41,4 +41,10 @@ public class KrantController {
             return optKrant.get();
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Krant met id %d bestaat niet", id));
     }
+
+    @PostMapping()
+    public Krant create(@RequestBody Krant krant){
+        Krant nieweKrant=krantRepository.save(krant);
+        return nieweKrant;
+    }
 }
