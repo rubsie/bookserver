@@ -59,15 +59,17 @@ public class KrantController {
     }
 
     @PutMapping("{id}")
-    public void edit(@PathVariable int id,
+    public Krant edit(@PathVariable int id,
                      @RequestBody Krant krant){
         log.info("##### edit krant -- id=" + id);
         if(id!=krant.getId())
             throw new ResponseStatusException((HttpStatus.INTERNAL_SERVER_ERROR),String.format("is in url %d komt niet overeen met id van krant %d",id, krant.getId()));
 
         Optional<Krant> optKrant = krantRepository.findById(id);
-        if (optKrant.isPresent())
-            krantRepository.save(krant);
+        if (optKrant.isPresent()) {
+            Krant geupdateKrant = krantRepository.save(krant);
+            return geupdateKrant;
+        }
         else throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Krant met id %d bestaat niet", id));
     }
 }
