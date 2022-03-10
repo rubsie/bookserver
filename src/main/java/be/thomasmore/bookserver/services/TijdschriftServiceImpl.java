@@ -5,6 +5,8 @@ import be.thomasmore.bookserver.repositories.TijdschriftRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class TijdschriftServiceImpl implements TijdschriftService{
     @Autowired
@@ -19,4 +21,21 @@ public class TijdschriftServiceImpl implements TijdschriftService{
     public Iterable<Tijdschrift> findByNaamContainingIgnoreCase(String str) {
         return tijdschriftRepository.findByNaamContainingIgnoreCase(str);
     }
+
+    @Override
+    public Optional<Tijdschrift> findById(long id) {
+        return tijdschriftRepository.findById(id);
+    }
+
+    @Override
+    public Tijdschrift save(Tijdschrift tijdschrift) {
+        return tijdschriftRepository.save(tijdschrift);
+    }
+
+    @Override
+    public void deleteById(long id) {
+        tijdschriftRepository.deleteById(id);
+    }
+
+
 }

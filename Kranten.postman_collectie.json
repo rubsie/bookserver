@@ -75,6 +75,33 @@
       "response": []
     },
     {
+      "name": "create krant",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{  \"naam\":\"New York Times\", \"oplage\":\"100000000\" }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/kranten",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "kranten"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "delete krant 1",
       "request": {
         "method": "DELETE",
