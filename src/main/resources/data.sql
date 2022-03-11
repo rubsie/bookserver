@@ -16,6 +16,33 @@ values(nextval('TIJDSCHRIFT_SEQ'), 'Flair', 'weekblad', 6.00);
 insert into Tijdschrift(ID, NAAM, TYPE, PRIJS)
 values(nextval('TIJDSCHRIFT_SEQ'), 'Automagazine', 'maandblad', 14.50);
 
+insert into Stripreeks(ID, NAAM, GENRE)
+values(nextval('STRIPREEKS_SEQ'), 'Suske en Wiske', 'jeugd');
+
+insert into Stripreeks(ID, NAAM, GENRE)
+values(nextval('STRIPREEKS_SEQ'), 'Jommeke', 'jeugd');
+
+insert into Stripreeks(ID, NAAM, GENRE)
+values(nextval('STRIPREEKS_SEQ'), 'Bessy', 'western');
+
+insert into Stripalbum(ID, TITEL, KLEUR, PRIJS, STRIPREEKS_ID)
+values(nextval('STRIPALBUM_SEQ'), 'Het hondenparadijs', true, 5.99 ,1 );
+
+insert into Stripalbum(ID, TITEL, KLEUR, PRIJS, STRIPREEKS_ID)
+values(nextval('STRIPALBUM_SEQ'), 'De kale kapper', true, 5.99 , 1);
+
+insert into Stripalbum(ID, TITEL, KLEUR, PRIJS,  STRIPREEKS_ID)
+values(nextval('STRIPALBUM_SEQ'), 'Purperen pillen', true,  5.99 , 2);
+
+insert into Stripalbum(ID, TITEL, KLEUR, PRIJS, STRIPREEKS_ID)
+values(nextval('STRIPALBUM_SEQ'), 'De vuurproef', true, 5.99 , 3);
+
+insert into Stripalbum(ID, TITEL, KLEUR, PRIJS, STRIPREEKS_ID)
+values(nextval('STRIPALBUM_SEQ'), 'De drie pijlen', false, 5.99, 3);
+
+insert into Stripalbum(ID, TITEL, KLEUR, PRIJS, STRIPREEKS_ID)
+values(nextval('STRIPALBUM_SEQ'), 'Witte bliksem',  false, 5.99, 3);
+
 insert into BOOK (ID, TITLE, AUTHOR, PRICE_IN_EUR)
 values (nextval('BOOK_SEQ'), 'Oryx and Crake', 'Margaret Atwood', 22); /*1*/
 
