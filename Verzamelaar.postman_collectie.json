@@ -1,0 +1,104 @@
+{
+  "info": {
+    "_postman_id": "",
+    "name": "Verzamelaars",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "get alle verzamelaars",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/verzamelaars",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "verzamelaars"
+          ]
+        },
+        "description": "geeft lijst van alle verzamelaars in de database. \ngeen authentication nodig."
+      },
+      "response": []
+    },
+    {
+      "name": "get verzamelaar.stripalbums",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/verzamelaars/1/stripalbums",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "verzamelaars",
+            "1",
+            "stripalbums"
+          ]
+        },
+        "description": "geeft alle stripalbums van een verzamelaar in de database. \ngeen authentication nodig."
+      },
+      "response": []
+    },
+    {
+      "name": "set verzamelaar.stripalbums",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[4,6]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/verzamelaars/1/stripalbums",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "verzamelaars",
+            "1",
+            "stripalbums"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "url",
+      "value": "http://localhost:8080"
+    }
+  ]
+}

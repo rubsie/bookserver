@@ -43,6 +43,24 @@ values(nextval('STRIPALBUM_SEQ'), 'De drie pijlen', false, 5.99, 3);
 insert into Stripalbum(ID, TITEL, KLEUR, PRIJS, STRIPREEKS_ID)
 values(nextval('STRIPALBUM_SEQ'), 'Witte bliksem',  false, 5.99, 3);
 
+insert into verzamelaar(ID, NAAM, BROERS)
+values(nextval('VERZAMELAAR_SEQ'),'Ronny Wouters', 2);
+
+insert into verzamelaar(ID, NAAM, BROERS)
+values(nextval('VERZAMELAAR_SEQ'),'An Bergs', 4);
+
+insert into verzamelaar_stripalbums(VERZAMELAARS_ID, STRIPALBUMS_ID)
+values(1,1);
+
+insert into verzamelaar_stripalbums(VERZAMELAARS_ID, STRIPALBUMS_ID)
+values(1,2);
+
+insert into verzamelaar_stripalbums(VERZAMELAARS_ID, STRIPALBUMS_ID)
+values(2,1);
+
+insert into verzamelaar_stripalbums(VERZAMELAARS_ID, STRIPALBUMS_ID)
+values(2,5);
+
 insert into BOOK (ID, TITLE, AUTHOR, PRICE_IN_EUR)
 values (nextval('BOOK_SEQ'), 'Oryx and Crake', 'Margaret Atwood', 22); /*1*/
 
@@ -124,5 +142,3 @@ INSERT INTO BOOKSUSER (ID, USERNAME, PASSWORD, ROLE) VALUES
 INSERT INTO BOOKSUSER (ID, USERNAME, PASSWORD, ROLE) VALUES
 (nextval('USER_SEQ'), 'vera',
  '$2y$12$KF3spKP4kgf59.6zYkmjyeYaW2.4ZxV16Grpw1FPsFnzYq68kswJ6', 'USER'); --vera
-
-
