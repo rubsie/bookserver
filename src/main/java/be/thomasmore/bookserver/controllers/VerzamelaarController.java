@@ -36,7 +36,7 @@ public class VerzamelaarController {
     }
 
     @GetMapping("{id}/stripalbums")
-    public Iterable<StripalbumDTO> stripalbumssOfVerzamelaar(@PathVariable int id) {
+    public Iterable<StripalbumDTO> stripalbumsOfVerzamelaar(@PathVariable int id) {
         Optional<Verzamelaar> optVerzamelaar = verzamelaarRepository.findById(id);
         if (!optVerzamelaar.isPresent())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
