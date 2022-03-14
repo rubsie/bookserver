@@ -1,0 +1,101 @@
+{
+  "info": {
+    "_postman_id": "",
+    "name": "Genres",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "alle genres",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/genres",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "genres"
+          ]
+        },
+        "description": "geeft lijst van alle genres in de database. \ngeen authentication nodig."
+      },
+      "response": []
+    },
+    {
+      "name": "read genre",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/genres/1",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "genres",
+            "1"
+          ]
+        },
+        "description": "geeft 1 genre met gegeven id uit de database. \ngeen authentication nodig."
+      },
+      "response": []
+    },
+    {
+      "name": "create genre",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{  \"name\":\"comedy\" }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/genres",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "genres"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "url",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
