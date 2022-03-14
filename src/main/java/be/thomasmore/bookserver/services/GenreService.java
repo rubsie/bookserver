@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface GenreService {
     Iterable<Genre> findAll();
     Optional<Genre> findById(int id);
+    void deleteById(int id);
     Optional<Genre> findByName(String name);
     Genre save(Genre genre);
 }

@@ -6,6 +6,7 @@ import be.thomasmore.bookserver.services.GenreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -56,5 +57,16 @@ public class GenreController {
                     String.format("Genre with id %d not found.", id));
         Genre savedGenre = genreService.save(genre);
         return (genreService.save(savedGenre));
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable int id){
+        log.info(String.format("##### delete genre %d", id));
+        Optional<Genre> genreFromDb = genreService.findById(id);
+        if (genreFromDb.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    String.format("Genre with id %d not found.", id));
+        genreService.deleteById(id);
     }
 }

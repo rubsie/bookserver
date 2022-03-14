@@ -98,6 +98,25 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "delete genre 4",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/genres/4",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "genres",
+            "4"
+          ]
+        }
+      },
+      "response": []
     }
   ],
   "event": [
