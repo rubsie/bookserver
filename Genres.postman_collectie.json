@@ -70,6 +70,34 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "update genre 4",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"id\":4, \"name\":\"comedy\" }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/genres/4",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "genres",
+            "4"
+          ]
+        }
+      },
+      "response": []
     }
   ],
   "event": [

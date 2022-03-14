@@ -43,4 +43,18 @@ public class GenreController {
                     String.format("Genre with name %s already exists.", genre.getName()));
         return (genreService.save(genre));
     }
+
+    @PutMapping("{id}")
+    public Genre edit(@PathVariable int id, @RequestBody Genre genre){
+        log.info(String.format("##### edit genre %d", id));
+        if (genre.getId() != id)
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    String.format("id in genre (%d) does not match id in url (%d).", genre.getId(), id));
+        Optional<Genre> genreFromDb = genreService.findById(id);
+        if (genreFromDb.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    String.format("Genre with id %d not found.", id));
+        Genre savedGenre = genreService.save(genre);
+        return (genreService.save(savedGenre));
+    }
 }
