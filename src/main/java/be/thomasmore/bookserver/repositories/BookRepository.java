@@ -12,4 +12,6 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
 
     Iterable<Book> findByTitleContainingIgnoreCase(String titleKeyWord);
 
+    Iterable<Book> findByPriceInEurBetween(int min, int max);
+
 }

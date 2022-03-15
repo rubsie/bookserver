@@ -16,7 +16,8 @@ export function EditForm(props) {
             id: bookShownInEditForm.id,
             title: bookShownInEditForm.title,
             authorIds: bookShownInEditForm.authors.map(a => a.id),
-            priceInEur: bookShownInEditForm.priceInEur
+            priceInEur: bookShownInEditForm.priceInEur,
+            ISBN: bookShownInEditForm.ISBN
         };
     }, [bookShownInEditForm]);
     const modalWithFormProps = usePropsForModalWithInitializer(objectInitialValue);
@@ -53,6 +54,12 @@ export function EditForm(props) {
             <Form.Label>price (€): </Form.Label>
             <Form.Control value={tempObject && tempObject.priceInEur} type="number" min="0" max="2000"
                           onChange={e => onChangeNumber(e, "priceInEur")}/>
+        </Form.Group>
+
+        <Form.Group controlId="ISBN" className="mb-3">
+            <Form.Label>ISBN: </Form.Label>
+            <Form.Control value={tempObject && tempObject.ISBN} type="text"
+                          onChange={e => onChangeNumber(e, "ISBN")}/>
         </Form.Group>
     </ModalWithForm>;
 }
