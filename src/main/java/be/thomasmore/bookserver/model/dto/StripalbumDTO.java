@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class StripalbumDTO {
     private String titel;
-    public boolean kleur;
+    private boolean kleur;
     private Stripreeks stripreeks;
     private String info="Voor prijzen contacteer onze vertegenwoordiger.";
 }

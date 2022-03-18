@@ -42,11 +42,16 @@ public class KrantController {
     @PostMapping()
     public Krant create(@RequestBody Krant krant) {
         log.info("##### create krant");
+        if(krantRepository.findByNaamIgnoreCase(krant.getNaam()).isPresent()){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    String.format("Krant met naam %s bestaat al.", krant.getNaam()));
+        }
         Krant nieweKrant = krantRepository.save(krant);
         return nieweKrant;
     }
 
     @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         log.info("##### delete krant -- id=" + id);
         Optional<Krant> optKrant = krantRepository.findById(id);

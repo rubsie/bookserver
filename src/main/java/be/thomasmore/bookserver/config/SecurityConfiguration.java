@@ -22,15 +22,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
+    /*@Override
+    protected void configure(HttpSecurity http) throws Exception {
+        //http.csrf().disable(); //DOE DIT ZEKER NIET!!!!
+        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+        http.authorizeRequests().antMatchers("/api/genres/**").authenticated();
+        http.authorizeRequests().antMatchers("/api/authenticate/**").authenticated();
+        http.authorizeRequests().antMatchers("/api/signup/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/**").authenticated();
+        http.authorizeRequests().anyRequest().permitAll();
+        http.httpBasic();
+        //http.formLogin();
+        http.csrf().ignoringAntMatchers("/h2-console/**");
+        http.headers().frameOptions().sameOrigin();
+    }*/
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //http.csrf().disable(); //DOE DIT ZEKER NIET!!!!
         http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         http.authorizeRequests().antMatchers("/api/genres/**").authenticated();
-        http.authorizeRequests().antMatchers("/api/kranten/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/tijdschriften/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/stripalbums/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/verzamelaars/**").permitAll();
         http.authorizeRequests().antMatchers("/api/authenticate/**").authenticated();
         http.authorizeRequests().antMatchers("/api/signup/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/**").permitAll();

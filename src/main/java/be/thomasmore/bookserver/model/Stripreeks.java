@@ -12,6 +12,7 @@ public class Stripreeks {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stripreeks_generator")
     @SequenceGenerator(name = "stripreeks_generator", sequenceName = "stripreeks_seq", allocationSize = 1)
     private int id;
+    @Column(unique = true)
     private String naam;
     private String genre;
 }

@@ -14,6 +14,10 @@ import {FetchProvider} from "./contexts/fetchcontext";
 import {IconContext} from "react-icons";
 import {LoginSignupForm} from "./components/loginsignupform";
 import {AuthorsProvider} from "./contexts/authorscontext";
+import {PapersProvider} from "./contexts/paperscontext";
+import {PaperList} from "./components/paperlist";
+import {CollectorsProvider} from "./contexts/collectorscontext";
+import {CollectorList} from "./components/collectorslist";
 
 function ProvidedApp() {
     const [bookShownInEditForm, setBookShownInEditForm] = useState();
@@ -29,6 +33,8 @@ function ProvidedApp() {
             <EditForm bookShownInEditForm={bookShownInEditForm} setBookShownInEditForm={setBookShownInEditForm}/>
             <CreateForm show={showCreateForm} close={() => setShowCreateForm(false)}/>
             <LoginSignupForm/>
+            <PaperList/>
+            <CollectorList/>
         </div>
     );
 }
@@ -39,15 +45,18 @@ function App() {
             <FetchProvider>
                 <AuthorsProvider>
                     <BooksProvider>
-                        <AuthenticationProvider>
-                            <ProvidedApp/>
-                        </AuthenticationProvider>
+                        <PapersProvider>
+                            <CollectorsProvider>
+                                <AuthenticationProvider>
+                                    <ProvidedApp/>
+                                </AuthenticationProvider>
+                            </CollectorsProvider>
+                        </PapersProvider>
                     </BooksProvider>
                 </AuthorsProvider>
             </FetchProvider>
         </MessageProvider>
     </IconContext.Provider>;
-
 }
 
 export default App;

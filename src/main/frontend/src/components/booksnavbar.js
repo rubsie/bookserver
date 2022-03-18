@@ -5,12 +5,15 @@ import {MdAdd, MdRefresh} from "react-icons/md";
 import {IfLoggedIn} from "./ifLoggedIn";
 import {useBooksContext} from "../contexts/bookscontext";
 import {Button, Container, Nav, Navbar} from "react-bootstrap";
+import {usePapersContext} from "../contexts/paperscontext";
 
 /** * @return {null} */
 export function Booksnavbar(props) {
     const {setShowCreateForm} = props;
     const {username} = useAuthenticationContext();
     const {getBooks} = useBooksContext();
+    const {createPaper} = usePapersContext();
+    const {deletePaper} = usePapersContext();
     const userInfo = username ? `logged in as ${username}` : "not logged in.";
 
     return <>
@@ -25,6 +28,15 @@ export function Booksnavbar(props) {
                         <Button className="m-1" size='sm' color="light"
                                 onClick={() => setShowCreateForm(true)}>
                             <MdAdd color="inherit"/></Button>
+                        <button onClick={()=> {
+                            var naam=prompt("naam");
+                            var oplage=parseInt(prompt("oplage"));
+                            createPaper({naam:naam,oplage:oplage});
+                        }}>Nieuwe krant</button>
+                        <button onClick={()=> {
+                            var id=parseInt(prompt("id"));
+                            deletePaper(id);
+                        }}>Verwijder krant</button>
                     </IfLoggedIn>
                 </Nav>
                 <Nav className="justify-content-end">

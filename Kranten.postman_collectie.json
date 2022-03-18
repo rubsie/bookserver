@@ -102,6 +102,33 @@
       "response": []
     },
     {
+      "name": "create krant naam bestaat al",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{  \"naam\":\"gva\", \"oplage\":\"100000000\" }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/kranten",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "kranten"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "delete krant 1",
       "request": {
         "method": "DELETE",

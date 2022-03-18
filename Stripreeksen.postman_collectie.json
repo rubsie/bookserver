@@ -1,0 +1,81 @@
+{
+  "info": {
+    "_postman_id": "",
+    "name": "Stripreeksen",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "alle stripreeksen",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/stripreeksen",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "stripreeksen"
+          ]
+        },
+        "description": "geeft lijst van alle stripreeksen in de database. \ngeen authentication nodig."
+      },
+      "response": []
+    },
+    {
+      "name": "create stripreeks die al bestaat",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{  \"naam\":\"Bessy\", \"genre\": \"jeugd\" }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/stripreeksen",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "stripreeksen"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "url",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
