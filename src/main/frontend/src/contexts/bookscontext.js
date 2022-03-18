@@ -88,9 +88,11 @@ export function BooksProvider(props) {
             editBookWithAuthors,
             editAuthorsForBook,
             createBookWithAuthors,
-            deleteBook
+            deleteBook,
+            fetchGET,
+        setBooks
         }),
-        [books, getBooks, editBook, editBookWithAuthors, editAuthorsForBook, createBookWithAuthors, deleteBook]);
+        [books, getBooks, editBook, editBookWithAuthors, editAuthorsForBook, createBookWithAuthors, deleteBook, fetchGET, setBooks]);
 
     return <BooksContext.Provider value={api}>
         {props.children}
