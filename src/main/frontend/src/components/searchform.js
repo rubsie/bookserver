@@ -21,28 +21,28 @@ export function Search() {
             + "&title=" + `${(inputs.title === undefined) ? '' : inputs.title}`
             + "&author=" + `${(inputs.author === undefined) ? '' : inputs.author}`
         console.log("-------------url with searchstring: " + url)
-        const searchedBooks = await fetchGET(url);
+        const searchedBooks = await fetchGET(url)
         setBooks(searchedBooks);
     }
 
 
     return <Card>
-        <Card.Header>Search for books</Card.Header>
+        <Card.Header>Search for books matching all the inputs below</Card.Header>
         <Row>
-            <Form onSubmit={handleSubmit}>
-                <Col lg={2}>
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control type="text" name="title" value={inputs.title} onChange={handleChange}/></Col>
-                <Col lg={2}>
-                    <Form.Label>Author</Form.Label>
-                    <Form.Control type="text" name="author" value={inputs.author} onChange={handleChange}/></Col>
-                <Col lg={2}>
-                    <Form.Label>Min price</Form.Label>
-                    <Form.Control type="number" name="minprice" value={inputs.minprice} onChange={handleChange}/></Col>
-                <Col lg={2}>
-                    <Form.Label>Max price</Form.Label>
-                    <Form.Control type="number" name="maxprice" value={inputs.maxprice} onChange={handleChange}/></Col>
-                <Col lg={2}>
+            <Form onSubmit={handleSubmit} className="d-flex">
+                <Col lg={2} sm={10} className="m-2">
+                    <Form.Control type="text" name="title" placeholder="Book title" value={inputs.title}
+                                  onChange={handleChange}/></Col>
+                <Col lg={2} sm={10} className="m-2">
+                    <Form.Control type="text" name="author" placeholder="Author" value={inputs.author}
+                                  onChange={handleChange}/></Col>
+                <Col lg={2} sm={10} className="m-2">
+                    <Form.Control type="number" name="minprice" placeholder="Minimum book price" value={inputs.minprice}
+                                  onChange={handleChange}/></Col>
+                <Col lg={2} sm={10} className="m-2">
+                    <Form.Control type="number" name="maxprice" placeholder="Maximum book price" value={inputs.maxprice}
+                                  onChange={handleChange}/></Col>
+                <Col lg={1} sm={4} className="m-2">
                     <Button variant="primary" type="submit">Search</Button></Col>
             </Form>
         </Row>

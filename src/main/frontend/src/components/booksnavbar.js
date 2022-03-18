@@ -8,7 +8,7 @@ import {Button, Container, Nav, Navbar} from "react-bootstrap";
 
 /** * @return {null} */
 export function Booksnavbar(props) {
-    const {setShowCreateForm} = props;
+    const {setShowCreateForm, setShowCreateNewType} = props;
     const {username} = useAuthenticationContext();
     const {getBooks} = useBooksContext();
     const userInfo = username ? `logged in as ${username}` : "not logged in.";
@@ -25,6 +25,10 @@ export function Booksnavbar(props) {
                         <Button className="m-1" size='sm' color="light"
                                 onClick={() => setShowCreateForm(true)}>
                             <MdAdd color="inherit"/></Button>
+                        <Button className="m-1" size='sm' color="light"
+                                onClick={() => setShowCreateNewType(true)}>
+                            <MdAdd color="inherit"/>Author</Button>
+
                     </IfLoggedIn>
                 </Nav>
                 <Nav className="justify-content-end">

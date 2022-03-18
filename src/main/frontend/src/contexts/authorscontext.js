@@ -6,13 +6,14 @@ const AuthorsContext = createContext();
 export function AuthorsProvider(props) {
     const [authors, setAuthors] = useState([]);
     const {fetchGET} = useFetchContext();
-
+    const [isAuthorsDirty, setIsAuthorsDirty] = useState(false);
     console.log({authors});
 
     const getAuthors = useCallback(async () => {
         const result = await fetchGET("api/authors");
         if (result) {
             setAuthors(result);
+            setIsAuthorsDirty(false);
         }
     }, [fetchGET, setAuthors]);
 
@@ -20,11 +21,11 @@ export function AuthorsProvider(props) {
     useEffect(() => {
         console.log("useEffect AuthorsContext");
         getAuthors();
-    }, [getAuthors]);
+    }, [getAuthors, isAuthorsDirty]);
 
     const api = useMemo(() => ({
-        authors
-    }), [authors]);
+        authors, isAuthorsDirty, setIsAuthorsDirty
+    }), [authors, isAuthorsDirty, setIsAuthorsDirty]);
 
     return <AuthorsContext.Provider value={api}>
         {props.children}
