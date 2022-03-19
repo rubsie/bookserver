@@ -15,6 +15,7 @@ export function Book(props) {
                 <Card.Title>{book.title}</Card.Title>
                 <Card.Text>{book.authors.map(a => a.authorName).join(",")}</Card.Text>
                 <Card.Text>{book.priceInEur}{book.priceInEur && " €"}</Card.Text>
+                <Card.Text>{book.ISBN}{"ISBN" && book.ISBN}</Card.Text>
             </Card.Body>
             <IfLoggedIn>
                 <Card.Footer>

@@ -4,13 +4,13 @@ import {useFetchContext} from "../contexts/fetchcontext";
 import {useAuthorsContext} from "../contexts/authorscontext";
 
 export function CreateNew(props) {
-    //type can be genre, author...
     const {showCreateNewType, setShowCreateNewType} = props;
     const [inputs, setInputs] = useState({});
     const {fetchPOST} = useFetchContext();
-    const {isAuthorsDirty, setIsAuthorsDirty} = useAuthorsContext();
+    const {setIsAuthorsDirty} = useAuthorsContext();
     console.log("------------:" + showCreateNewType);
 
+//move to authorscontext:
     const handleSave = async event => {
         event.preventDefault();
         let bodyObject = {name: inputs.author}

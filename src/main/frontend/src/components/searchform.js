@@ -4,7 +4,7 @@ import {Col, Form, Button, Card} from "react-bootstrap";
 import {Row} from "react-bootstrap";
 
 export function Search() {
-    const {fetchGET, setBooks} = useBooksContext();
+    const {fetchGET, setBooks, setIsBooksDirty} = useBooksContext();
     const [inputs, setInputs] = useState({});
 
     const handleChange = event => {
@@ -25,11 +25,17 @@ export function Search() {
         setBooks(searchedBooks);
     }
 
+    const resetSearch = event => {
+        event.preventDefault();
+        setInputs({title:'', author:'', minprice:'',maxprice:''});
+        setIsBooksDirty(true);
+    }
+
 
     return <Card>
         <Card.Header>Search for books matching all the inputs below</Card.Header>
         <Row>
-            <Form onSubmit={handleSubmit} className="d-flex">
+            <Form onSubmit={handleSubmit} className="d-flex" name="searchForm">
                 <Col lg={2} sm={10} className="m-2">
                     <Form.Control type="text" name="title" placeholder="Book title" value={inputs.title}
                                   onChange={handleChange}/></Col>
@@ -42,8 +48,9 @@ export function Search() {
                 <Col lg={2} sm={10} className="m-2">
                     <Form.Control type="number" name="maxprice" placeholder="Maximum book price" value={inputs.maxprice}
                                   onChange={handleChange}/></Col>
-                <Col lg={1} sm={4} className="m-2">
-                    <Button variant="primary" type="submit">Search</Button></Col>
+                <Col lg={1} sm={4} className="m-0 d-flex">
+                    <Button variant="primary" type="submit" className="m-2">Search</Button>
+                    <Button variant="primary" type="submit" className="m-2" onClick={resetSearch}>Reset</Button></Col>
             </Form>
         </Row>
     </Card>
