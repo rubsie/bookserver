@@ -1,16 +1,13 @@
 package be.thomasmore.bookserver.controllers;
 
 import be.thomasmore.bookserver.model.Genre;
-import be.thomasmore.bookserver.repositories.GenreRepository;
 import be.thomasmore.bookserver.services.GenreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController

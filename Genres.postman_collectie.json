@@ -117,6 +117,27 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "list genres for book 6",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/books/6/genres",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "books",
+            "6",
+            "genres"
+          ]
+        },
+        "description": "geeft lijst van  alle books in de database. \ngeen authentication nodig."
+      },
+      "response": []
     }
   ],
   "event": [

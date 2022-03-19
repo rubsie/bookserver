@@ -2,8 +2,10 @@ package be.thomasmore.bookserver.controllers;
 
 import be.thomasmore.bookserver.model.Author;
 import be.thomasmore.bookserver.model.Book;
+import be.thomasmore.bookserver.model.Genre;
 import be.thomasmore.bookserver.model.dto.AuthorDTO;
 import be.thomasmore.bookserver.model.dto.BookDTO;
+import be.thomasmore.bookserver.model.dto.GenreDTO;
 import be.thomasmore.bookserver.repositories.BookRepository;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -135,6 +137,20 @@ public class BookController {
         return authorsDTO;
     }
 
+    @GetMapping("{id}/genres")
+    public Iterable<GenreDTO> genreForBook(@PathVariable int id){
+        log.info(String.format("##### get genres for book with id %d", id));
+        Optional<Book> bookFromDb = bookRepository.findById(id);
+        if (bookFromDb.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    String.format("Book with id %d not found.", id));
+
+        ArrayList<GenreDTO> genreDTO = new ArrayList<>();
+        if (bookFromDb.get().getGenres() != null)
+            for (Genre g : bookFromDb.get().getGenres()) genreDTO.add(convertToGenreDto(g));
+        return genreDTO;
+    }
+
     //TODO @Valid
     @ApiOperation(value = "update the authors for the given book. ",
             notes = "The authors Collection has to contain ids of existing authors. </br>" +
@@ -214,6 +230,10 @@ public class BookController {
 
     private AuthorDTO convertToDto(Author author) {
         return modelMapper.map(author, AuthorDTO.class);
+    }
+
+    private GenreDTO convertToGenreDto(Genre genre){
+        return modelMapper.map(genre, GenreDTO.class);
     }
 
 }
