@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 public interface TijdschriftService {
+
     Iterable<Tijdschrift>findAll();
     Iterable<Tijdschrift>findByNaamContainingIgnoreCase(String str);
     Optional<Tijdschrift> findById(long id);

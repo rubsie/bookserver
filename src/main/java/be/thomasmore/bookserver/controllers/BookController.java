@@ -7,13 +7,17 @@ import be.thomasmore.bookserver.model.dto.AuthorDTO;
 import be.thomasmore.bookserver.model.dto.BookDTO;
 import be.thomasmore.bookserver.model.dto.GenreDTO;
 import be.thomasmore.bookserver.repositories.BookRepository;
+import be.thomasmore.bookserver.repositories.BookSpecification;
+import be.thomasmore.bookserver.util.SearchCriteria;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,6 +32,39 @@ public class BookController {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @ApiOperation(value = "list of books in the database with filters.",
+            notes = "If Request Parameter title, author, minprice, maxprice is given: " +
+                    "only books matching ALL parameters are returned. </br>" +
+                    "Otherwise all books are returned. </br>" +
+                    "</br>" +
+                    "The authors Collection contains only id and name. </br>" +
+                    "Use GET api/authors/{id}/authors  to fetch more info about the authors. ")
+    @GetMapping("search")
+    public Iterable<BookDTO> findAllByOrPredicate(@RequestParam(required = false) String title,
+                                                  @RequestParam(required = false) String author,
+                                                  @RequestParam(required = false) Integer maxprice,
+                                                  @RequestParam(required = false) Integer minprice) {
+        if (minprice == null) {
+            minprice = 0;
+        }
+        if (maxprice == null) {
+            maxprice = 9999;
+        }
+        BookSpecification spec1 =
+                new BookSpecification(new SearchCriteria("title", ":", title));
+        BookSpecification spec2 =
+                new BookSpecification(new SearchCriteria("author", ":", author));
+        BookSpecification spec3 =
+                new BookSpecification(new SearchCriteria("priceInEur", ">", minprice));
+        BookSpecification spec4 =
+                new BookSpecification(new SearchCriteria("priceInEur", "<", maxprice));
+        final Iterable<Book> books = bookRepository.findAll(Specification.where(spec1).and(spec2).and((spec3).and(spec4)));
+        log.info("##### findAllByOrPredicate books " + title + " " + author + " " + "price: " + minprice + "--" + maxprice);
+        ArrayList<BookDTO> booksDTO = new ArrayList<>();
+        for (Book b : books) booksDTO.add(convertToDto(b));
+        return booksDTO;
+    }
 
     @ApiOperation(value = "list of books in the database.",
             notes = "If Request Parameter <b>titleKeyWord</b> is given: " +
@@ -46,25 +83,6 @@ public class BookController {
         for (Book b : books) booksDTO.add(convertToDto(b));
         return booksDTO;
     }
-
-//    @ApiOperation(value = "list of books in the database in certain price range.",
-//            notes = "If Request Parameter <b>price min</b> and <b>price max</b> is given: " +
-//                    "only books where the price is between min (incl) and max (excl) are returned. </br>" +
-//                    "Otherwise all books are returned. </br>" +
-//                    "</br>" +
-//                    "The authors Collection contains only id and name. </br>" +
-//                    "Use GET api/authors/{id}/authors  to fetch more info about the authors. ")
-//    @GetMapping("")
-//    public Iterable<BookDTO> findAll(@RequestParam(required = false) Integer min, Integer max) {
-//        log.info("##### findAll books - titleKeyWord=" + titleKeyWord);
-//        final Iterable<Book> books = (titleKeyWord == null) ?
-//                bookRepository.findAll() :
-//                bookRepository.findByTitleContainingIgnoreCase(titleKeyWord);
-//        ArrayList<BookDTO> booksDTO = new ArrayList<>();
-//        for (Book b : books) booksDTO.add(convertToDto(b));
-//        return booksDTO;
-//    }
-
 
     @ApiOperation(value = "get 1 book from the database.",
             notes = "Book with id is fetched from database. " +
@@ -173,6 +191,7 @@ public class BookController {
         return convertToDto(savedBook);
     }
 
+    @ApiOperation(value="Delete a book with an id")
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {

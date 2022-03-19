@@ -64,20 +64,20 @@ values(2,5);
 insert into BOOK (ID, TITLE, AUTHOR, PRICE_IN_EUR)
 values (nextval('BOOK_SEQ'), 'Oryx and Crake', 'Margaret Atwood', 22); /*1*/
 
-insert into BOOK (ID, TITLE, AUTHOR)
-values (nextval('BOOK_SEQ'), 'The year of the flood', 'Margaret Atwood');/*2*/
+insert into BOOK (ID, TITLE, AUTHOR, PRICE_IN_EUR)
+values (nextval('BOOK_SEQ'), 'The year of the flood', 'Margaret Atwood', 10);/*2*/
 
-insert into BOOK (ID, TITLE, AUTHOR)
-values (nextval('BOOK_SEQ'), 'MaddAddam', 'Margaret Atwood');/*3*/
+insert into BOOK (ID, TITLE, AUTHOR, PRICE_IN_EUR)
+values (nextval('BOOK_SEQ'), 'MaddAddam', 'Margaret Atwood', 17);/*3*/
 
-insert into BOOK (ID, TITLE, AUTHOR)
-values (nextval('BOOK_SEQ'), '1Q84', 'Haruki Murakami');/*4*/
+insert into BOOK (ID, TITLE, AUTHOR, PRICE_IN_EUR)
+values (nextval('BOOK_SEQ'), '1984', 'Haruki Murakami', 23);/*4*/
 
-insert into BOOK (ID, TITLE, AUTHOR)
-values (nextval('BOOK_SEQ'), 'De opwindvogelkronieken', 'Haruki Murakami');/*5*/
+insert into BOOK (ID, TITLE, AUTHOR, PRICE_IN_EUR)
+values (nextval('BOOK_SEQ'), 'De opwindvogelkronieken', 'Haruki Murakami', 27);/*5*/
 
-insert into BOOK (ID, TITLE, AUTHOR)
-values (nextval('BOOK_SEQ'), 'Design Patterns', 'Erich Gamma et. al.');/*6*/
+insert into BOOK (ID, TITLE, AUTHOR, PRICE_IN_EUR)
+values (nextval('BOOK_SEQ'), 'Design Patterns', 'Erich Gamma et. al.', 34);/*6*/
 
 
 insert into AUTHOR (ID, NAME)
