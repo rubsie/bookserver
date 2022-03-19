@@ -191,6 +191,27 @@ public class BookController {
         return convertToDto(savedBook);
     }
 
+    @ApiOperation(value = "update the genres for the given book. ",
+            notes = "The genres Collection has to contain ids of existing genres. </br>" +
+                    "Returns updated book containing id and name of the genres. ")
+    @PutMapping("{id}/genres")
+    public BookDTO editGenresForBook(@PathVariable int id, @RequestBody Collection<Integer> genreIds) {
+        log.info(String.format("##### edit genres for book %d", id));
+
+        Optional<Book> bookFromDb = bookRepository.findById(id);
+        if (bookFromDb.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    String.format("Book with id %d not found.", id));
+
+        Book book = bookFromDb.get();
+        ArrayList<Genre> genreIdObjects = new ArrayList<>();
+        if (genreIds != null)
+            for (Integer genreId : genreIds) genreIdObjects.add(new Genre(genreId));
+        book.setGenres(genreIdObjects);
+        Book savedBook = bookRepository.save(book);
+        return convertToDto(savedBook);
+    }
+
     @ApiOperation(value="Delete a book with an id")
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
