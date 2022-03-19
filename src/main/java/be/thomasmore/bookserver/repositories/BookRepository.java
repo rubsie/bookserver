@@ -13,6 +13,5 @@ public interface BookRepository extends CrudRepository<Book, Integer>, JpaSpecif
 
     Iterable<Book> findByTitleContainingIgnoreCase(String titleKeyWord);
 
-    Iterable<Book> findByPriceInEurBetween(int min, int max);
 
 }

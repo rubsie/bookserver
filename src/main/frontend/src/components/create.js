@@ -6,15 +6,17 @@ import {useAuthorsContext} from "../contexts/authorscontext";
 export function CreateNew(props) {
     const {showCreateNewType, setShowCreateNewType} = props;
     const [inputs, setInputs] = useState({});
-    const {fetchPOST} = useFetchContext();
-    const {setIsAuthorsDirty} = useAuthorsContext();
+    //const {fetchPOST} = useFetchContext();
+    const {setIsAuthorsDirty, createAuthor} = useAuthorsContext();
     console.log("------------:" + showCreateNewType);
 
-//move to authorscontext:
+
     const handleSave = async event => {
         event.preventDefault();
         let bodyObject = {name: inputs.author}
-        await fetchPOST('/api/authors/', bodyObject)
+        let result = await createAuthor(bodyObject)
+        console.log('----------- create author result of fetchPOST: '+JSON.stringify(result))
+        setInputs({name: ''})
         setShowCreateNewType(false);
         setIsAuthorsDirty(true);
     }
@@ -26,7 +28,7 @@ export function CreateNew(props) {
 
     const handleChange = event => {
         event.preventDefault();
-        setInputs({...inputs, [event.target.name]:event.target.value})
+        setInputs({...inputs, [event.target.name]: event.target.value})
     }
 
     return <Modal show={showCreateNewType} onHide={handleClose}>

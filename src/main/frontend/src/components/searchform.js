@@ -14,20 +14,20 @@ export function Search() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+//this should ideally be handled by the bookscontext
         let url = "/api/books/search?minprice="
             + `${(inputs.minprice === undefined) ? 0 : inputs.minprice}`
             + "&maxprice=" + `${(inputs.maxprice === undefined) ? 999 : inputs.maxprice}`
             + "&title=" + `${(inputs.title === undefined) ? '' : inputs.title}`
             + "&author=" + `${(inputs.author === undefined) ? '' : inputs.author}`
-        console.log("-------------url with searchstring: " + url)
+        //console.log("-------------url with searchstring: " + url)
         const searchedBooks = await fetchGET(url)
         setBooks(searchedBooks);
     }
 
     const resetSearch = event => {
         event.preventDefault();
-        setInputs({title:'', author:'', minprice:'',maxprice:''});
+        setInputs({title: '', author: '', minprice: '', maxprice: ''});
         setIsBooksDirty(true);
     }
 
