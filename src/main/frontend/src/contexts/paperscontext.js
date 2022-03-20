@@ -19,9 +19,9 @@ export function PapersProvider(props) {
     const createPaper = useCallback(async (paper) => {
         const savedPaper = await fetchPOST(`/api/kranten`, paper);
         if (savedPaper) setIsPapersDirty(true);
-        alert('Krant '.concat(savedPaper.naam).concat(' gecreêerd.'));
         console.log('XXXXXXXXX KRANT CREATED XXXXXXXXXXXXXXXXXX');
         setMessage(`Krant werd aan collectie toegevoegd.`);
+        alert('Krant '.concat(savedPaper.naam).concat(' gecreêerd.'));
         return savedPaper;
     }, [fetchPOST, setIsPapersDirty, setMessage]);
 
@@ -30,8 +30,9 @@ export function PapersProvider(props) {
         console.log(result);
         if (result) {
             setIsPapersDirty(true);
-            alert('Krant met id '.concat(id).concat(' verwijderd'));
+            console.log('XXXXXXXXX KRANT DELETED XXXXXXXXXXXXXXXXXX');
             setMessage(`Krant uit collectie verwijderd`);
+            alert('Krant met id '.concat(id).concat(' verwijderd'));
         }
     }, [fetchDELETE, setIsPapersDirty, setMessage]);
 
