@@ -13,6 +13,10 @@ import java.util.Set;
 @Data
 @Entity
 public class Genre {
+    public Genre(int id){
+        this.id=id;
+    }
+
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genre_generator")
     @SequenceGenerator(name = "genre_generator", sequenceName = "genre_seq", allocationSize = 1)
     @Id
