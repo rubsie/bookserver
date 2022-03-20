@@ -8,12 +8,13 @@ const DEFAULT_HEADERS = {
     'X-Requested-With': 'XMLHttpRequest'
 };
 const HTTP_STATUS_NO_CONTENT = 204;
+const INTERNAL_SERVER_ERROR = 500;
 
 //utility context: this provider does not contain state.
 //it provides the different types of fetch functions
 //it is a provider so that it can use the functions from the MessageContext
 export function FetchProvider(props) {
-    const {setError, setIsLoading, clearAllMessages} = useMessageContext();
+    const {setError, setIsLoading, clearAllMessages, setMessage} = useMessageContext();
 
     //addCsrf header is only necessary for POST/PUT/DELETE, not for GET
     //we get the csrf-token from the cookie and add it in the X-XSRF-TOKEN header
@@ -54,6 +55,7 @@ export function FetchProvider(props) {
                 console.log(`   ${JSON.stringify(responseBody)}`);
                 console.log(`   ${errorMessage}`);
                 setError(errorMessage || responseBody.message);
+                setMessage(errorMessage || responseBody.message);
             }
         } catch (e) {
             console.error(`ERROR ${method} ${url}: ${e}`);

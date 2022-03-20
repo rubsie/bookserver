@@ -1,0 +1,169 @@
+{
+  "info": {
+    "_postman_id": "",
+    "name": "Genres",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "alle genres",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/genres",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "genres"
+          ]
+        },
+        "description": "geeft lijst van alle genres in de database. \ngeen authentication nodig."
+      },
+      "response": []
+    },
+    {
+      "name": "read genre",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/genres/1",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "genres",
+            "1"
+          ]
+        },
+        "description": "geeft 1 genre met gegeven id uit de database. \ngeen authentication nodig."
+      },
+      "response": []
+    },
+    {
+      "name": "create genre",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{  \"name\":\"comedy\" }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/genres",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "genres"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update genre 4",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"id\":4, \"name\":\"comedy\" }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/genres/4",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "genres",
+            "4"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete genre 4",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/genres/4",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "genres",
+            "4"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "list genres for book 6",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/books/6/genres",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "books",
+            "6",
+            "genres"
+          ]
+        },
+        "description": "geeft lijst van  alle books in de database. \ngeen authentication nodig."
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "url",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
