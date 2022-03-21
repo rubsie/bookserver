@@ -27,20 +27,22 @@ export function Booksnavbar(props) {
                     <IfLoggedIn>
                         <Button className="m-1" size='sm' color="light"
                                 onClick={() => setShowCreateForm(true)}>
-                            <MdAdd color="inherit"/></Button>
+                            <MdAdd color="inherit"/>Book</Button>
                         <Button className="m-1" size='sm' color="light"
                                 onClick={() => setShowCreateNewType(true)}>
                             <MdAdd color="inherit"/>Author</Button>
 
-                        <button onClick={()=> {
-                            var naam=prompt("naam");
-                            var oplage=parseInt(prompt("oplage"));
-                            createPaper({naam:naam,oplage:oplage});
-                        }}>Nieuwe krant</button>
-                        <button onClick={()=> {
-                            var id=parseInt(prompt("id"));
+                        <button onClick={() => {
+                            var naam = prompt("naam");
+                            var oplage = parseInt(prompt("oplage"));
+                            createPaper({naam: naam, oplage: oplage});
+                        }}>Nieuwe krant
+                        </button>
+                        <button onClick={() => {
+                            var id = parseInt(prompt("id"));
                             deletePaper(id);
-                        }}>Verwijder krant</button>
+                        }}>Verwijder krant
+                        </button>
                     </IfLoggedIn>
                 </Nav>
                 <Nav className="justify-content-end">

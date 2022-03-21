@@ -23,18 +23,18 @@ import {CreateNew} from "./components/create";
 function ProvidedApp() {
     const [bookShownInEditForm, setBookShownInEditForm] = useState();
     const [showCreateForm, setShowCreateForm] = useState(false);
-    const [showCreateNewType, setShowCreateNewType] = useState(true);
+    const [showCreateNewType, setShowCreateNewType] = useState(false);
 
     console.log("render App()");
 
     return (
         <div className="App">
-            <Booksnavbar setShowCreateForm={setShowCreateForm}/>
+            <Booksnavbar setShowCreateForm={setShowCreateForm} setShowCreateNewType={setShowCreateNewType}/>
             <Message/>
             <BookList setShowEditFormForBook={setBookShownInEditForm}/>
             <EditForm bookShownInEditForm={bookShownInEditForm} setBookShownInEditForm={setBookShownInEditForm}/>
             <CreateForm show={showCreateForm} close={() => setShowCreateForm(false)}/>
-            <CreateNew showCreateNewType={showCreateNewType} setShowCreateNewType={setShowCreateNewType}/>
+            <CreateNew showCreateNewType={showCreateNewType} close={() => setShowCreateNewType(false)}/>
             <LoginSignupForm/>
             <PaperList/>
             <CollectorList/>

@@ -20,11 +20,11 @@ export function AuthorsProvider(props) {
     }, [fetchGET, setAuthors]);
 
     const createAuthor = useCallback(async (bodyObject) => {
-        let result = await fetchPOST('/api/authors/', bodyObject)
+        let result = await fetchPOST('/api/authors', bodyObject)
         if (!result) return;
         else setMessage('New author created: ' + JSON.stringify(result))
         return result
-    }, [fetchPOST])
+    }, [fetchPOST, setMessage])
 
     //when app opens (on first render) we get the authors from the server
     useEffect(() => {
