@@ -18,10 +18,12 @@ import {PapersProvider} from "./contexts/paperscontext";
 import {PaperList} from "./components/paperlist";
 import {CollectorsProvider} from "./contexts/collectorscontext";
 import {CollectorList} from "./components/collectorslist";
+import {CreateNew} from "./components/create";
 
 function ProvidedApp() {
     const [bookShownInEditForm, setBookShownInEditForm] = useState();
     const [showCreateForm, setShowCreateForm] = useState(false);
+    const [showCreateNewType, setShowCreateNewType] = useState(true);
 
     console.log("render App()");
 
@@ -32,6 +34,7 @@ function ProvidedApp() {
             <BookList setShowEditFormForBook={setBookShownInEditForm}/>
             <EditForm bookShownInEditForm={bookShownInEditForm} setBookShownInEditForm={setBookShownInEditForm}/>
             <CreateForm show={showCreateForm} close={() => setShowCreateForm(false)}/>
+            <CreateNew showCreateNewType={showCreateNewType} setShowCreateNewType={setShowCreateNewType}/>
             <LoginSignupForm/>
             <PaperList/>
             <CollectorList/>

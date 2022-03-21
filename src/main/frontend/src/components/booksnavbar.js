@@ -9,7 +9,7 @@ import {usePapersContext} from "../contexts/paperscontext";
 
 /** * @return {null} */
 export function Booksnavbar(props) {
-    const {setShowCreateForm} = props;
+    const {setShowCreateForm, setShowCreateNewType} = props;
     const {username} = useAuthenticationContext();
     const {getBooks} = useBooksContext();
     const {createPaper} = usePapersContext();
@@ -28,6 +28,10 @@ export function Booksnavbar(props) {
                         <Button className="m-1" size='sm' color="light"
                                 onClick={() => setShowCreateForm(true)}>
                             <MdAdd color="inherit"/></Button>
+                        <Button className="m-1" size='sm' color="light"
+                                onClick={() => setShowCreateNewType(true)}>
+                            <MdAdd color="inherit"/>Author</Button>
+
                         <button onClick={()=> {
                             var naam=prompt("naam");
                             var oplage=parseInt(prompt("oplage"));
