@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from "react";
 import {Button, Form, Modal} from "react-bootstrap";
-import {useFetchContext} from "../contexts/fetchcontext";
+//import {useFetchContext} from "../contexts/fetchcontext";
 import {useAuthorsContext} from "../contexts/authorscontext";
 
 export function CreateNew(props) {
@@ -8,7 +8,7 @@ export function CreateNew(props) {
     const [inputs, setInputs] = useState({});
     //const {fetchPOST} = useFetchContext();
     const {setIsAuthorsDirty, createAuthor} = useAuthorsContext();
-    console.log("------------:" + showCreateNewType);
+    //console.log("------------:" + showCreateNewType);
 
 
     const handleSave = async (event) => {
@@ -18,7 +18,7 @@ export function CreateNew(props) {
         console.log('----------- create author result of fetchPOST: '+JSON.stringify(result))
         setInputs({name: ''})
         close();
-        setIsAuthorsDirty(true);
+        //setIsAuthorsDirty(true);
     }
 
     const handleClose = (event) => {

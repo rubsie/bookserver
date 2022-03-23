@@ -1,7 +1,7 @@
 import React from "react";
 import {useAuthenticationContext} from "../contexts/authenticationcontext";
 import {LoginNavLink, LogoutNavLink} from "./authbuttons";
-import {MdAdd, MdRefresh} from "react-icons/md";
+import {MdAdd, MdEdit, MdRefresh} from "react-icons/md";
 import {IfLoggedIn} from "./ifLoggedIn";
 import {useBooksContext} from "../contexts/bookscontext";
 import {Button, Container, Nav, Navbar} from "react-bootstrap";
@@ -9,7 +9,7 @@ import {usePapersContext} from "../contexts/paperscontext";
 
 /** * @return {null} */
 export function Booksnavbar(props) {
-    const {setShowCreateForm, setShowCreateNewType} = props;
+    const {setShowCreateForm, setShowCreateNewType, setShowEditAuthor} = props;
     const {username} = useAuthenticationContext();
     const {getBooks} = useBooksContext();
     const {createPaper} = usePapersContext();
@@ -31,7 +31,9 @@ export function Booksnavbar(props) {
                         <Button className="m-1" size='sm' color="light"
                                 onClick={() => setShowCreateNewType(true)}>
                             <MdAdd color="inherit"/>Author</Button>
-
+                        <Button className="m-1" size='sm' color="light"
+                                onClick={() => setShowEditAuthor(true)}>
+                            <MdEdit color="inherit"/>Author</Button>
                         <button onClick={() => {
                             var naam = prompt("naam");
                             var oplage = parseInt(prompt("oplage"));

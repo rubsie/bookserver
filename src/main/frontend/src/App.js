@@ -18,23 +18,26 @@ import {PapersProvider} from "./contexts/paperscontext";
 import {PaperList} from "./components/paperlist";
 import {CollectorsProvider} from "./contexts/collectorscontext";
 import {CollectorList} from "./components/collectorslist";
-import {CreateNew} from "./components/create";
+import {CreateNew} from "./components/createAuthor";
+import {EditAuthor} from "./components/editAuthor";
 
 function ProvidedApp() {
     const [bookShownInEditForm, setBookShownInEditForm] = useState();
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [showCreateNewType, setShowCreateNewType] = useState(false);
+    const [showEditAuthor, setShowEditAuthor] = useState(false)
 
     console.log("render App()");
 
     return (
         <div className="App">
-            <Booksnavbar setShowCreateForm={setShowCreateForm} setShowCreateNewType={setShowCreateNewType}/>
+            <Booksnavbar setShowCreateForm={setShowCreateForm} setShowCreateNewType={setShowCreateNewType} setShowEditAuthor={setShowEditAuthor}/>
             <Message/>
             <BookList setShowEditFormForBook={setBookShownInEditForm}/>
             <EditForm bookShownInEditForm={bookShownInEditForm} setBookShownInEditForm={setBookShownInEditForm}/>
             <CreateForm show={showCreateForm} close={() => setShowCreateForm(false)}/>
             <CreateNew showCreateNewType={showCreateNewType} close={() => setShowCreateNewType(false)}/>
+            <EditAuthor showEditAuthor={showEditAuthor} close={() => setShowEditAuthor(false)}/>
             <LoginSignupForm/>
             <PaperList/>
             <CollectorList/>

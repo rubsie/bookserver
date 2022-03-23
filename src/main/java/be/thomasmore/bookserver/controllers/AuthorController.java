@@ -54,6 +54,17 @@ public class AuthorController {
         return convertToDto(authorRepository.save(author));
     }
 
+    @ApiOperation(value = "edit an author in the database")
+    @PutMapping("")
+    public AuthorDTO edit(@Valid @RequestBody AuthorDTO authorDto) {
+        log.info("##### edit author");
+        if (!authorRepository.findAuthorById(authorDto.getId()).isPresent())
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    String.format("Author with id %s does not exists.", authorDto.getId()));
+        Author author = convertToEntity(authorDto);
+        return convertToDto(authorRepository.save(author));
+    }
+
     @ApiOperation(value = "delete an existing author in the database")
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -63,7 +74,7 @@ public class AuthorController {
         if (authorFromDb.isEmpty())
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     String.format("Author with id %s does not exists.", id));
-        if (authorFromDb.get().getBooks().isEmpty())
+        if (!authorFromDb.get().getBooks().isEmpty())
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     String.format("Cannot delete author with id %s because one or more books matches with this author", id));
         authorRepository.deleteById(id);
