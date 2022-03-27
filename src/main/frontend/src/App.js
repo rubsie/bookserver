@@ -49,7 +49,9 @@ function ProvidedApp() {
             <EditGenre showEditGenre={showEditGenre} close={() => setshowEditGenre(false)}/>
             <LoginSignupForm/>
             <GenresList/>
+            <hr/>
             <PaperList/>
+            <hr/>
             <CollectorList/>
         </div>
     );
