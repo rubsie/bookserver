@@ -41,7 +41,7 @@ public class GenreController {
         return genreDTO;
     }
 
-    /*@GetMapping("{id}")
+    @GetMapping("{id}")
     public Genre read(@PathVariable int id) {
         log.info("##### read genre -- id=" + id);
         Optional<Genre> optGenre = genreService.findById(id);
@@ -49,7 +49,7 @@ public class GenreController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     String.format("Genre with id %d does not exist.", id));
         return optGenre.get();
-    }*/
+    }
 
     @ApiOperation(value = "create a new genre in the database")
     @PostMapping("")
@@ -63,19 +63,14 @@ public class GenreController {
     }
 
     @ApiOperation(value = "update an existing genre in the database")
-    @PutMapping("{id}")
-    public GenreDTO edit(@PathVariable int id, @RequestBody GenreDTO genreDto){
-        log.info(String.format("##### edit genre %d", id));
-        if (genreDto.getId() != id)
+    @PutMapping("")
+    public GenreDTO edit(@Valid @RequestBody GenreDTO genreDto){
+        log.info("##### edit genre");
+        if (!genreRepository.findGenreById(genreDto.getId()).isPresent())
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    String.format("id in genre (%d) does not match id in url (%d).", genreDto.getId(), id));
-        Optional<Genre> genreFromDb = genreRepository.findById(id);
-        if (genreFromDb.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    String.format("Genre with id %d not found.", id));
+                    String.format("Genre with id %s does not exists.", genreDto.getId()));
         Genre genre = convertToEntity(genreDto);
-        Genre savedGenre = genreRepository.save(genre);
-        return convertToDto(savedGenre);
+        return convertToDto(genreRepository.save(genre));
     }
 
     @ApiOperation(value = "delete an existing genre in the database")
@@ -87,9 +82,6 @@ public class GenreController {
         if (genreFromDb.isEmpty())
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     String.format("Genre with id %s does not exists.", id));
-        if (genreFromDb.get().getBooks().isEmpty())
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    String.format("Cannot delete genre with id %s because one or more books matches with this genre", id));
         genreRepository.deleteById(id);
     }
 

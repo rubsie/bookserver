@@ -31,14 +31,22 @@ export function CreateNew(props) {
         setInputs({...inputs, [event.target.name]: event.target.value})
     }
 
-    return <Modal show={showCreateNewType} onHide={handleClose}>
-        <div>Create a new author</div>
-        <Form><Form.Control type="text" name="author" value={inputs.author} onChange={handleChange}/></Form>
-        <Button className="m-1" size='sm' color="light" onClick={handleClose}>
-            Cancel
-        </Button>
-        <Button className="m-1" size='sm' color="light" onClick={(e) => handleSave(e)}>
-            Save
-        </Button>
-    </Modal>
+    return <>
+        <Modal show={showCreateNewType} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Create a new author</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form><Form.Control type="text" name="author" value={inputs.author} onChange={handleChange}/></Form>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Cancel
+                </Button>
+                <Button variant="primary" onClick={(e) => handleSave(e)}>
+                    Save
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    </>
 }

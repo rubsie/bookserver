@@ -1,30 +1,30 @@
+import {useGenresContext} from "../contexts/genresContext";
 import React, {useState} from "react";
-import {useAuthorsContext} from "../contexts/authorscontext";
 import {Button, Form, Modal} from "react-bootstrap";
 
-export function EditAuthor(props){
-    const {authors,deleteAuthor, editAuthor} = useAuthorsContext();
-    const [inputs, setInputs] = useState({})
-    const {showEditAuthor, close} = props;
+export function EditGenre(props){
+    const {genres, deleteGenre, editGenre} = useGenresContext();
+    const [inputs, setInputs] = useState({});
+    const {showEditGenre, close} = props;
 
     const handleUpdate = (event) => {
         event.preventDefault();
-        editAuthor(inputs);
+        editGenre(inputs);
         close();
     }
 
     const handleDelete = (event) => {
         event.preventDefault();
-        deleteAuthor(inputs.id);
+        deleteGenre(inputs.id);
         close();
     }
 
     const handleChangeSelect = (event) => {
         event.preventDefault();
-        console.log("#########options value:"+event.target.value)
-        let authorName = authors.filter(a => a.id==parseInt(event.target.value))
-        console.log(JSON.stringify(authorName))
-        setInputs({name:authorName[0].name, id:parseInt(event.target.value)});
+        console.log("#########options value:"+event.target.value);
+        let genreName = genres.filter(g => g.id==parseInt(event.target.value));
+        console.log(JSON.stringify(genreName));
+        setInputs({name:genreName[0].name, id:parseInt(event.target.value)});
     }
 
     const handleChange = (event) => {
@@ -32,15 +32,14 @@ export function EditAuthor(props){
         setInputs({...inputs, name:event.target.value})
     }
 
-
     return <>
-        <Modal show={showEditAuthor} onHide={close}>
+        <Modal show={showEditGenre} onHide={close}>
             <Modal.Header closeButton>
-                <Modal.Title>Edit an author</Modal.Title>
+                <Modal.Title>Edit an genre</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form.Select className="mb-3" aria-label="Select an author" onChange={handleChangeSelect}>
-                    {authors.map(a => <option value={a.id} key={a.id}>{a.name}</option>)}
+                <Form.Select className="mb-3" aria-label="Select an genre" onChange={handleChangeSelect}>
+                    {genres.map(g => <option value={g.id} key={g.id}>{g.name}</option>)}
                 </Form.Select>
                 <Form.Control type="text" name="author" value={inputs.name} onChange={handleChange}></Form.Control>
             </Modal.Body>

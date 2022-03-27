@@ -9,7 +9,7 @@ import {usePapersContext} from "../contexts/paperscontext";
 
 /** * @return {null} */
 export function Booksnavbar(props) {
-    const {setShowCreateForm, setShowCreateNewType, setShowEditAuthor} = props;
+    const {setShowCreateForm, setShowCreateNewType, setShowEditAuthor, setShowCreateNewGenre, setshowEditGenre} = props;
     const {username} = useAuthenticationContext();
     const {getBooks} = useBooksContext();
     const {createPaper} = usePapersContext();
@@ -34,17 +34,29 @@ export function Booksnavbar(props) {
                         <Button className="m-1" size='sm' color="light"
                                 onClick={() => setShowEditAuthor(true)}>
                             <MdEdit color="inherit"/>Author</Button>
-                        <button onClick={() => {
-                            var naam = prompt("naam");
-                            var oplage = parseInt(prompt("oplage"));
-                            createPaper({naam: naam, oplage: oplage});
-                        }}>Nieuwe krant
-                        </button>
-                        <button onClick={() => {
-                            var id = parseInt(prompt("id"));
-                            deletePaper(id);
-                        }}>Verwijder krant
-                        </button>
+                        <Button className="m-1" size='sm' color="light"
+                                onClick={() => setShowCreateNewGenre(true)}>
+                            <MdAdd color="inherit"/>Genre
+                        </Button>
+                        <Button className="m-1" size='sm' color="light"
+                                onClick={() => setshowEditGenre(true)}>
+                            <MdEdit color="inherit"/>Genre
+                        </Button>
+                        <Button className="m-1" size='sm' color="light"
+                                onClick={() => {
+                                    var naam = prompt("naam");
+                                    var oplage = parseInt(prompt("oplage"));
+                                    createPaper({naam: naam, oplage: oplage});
+                                }}>
+                            Nieuwe krant
+                        </Button>
+                        <Button className="m-1" size='sm' color="light"
+                                onClick={() => {
+                                    var id = parseInt(prompt("id"));
+                                    deletePaper(id);
+                                }}>
+                            Verwijder krant
+                        </Button>
                     </IfLoggedIn>
                 </Nav>
                 <Nav className="justify-content-end">
