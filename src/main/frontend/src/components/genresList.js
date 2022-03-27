@@ -12,7 +12,7 @@ export function GenresList(){
 
 
     return <>
-        <h1>genres</h1>
+        <h1>Genres</h1>
         {genres.map(g => <Genre genre={g} key={g.id}/>)}
 
     </>

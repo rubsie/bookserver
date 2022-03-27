@@ -48,6 +48,7 @@ function ProvidedApp() {
             <CreateGenre showCreateNewGenre={showCreateNewGenre} close={() => setShowCreateNewGenre(false)}/>
             <EditGenre showEditGenre={showEditGenre} close={() => setshowEditGenre(false)}/>
             <LoginSignupForm/>
+            <hr/>
             <GenresList/>
             <hr/>
             <PaperList/>
